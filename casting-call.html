@@ -1,0 +1,2689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casting Call — Assessing How an AI Gets Gendered | Conzon &amp; Feldberg</title>
+<style>
+  :root{
+    --paper: #EDE6D5;
+    --paper-card: #F5F0E4;
+    --paper-dim: #E1D6BE;
+    --ink: #2A1F1B;
+    --ink-soft: #5C4E42;
+    --ink-faint: #8B7B68;
+    --curtain: #7A2331;
+    --curtain-dark: #591620;
+    --gold: #A9812F;
+    --gold-soft: #C9AE72;
+    --sage: #4F6B4A;
+    --sage-bg: #E4EADB;
+    --slate: #46586A;
+    --slate-bg: #E1E7EC;
+    --rule: #C9BC9E;
+    --amber-bg: #F1E3C7;
+    --font-display: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Times New Roman', serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: 'SF Mono', 'Cascadia Code', 'Courier New', monospace;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--paper);
+    background-image:
+      radial-gradient(ellipse at top, rgba(122,35,49,0.05), transparent 55%),
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.015) 0px, rgba(0,0,0,0.015) 1px, transparent 1px, transparent 3px);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .stage{
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+  @media (min-width: 640px){
+    .stage{ padding: 64px 32px 100px; }
+  }
+
+  h1,h2,h3{ font-family: var(--font-display); color: var(--ink); margin: 0; }
+  a{ color: var(--curtain); }
+  button{ font-family: inherit; }
+  :focus-visible{ outline: 3px solid var(--gold); outline-offset: 2px; }
+
+  /* ---------- Masthead ---------- */
+  .masthead{ text-align:center; margin-bottom: 36px; }
+  .eyebrow{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--curtain);
+    margin-bottom: 14px;
+  }
+  .masthead h1{
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .masthead h1 .accent{
+    display:block;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    color: var(--curtain-dark);
+    margin-top: 8px;
+  }
+  .dek{
+    max-width: 480px;
+    margin: 18px auto 0;
+    color: var(--ink-soft);
+    font-size: 15.5px;
+  }
+  .byline{
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    margin: 14px 0 0;
+  }
+  .rule{
+    height:1px;
+    background: linear-gradient(90deg, transparent, var(--rule) 20%, var(--rule) 80%, transparent);
+    margin: 32px 0;
+    border:none;
+  }
+
+  .notice-sub{
+    font-size: 12.5px; color: var(--ink-faint); font-style: italic; margin: -4px 0 16px;
+  }
+  .check-row{
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+    margin-bottom: 14px;
+    padding: 4px 2px;
+  }
+  .check-row:last-of-type{ margin-bottom: 18px; }
+  .ack-check{
+    flex-shrink: 0;
+    width: 18px; height: 18px;
+    margin-top: 3px;
+    accent-color: var(--curtain);
+    cursor: pointer;
+  }
+  .check-row span{ font-size: 14.5px; color: var(--ink-soft); }
+  .check-row strong{ color: var(--ink); }
+  #continueBtn{
+    display: block;
+    width: 100%;
+    background: var(--curtain);
+    color: var(--paper-card);
+    border: none;
+    padding: 13px 20px;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: var(--font-display);
+    cursor: pointer;
+    transition: background .15s ease, opacity .15s ease;
+  }
+  #continueBtn:hover:not(:disabled){ background: var(--curtain-dark); }
+  #continueBtn:disabled{
+    background: var(--ink-faint);
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  /* ---------- Notice ---------- */
+  .notice{
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--curtain);
+    border-radius: 3px;
+    padding: 20px 22px;
+    margin-bottom: 40px;
+  }
+  .notice h2{
+    font-size: 13px;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--curtain);
+    margin-bottom: 12px;
+  }
+  .notice p{ margin: 0 0 10px; font-size: 14.5px; color: var(--ink-soft); }
+  .notice p:last-child{ margin-bottom:0; }
+  .notice strong{ color: var(--ink); }
+
+  /* ---------- Section headers ---------- */
+  .section-head{
+    display:flex; align-items:baseline; gap:10px;
+    margin-bottom: 18px;
+  }
+  .section-head h2{ font-size: 21px; }
+  .section-head .step-num{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--paper);
+    background: var(--curtain);
+    width: 22px; height:22px;
+    border-radius: 50%;
+    display:inline-flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+
+  /* ---------- Mode select ---------- */
+  .mode-select, .path-select{ margin-bottom: 44px; }
+  .tickets{
+    display:grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  @media (max-width: 520px){ .tickets{ grid-template-columns: 1fr; } }
+  .ticket{
+    text-align:left;
+    background: var(--paper-card);
+    border: 1.5px dashed var(--rule);
+    border-radius: 4px;
+    padding: 18px 16px;
+    cursor: pointer;
+    transition: border-color .15s ease, transform .1s ease, background .15s ease;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .ticket:hover{ border-color: var(--curtain); background: var(--amber-bg); }
+  .ticket.active{
+    border-style: solid;
+    border-color: var(--curtain);
+    background: var(--amber-bg);
+  }
+  .ticket-label{
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .ticket-title{ font-family: var(--font-display); font-size: 17px; font-weight:700; }
+  .ticket-desc{ font-size: 13px; color: var(--ink-soft); }
+
+  .example-link{
+    display:block; margin: 16px auto 0; background:none; border:none;
+    color: var(--curtain); font-size: 13.5px; cursor:pointer; text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .example-link:hover{ color: var(--curtain-dark); }
+
+  .design-intro{ margin-bottom: 28px; }
+  .design-intro-copy{
+    font-size: 15px; color: var(--ink-soft); max-width: 560px; margin: 0;
+  }
+  .callout{
+    background: var(--amber-bg);
+    border-left: 3px solid var(--gold);
+    border-radius: 3px;
+    padding: 12px 14px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin-top: 10px;
+  }
+  .callout em{ font-style: italic; color: var(--ink); }
+
+  /* ---------- Search panel ---------- */
+  .search-panel{
+    background: var(--paper-card);
+    border:1px solid var(--rule);
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 44px;
+  }
+  .search-panel label{
+    display:block; font-family: var(--font-mono); font-size: 11.5px;
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .search-row{ display:flex; gap:8px; flex-wrap:wrap; }
+  .search-row input{
+    flex: 1 1 220px;
+    padding: 10px 12px;
+    border: 1.5px solid var(--rule);
+    border-radius: 3px;
+    background: #fff;
+    font-size: 14.5px;
+    color: var(--ink);
+  }
+  .search-row input:focus{ border-color: var(--curtain); }
+  .search-row button{
+    background: var(--curtain);
+    color: var(--paper-card);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s ease;
+  }
+  .search-row button:hover{ background: var(--curtain-dark); }
+  .search-row button:disabled{ background: var(--ink-faint); cursor: not-allowed; }
+  .search-status{ margin-top: 12px; font-size: 13.5px; color: var(--ink-soft); min-height: 1em; }
+  .search-status.error{ color: var(--curtain); }
+  .search-sources{ margin-top: 10px; font-size: 12.5px; color: var(--ink-faint); }
+  .search-sources a{ color: var(--slate); }
+
+  /* ---------- Form sheet ---------- */
+  .sheet{
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 8px 22px 22px;
+  }
+  .sheet > h2{
+    font-size: 12px; font-family: var(--font-mono); text-transform:uppercase;
+    letter-spacing: 0.1em; color: var(--ink-faint);
+    padding: 14px 0 10px; border-bottom: 1px solid var(--rule); margin-bottom: 4px;
+  }
+  fieldset{
+    border: none;
+    border-top: 1px dashed var(--rule);
+    padding: 18px 0;
+    margin: 0;
+  }
+  fieldset:first-of-type{ border-top: none; }
+  legend{
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    padding: 0;
+    display:flex; align-items:center; gap:9px;
+    margin-bottom: 14px;
+    width: 100%;
+  }
+  legend .step{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--paper);
+    background: var(--gold);
+    width:20px; height:20px; border-radius:50%;
+    display:inline-flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  legend .legend-sub{
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-faint);
+    margin-left: auto;
+    text-align:right;
+  }
+  .field{ margin-bottom: 16px; }
+  .field:last-child{ margin-bottom:0; }
+  .field label{
+    display:block;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .field .hint{
+    font-size: 12px;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+    display:block;
+  }
+  .field select, .field input[type="text"], .field textarea{
+    width: 100%;
+    padding: 9px 10px;
+    border: 1.5px solid var(--rule);
+    border-radius: 3px;
+    background: #fff;
+    font-size: 14px;
+    color: var(--ink);
+    font-family: var(--font-body);
+  }
+  .field select:focus, .field input:focus, .field textarea:focus{ border-color: var(--curtain); }
+  .field textarea{ resize: vertical; min-height: 44px; }
+  .two-col{ display:grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 520px){ .two-col{ grid-template-columns: 1fr; } }
+
+  .table-hint{
+    font-size: 12.5px; color: var(--ink-faint); font-style: italic; margin: -6px 0 16px;
+  }
+  .marker-table{ display:flex; flex-direction:column; }
+  .marker-row{
+    display:grid;
+    grid-template-columns: 1.15fr 1fr 1.15fr;
+    gap: 14px;
+    align-items: start;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--rule);
+    position: relative;
+  }
+  .marker-row:first-child{ padding-top: 0; }
+  .marker-row:last-child{ border-bottom: none; padding-bottom: 0; }
+  @media (max-width: 720px){
+    .marker-row{ grid-template-columns: 1fr; gap: 8px; padding: 16px 0; }
+  }
+  .mr-input label, .mr-gender label{
+    display:block; font-size: 12.5px; font-weight: 600; color: var(--ink); margin-bottom: 4px;
+  }
+  .mr-input input, .mr-gender select{
+    width: 100%; padding: 9px 10px; border: 1.5px solid var(--rule); border-radius: 3px;
+    background: #fff; font-size: 14px; color: var(--ink); font-family: var(--font-body);
+  }
+  .mr-input input:focus, .mr-gender select:focus{ border-color: var(--curtain); }
+  .mr-gender select.auto-set{ border-color: var(--gold); background: #FDFBF6; }
+  .mr-reason{
+    font-size: 12.5px; color: var(--ink-soft); font-style: italic; padding-top: 26px; line-height: 1.4;
+  }
+  @media (max-width: 720px){ .mr-reason{ padding-top: 2px; } }
+  .mr-reason:empty{ display:none; }
+  .mr-reason.thinking{ color: var(--ink-faint); }
+  .mr-reason.err{ color: var(--curtain); }
+  .task-row{ padding-right: 30px; }
+  .remove-row-btn{
+    position: absolute; top: 12px; right: 0; background: none; border: none; cursor: pointer;
+    font-size: 18px; line-height: 1; color: var(--ink-faint); padding: 4px;
+  }
+  .remove-row-btn:hover{ color: var(--curtain); }
+  @media (max-width: 720px){ .remove-row-btn{ top: 4px; } }
+  .add-row-btn{
+    background: none; border: 1.5px dashed var(--rule); border-radius: 3px; cursor: pointer;
+    font-family: var(--font-mono); font-size: 12.5px; color: var(--ink-soft);
+    padding: 8px 12px; margin-top: 10px; width: 100%;
+  }
+  .add-row-btn:hover{ border-color: var(--curtain); color: var(--curtain); }
+
+  .sheet-actions{
+    display:flex; gap:10px; align-items:center; margin-top: 20px; flex-wrap:wrap;
+  }
+  #revealBtn{
+    background: var(--curtain);
+    color: var(--paper-card);
+    border:none;
+    padding: 12px 22px;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: var(--font-display);
+    cursor:pointer;
+    transition: background .15s ease;
+  }
+  #revealBtn:hover{ background: var(--curtain-dark); }
+  #clearBtn{
+    background:none; border: none; color: var(--ink-faint);
+    font-size: 13px; cursor:pointer; text-decoration: underline; text-underline-offset:3px;
+  }
+  #clearBtn:hover{ color: var(--ink); }
+
+  /* ---------- Results ---------- */
+  .results{ margin-top: 44px; }
+  .result-card{
+    background: var(--paper-card);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+  }
+  .result-card h3{
+    font-size: 12px; font-family: var(--font-mono); text-transform:uppercase;
+    letter-spacing: 0.08em; color: var(--ink-faint); margin-bottom: 10px;
+  }
+  .result-card .headline{
+    font-family: var(--font-display); font-size: 20px; font-weight:700;
+    margin-bottom: 10px; line-height:1.3;
+  }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; margin: 10px 0; }
+  .chip{
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    border: 1px solid var(--rule);
+    background:#fff;
+  }
+  .chip.masc{ background: var(--slate-bg); border-color: var(--slate); color:var(--slate); }
+  .chip.fem{ background: #F3E3E7; border-color: var(--curtain); color:var(--curtain-dark); }
+  .chip.neutral{ background: #EFEBE0; border-color: var(--ink-faint); color: var(--ink-soft); }
+  .chip.unknown{ background: var(--paper-dim); border-color: var(--ink-faint); color: var(--ink-faint); font-style: italic; }
+
+  /* ---------- Read-only search-results display ---------- */
+  .search-results-view .fine-print{
+    font-size: 12.5px; color: var(--ink-faint); font-style: italic; margin: -6px 0 18px;
+  }
+  .ro-value{
+    font-size: 14px; color: var(--ink); line-height: 1.45; padding: 9px 10px;
+    background: var(--paper-dim); border-radius: 3px; overflow-wrap: break-word;
+  }
+  .ro-value.empty{ color: var(--ink-faint); font-style: italic; }
+  .mr-gender .chip{ display:inline-block; margin-top: 1px; }
+  .ro-note{ font-size: 13.5px; color: var(--ink-soft); margin: 6px 0 0; line-height: 1.5; }
+  .ro-note a, .mr-reason a{ color: var(--curtain); }
+  .ro-headline{ font-family: var(--font-display); font-size: 15.5px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .search-results-actions{
+    display:flex; gap:10px; align-items:center; margin-top: 20px; flex-wrap:wrap;
+  }
+  .edit-answers-link{
+    background: none; border: none; cursor: pointer; color: var(--ink-faint);
+    font-family: var(--font-mono); font-size: 12.5px; text-decoration: underline;
+    padding: 8px 4px;
+  }
+  .edit-answers-link:hover{ color: var(--curtain); }
+
+  .tag{
+    display:inline-block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-weight:700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .tag.amplify{ background: var(--amber-bg); color: var(--curtain-dark); }
+  .tag.attenuate{ background: var(--sage-bg); color: var(--sage); }
+  .tag.unclear{ background: var(--slate-bg); color: var(--slate); }
+  .tag.aligned{ background: var(--amber-bg); color: var(--curtain-dark); }
+  .tag.misaligned{ background: var(--sage-bg); color: var(--sage); }
+
+
+  /* --- second page: methodology --- */
+  #methodPage{ padding-bottom: 20px; }
+  .method-header{ margin: 18px 0 30px; }
+  .method-header h1{
+    font-family: var(--font-display); font-size: 30px; line-height:1.15;
+    color: var(--curtain); margin: 0 0 6px;
+  }
+  .method-header h1 .accent{
+    display:block; font-family: var(--font-body); font-size: 14px; font-weight: 500;
+    letter-spacing: .04em; text-transform: uppercase; color: var(--gold); margin-top: 8px;
+  }
+  .method-header .dek{ font-size: 15.5px; color: var(--ink-soft); line-height:1.6; margin: 12px 0 0; }
+  .back-link{
+    display:inline-block; background: none; border: 1px solid var(--rule); cursor: pointer;
+    font-family: var(--font-body); font-size: 13.5px; color: var(--curtain);
+    padding: 8px 14px; border-radius: 3px;
+  }
+  .back-link:hover{ background: var(--paper-card); color: var(--curtain-dark); }
+  .back-link-bottom{ margin-top: 30px; }
+
+  .method-cta{
+    display:block; width:100%; text-align:left; cursor:pointer;
+    background: var(--paper-card); border: 1px solid var(--rule); border-left: 4px solid var(--curtain);
+    border-radius: 4px; padding: 20px 22px; font-family: var(--font-body);
+  }
+  .method-cta:hover{ background: var(--paper-dim); }
+  .method-cta-label{
+    display:block; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase;
+    letter-spacing: .06em; color: var(--gold); margin-bottom: 8px;
+  }
+  .method-cta-title{
+    display:block; font-family: var(--font-display); font-size: 19px; line-height:1.25;
+    color: var(--curtain); margin-bottom: 10px;
+  }
+  .method-cta-desc{ display:block; font-size: 14px; color: var(--ink-soft); line-height:1.65; }
+  .method-cta-go{
+    display:block; margin-top: 14px; font-size: 13.5px; font-weight: 600; color: var(--curtain);
+  }
+
+  .ref-note{ font-size: 13.5px; color: var(--ink-faint); margin: 0 0 14px; line-height:1.55; }
+  .sources-list{ list-style: none; padding-left: 0; }
+  .sources-list li{ padding-left: 24px; text-indent: -24px; margin-bottom: 10px; }
+  /* --- provenance / transparency section --- */
+  .prov{ margin-top: 52px; }
+  .prov h2{ font-size: 20px; margin-bottom: 12px; }
+  .prov .block{ margin-bottom: 30px; }
+  .prov p{ font-size: 15px; color: var(--ink-soft); margin: 0 0 12px; }
+  .prov ul{ font-size: 15px; color: var(--ink-soft); padding-left: 20px; }
+  .prov li{ margin-bottom: 8px; }
+  .prov .cite{ font-size: 13px; color: var(--ink-faint); }
+  .ev-row{
+    display:flex; gap: 12px; align-items:flex-start; flex-wrap:wrap;
+    padding: 12px 0; border-bottom: 1px dashed var(--rule);
+  }
+  .ev-row:last-child{ border-bottom:none; }
+  .ev-body{ flex: 1 1 260px; font-size: 14.5px; color: var(--ink-soft); line-height:1.55; }
+  .ev-body strong{ color: var(--ink); }
+  .ev{
+    display:inline-block; font-family: var(--font-mono); font-size: 10px;
+    text-transform: uppercase; letter-spacing: .04em; padding: 4px 8px;
+    border-radius: 3px; font-weight: 700; white-space: nowrap; flex: 0 0 auto;
+    min-width: 104px; text-align:center;
+  }
+  .ev-direct{ background: var(--slate-bg); color: var(--slate); }
+  .ev-strong{ background: var(--sage-bg); color: var(--sage); }
+  .ev-moderate{ background: var(--amber-bg); color: var(--curtain-dark); }
+  .ev-thin{ background: var(--paper-dim); color: var(--curtain-dark); }
+  .prov-jump{
+    display:inline-block; background:none; border:none; padding:0; cursor:pointer;
+    font-family: var(--font-body); font-size: 13.5px; color: var(--curtain);
+    text-decoration: underline; text-underline-offset: 3px; margin-top: 10px;
+  }
+  .prov-jump:hover{ color: var(--curtain-dark); }
+
+  .marker-behavior-block{ margin-top: 6px; }
+  .marker-behavior-block + .marker-behavior-block{ margin-top: 20px; padding-top: 18px; border-top: 1px dashed var(--rule); }
+  .sub-label{
+    font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .05em;
+    color: var(--ink-faint); margin-bottom: 6px;
+  }
+  .align-callout{
+    margin-top: 20px; padding: 14px 16px; border-radius: 4px; background: var(--paper-dim);
+  }
+  .align-callout .headline{ font-size: 17px; margin-bottom: 6px; }
+
+  /* ---------- Score gauge ---------- */
+  .score-gauge{ margin: 14px 0 4px; }
+  .score-gauge-value{
+    font-family: var(--font-display); font-size: 22px; font-weight:700; color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .score-gauge-value .num{ font-family: var(--font-mono); font-size: 15px; color: var(--ink-faint); font-weight:400; margin-left:6px; }
+  .score-gauge-track{
+    position: relative;
+    height: 10px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--slate) 0%, var(--paper-dim) 50%, var(--curtain) 100%);
+    margin: 12px 2px 6px;
+  }
+  .score-gauge-marker{
+    position: absolute;
+    top: -6px;
+    width: 4px;
+    height: 22px;
+    background: var(--ink);
+    border-radius: 2px;
+    transform: translateX(-50%);
+    box-shadow: 0 0 0 2px var(--paper-card);
+  }
+  .score-gauge-labels{
+    display:flex; justify-content:space-between;
+    font-family: var(--font-mono); font-size: 10.5px; letter-spacing:.05em; text-transform:uppercase;
+    color: var(--ink-faint);
+  }
+  .score-breakdown{ margin-top: 4px; font-size: 13px; }
+  .score-breakdown summary{
+    cursor: pointer; font-weight: 600; color: var(--curtain); padding: 6px 0; list-style: none;
+  }
+  .score-breakdown summary::-webkit-details-marker{ display: none; }
+  .score-breakdown summary::before{ content: '▸ '; }
+  .score-breakdown[open] summary::before{ content: '▾ '; }
+  .score-breakdown summary:hover{ color: var(--curtain-dark); }
+  .score-breakdown-body{
+    margin-top: 8px; padding: 12px 14px; background: var(--paper-dim); border-radius: 3px;
+    font-size: 12.5px; color: var(--ink-soft);
+  }
+  .score-breakdown-body table{ width:100%; border-collapse: collapse; margin-bottom: 10px; }
+  .score-breakdown-body th{ text-align:left; font-family: var(--font-mono); font-size: 10.5px; text-transform:uppercase; letter-spacing:.04em; color: var(--ink-faint); padding: 4px 6px 4px 0; border-bottom: 1px solid var(--rule); }
+  .score-breakdown-body td{ padding: 5px 6px 5px 0; border-bottom: 1px solid var(--rule); }
+  .score-breakdown-body tr:last-child td{ border-bottom:none; }
+  .score-breakdown-body p{ margin: 0 0 6px; }
+  .score-breakdown-body p:last-child{ margin-bottom:0; font-style: italic; }
+
+  .result-card p{ font-size: 14.5px; color: var(--ink-soft); margin: 8px 0; }
+  .result-card ul{ margin: 8px 0; padding-left: 20px; font-size: 14.5px; color: var(--ink-soft); }
+  .result-card li{ margin-bottom: 6px; }
+  .confidence-note{
+    font-size: 12.5px; color: var(--ink-faint); font-style: italic; margin-top: 12px;
+    border-top: 1px dashed var(--rule); padding-top: 10px;
+  }
+
+  /* ---------- Essay ---------- */
+  .essay{ margin-top: 52px; }
+  .essay h2{ font-size: 20px; margin-bottom: 12px; }
+  .essay .block{ margin-bottom: 34px; }
+  .essay p{ font-size: 15px; color: var(--ink-soft); margin: 0 0 12px; }
+  .essay ul{ font-size: 15px; color: var(--ink-soft); padding-left: 20px; }
+  .essay li{ margin-bottom: 8px; }
+
+  .essay .cite{ font-size: 13px; color: var(--ink-faint); white-space: nowrap; }
+  .sources-block{ margin-top: 8px; }
+  .contact-block{
+    margin-top: 30px; padding: 18px 20px; border-radius: 4px;
+    background: var(--paper-card); border: 1px solid var(--rule);
+  }
+  .contact-block h2{ margin-top: 0; }
+  .contact-list{ list-style: none; padding-left: 0; margin: 0; font-size: 15px; }
+  .contact-list li{ margin-bottom: 6px; color: var(--ink-soft); }
+  .contact-list a{ color: var(--curtain); text-underline-offset: 3px; }
+  .contact-list a:hover{ color: var(--curtain-dark); }
+
+  /* Contact addresses are rendered as selectable text, never as mailto:
+     links: inside a published artifact a mailto: does nothing at all for
+     many viewers, and the page has no way to detect that it failed. The
+     copy button is a convenience on top of that, not the mechanism. */
+  .addr{
+    font-family: var(--font-mono);
+    font-size: 0.95em;
+    color: var(--ink);
+    user-select: all;
+    -webkit-user-select: all;
+    word-break: break-word;
+  }
+  .copy-btn{
+    margin-left: 7px;
+    padding: 2px 7px;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    background: var(--paper);
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.5;
+    cursor: pointer;
+    vertical-align: 1px;
+    min-width: 58px;
+  }
+  .copy-btn:hover{ border-color: var(--curtain); color: var(--curtain); }
+  .copy-btn.is-flash{ border-color: var(--sage); color: var(--sage); }
+  .sources-list{ font-size: 13px; line-height: 1.65; }
+  .sources-list li{ margin-bottom: 6px; color: var(--ink-soft); }
+  .sources-list em{ font-style: italic; }
+
+  .methodology{
+    margin: 4px 0 20px;
+    font-size: 13px;
+  }
+  .methodology summary{
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--curtain);
+    padding: 6px 0;
+    list-style: none;
+  }
+  .methodology summary::-webkit-details-marker{ display: none; }
+  .methodology summary::before{ content: '▸ '; }
+  .methodology[open] summary::before{ content: '▾ '; }
+  .methodology summary:hover{ color: var(--curtain-dark); }
+  .methodology-body{
+    margin-top: 8px;
+    padding: 12px 14px;
+    background: var(--paper-dim);
+    border-radius: 3px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+  .methodology-body p{ margin: 0 0 8px; }
+  .methodology-body p:last-child{ margin-bottom: 0; font-style: italic; }
+
+  .confidence-note a{ color: var(--slate); }
+
+  footer{
+    margin-top: 52px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    text-align:center;
+  }
+
+  [hidden]{ display:none !important; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    .ticket, #revealBtn, .search-row button{ transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <header class="masthead">
+    <div class="eyebrow">A field guide adapted from doing-gender research</div>
+    <h1>Casting Call<span class="accent">Assessing how an AI gets gendered</span></h1>
+    <p class="byline">By Vanessa Conzon &amp; Allie Feldberg</p>
+    <p class="dek">Every AI assistant has a director who chose its name, its voice, and its manner — whether they meant to or not. This walks through what those choices signal, and what the research says it might mean when people interact with them again and again.</p>
+  </header>
+
+  <section class="notice" id="noticeGate">
+    <h2>Before the curtain rises</h2>
+
+    <p><strong>Claude built this, and Claude makes mistakes.</strong> Guessing a name's gender connotation across languages and cultures, describing a voice or an image it hasn't actually seen or heard, and finding out who really designed something — all of that is genuinely hard, and often the information just isn't public. Treat everything below as a starting point for your own judgment, not a verdict.</p>
+
+    <p><strong>A note on bias:</strong> like any AI trained on existing scholarship, Casting Call can gravitate toward familiar methods, frameworks, and academic traditions. If your work sits outside that mainstream — non-Western contexts, understudied populations, less conventional methods — weigh its input accordingly, and don't let it substitute for other perspectives.</p>
+
+    <p><strong>On the data you put in:</strong> if you fill in the sheet yourself, that stays in this conversation. If you ask Claude to look a product up, Claude runs a web search through Anthropic's API to gather public information — the usual handling for any Claude conversation applies to that search and to this chat. See Anthropic's privacy policy if you want the specifics for your account.</p>
+
+    <p><strong>On opting out of model training:</strong> to opt out of sharing your inputs and outputs with Anthropic, please open Settings &rarr; Privacy in Claude.ai or the Claude mobile app. Under &ldquo;Help Improve our AI models,&rdquo; toggle the setting off. This stops new chats and coding sessions from being used for future model training; data already used in training is not removed. <a href="https://privacy.claude.com/en/articles/12109829-how-do-i-change-my-model-improvement-privacy-settings" target="_blank" rel="noopener">Anthropic&rsquo;s instructions</a></p>
+
+    <p><strong>On the framework:</strong> it's adapted from academic theorizing on AI and "doing gender" in organizations — a research paper's model, not a validated psychometric instrument. It's a structured way to think something through, not a scientific measurement.</p>
+
+    <p><strong>On where the answers come from:</strong> a full account sits on the <em>How this tool works</em> page, linked at the foot of the tool — how information gets in, which of the six calls are well evidenced and which are contestable, how the reading list was assembled, and the fact that when you code by hand the tool is partly recording your own gender associations rather than measuring the product.</p>
+
+    <p><strong>Questions?</strong> Email Vanessa Conzon (<span class="addr">conzon@bc.edu</span>) or Allie Feldberg (<span class="addr">afeldberg@hbs.edu</span>).</p>
+
+    <label class="check-row">
+      <input type="checkbox" id="ackSingle">
+      <span>I've read this.</span>
+    </label>
+
+    <button type="button" id="continueBtn" disabled>I understand — enter</button>
+  </section>
+
+  <div id="mainContent" hidden>
+
+  <section class="path-select">
+    <div class="section-head"><span class="step-num">1</span><h2>Choose your path</h2></div>
+    <div class="tickets">
+      <button class="ticket" type="button" data-path="assess">
+        <span class="ticket-label">Path A</span>
+        <span class="ticket-title">Bring an AI on stage</span>
+        <span class="ticket-desc">Assess how an AI that already exists gets gendered — yours, or one you're curious about.</span>
+      </button>
+      <button class="ticket" type="button" data-path="design">
+        <span class="ticket-label">Path B</span>
+        <span class="ticket-title">Design your own AI agent</span>
+        <span class="ticket-desc">Building something new? Make deliberate choices so it doesn't end up reaffirming the gender stereotype tied to its job.</span>
+      </button>
+    </div>
+  </section>
+
+  <div id="assessPath" hidden>
+
+  <section class="mode-select">
+    <div class="section-head"><span class="step-num">2</span><h2>Bring an AI on stage</h2></div>
+    <div class="tickets">
+      <button class="ticket" type="button" data-mode="search">
+        <span class="ticket-label">Option A</span>
+        <span class="ticket-title">Have Claude look it up</span>
+        <span class="ticket-desc">Type a product name or paste a link. Claude searches for public details you can then edit.</span>
+      </button>
+      <button class="ticket" type="button" data-mode="manual">
+        <span class="ticket-label">Option B</span>
+        <span class="ticket-title">I'll describe it myself</span>
+        <span class="ticket-desc">Fill in what you already know about its name, voice, imagery, tasks, and tone.</span>
+      </button>
+    </div>
+    <button class="example-link" type="button" id="loadExample">Or skip ahead and see a worked example: Claude →</button>
+  </section>
+
+  <section class="search-panel" id="searchPanel" hidden>
+    <label for="searchInput">Product name or link</label>
+    <div class="search-row">
+      <input id="searchInput" type="text" placeholder="e.g. “Amazon's Alexa” or a product URL">
+      <button id="searchBtn" type="button">Research it</button>
+    </div>
+    <div class="search-status" id="searchStatus"></div>
+    <div class="search-sources" id="searchSources"></div>
+  </section>
+
+  <div class="sheet search-results-view" id="searchResultsView" hidden>
+    <h2>What Claude found</h2>
+    <p class="fine-print">This is Claude's own research, not something you typed — so nothing below is editable. If something looks wrong, use "Edit these answers" below rather than trying to click into it.</p>
+    <div id="searchResultsBody"></div>
+    <div class="search-results-actions">
+      <button type="button" id="revealBtnSearch">Reveal the placement</button>
+      <button type="button" class="edit-answers-link" id="editSearchAnswersBtn">Edit these answers instead →</button>
+    </div>
+  </div>
+
+  <form class="sheet" id="sheet" hidden>
+    <h2>Character breakdown sheet</h2>
+
+    <details class="methodology">
+      <summary>How are these categorized as masculine or feminine?</summary>
+      <div class="methodology-body">
+        <p><strong>No, there isn't a lookup table.</strong> This tool doesn't check a name against a gender-name database, or an avatar against a shape/color taxonomy — no such database exists here. In manual mode, <em>you</em> make each call, guided by the rules below. In search mode, Claude makes the same call using its general knowledge and whatever the web search turns up, described in a short note; a simple keyword check then tries to translate that note into a dropdown selection, which is imperfect — always review it before revealing the placement. Either way, the decision is a judgment call applied consistently, not a database hit.</p>
+        <p><strong>Name:</strong> is it a name conventionally given to one gender in the relevant language or cultural context — the way "Michael" reads masculine and "Emma" reads feminine in most English-speaking contexts? This is convention, not universal truth: naming patterns vary by culture, era, and community, and plenty of names are shared across genders. Treat it as a starting point you're free to override.</p>
+        <p><strong>Pronouns:</strong> the most direct of the four signals — whatever pronoun the product is actually referred to by, officially or in common usage. No inference required, just reporting.</p>
+        <p><strong>Voice:</strong> coded primarily by pitch, since listeners reliably use it as a cue to categorize a voice as male- or female-sounding, and default voice choices in AI products have been shown to trigger the same gendered responses human voices do (Nass, Moon, &amp; Green, 1997; Costa, 2018; Mooshammer &amp; Etzrodt, 2022). Lower-pitched defaults read masculine-coded; higher-pitched defaults read feminine-coded.</p>
+        <p><strong>Imagery/avatar:</strong> the hardest call of the four, and the one most worth double-checking. For a humanlike avatar, this follows the same body-shape and styling cues people use to read a person as male- or female-presenting (Borau, 2025). For a non-human avatar — an abstract shape, an object, a color scheme — there's no formal taxonomy behind the call; it draws on general cultural association instead: angular or hard-edged shapes, cool colors, and tool/vehicle/machinery imagery tend to read as masculine-coded, while soft or rounded shapes, warm or pastel colors, and floral/organic imagery tend to read as feminine-coded. These associations are genuinely contestable and culturally specific, so note your reasoning in the notes field rather than leaving it implicit.</p>
+        <p><strong>Job/task:</strong> coded using research on which occupations and job functions are stereotypically associated with each gender at work — admin, care, and support work reads as feminine-coded; technical, quantitative, and strategic work reads as masculine-coded (Singh, Chayko, Inamdar, &amp; Floegel, 2020; Eagly &amp; Karau, 2002).</p>
+        <p><strong>Tone/manner:</strong> coded using the standard distinction between agentic traits — assertive, direct, competitive, read as masculine — and communal traits — warm, deferential, accommodating, read as feminine (Rudman &amp; Glick, 2001; Charlesworth &amp; Banaji, 2022; Manzi, Caleo, &amp; Heilman, 2024).</p>
+        <p>None of this is a hard rule or a validated instrument — it's the convention this tool applies consistently across every field, grounded in the same research the underlying paper draws on, so "masculine-coded" and "feminine-coded" mean roughly the same thing everywhere they appear here. <button type="button" class="prov-jump" data-open-method>How this tool works &rarr;</button> sets out how strong the evidence behind each of these six calls actually is, how the reading list was assembled, and why your own judgment is part of what gets recorded here.</p>
+      </div>
+    </details>
+
+    <fieldset>
+      <legend><span class="step">A</span> The actor's markers <span class="legend-sub">what an audience notices first</span></legend>
+      <p class="table-hint">Type in what you know on the left — Claude judges how it reads on the right, using the rules above. Override anything it gets wrong.</p>
+
+      <div class="marker-table">
+        <div class="marker-row" data-kind="name">
+          <div class="mr-input">
+            <label for="f-name">Name</label>
+            <input type="text" id="f-name" placeholder="e.g. Claude, Alexa, Watson">
+          </div>
+          <div class="mr-gender">
+            <label for="f-name-gender">Gender coding</label>
+            <select id="f-name-gender">
+              <option value="unknown">Not sure / haven't checked</option>
+              <option value="masc">Masculine-coded</option>
+              <option value="fem">Feminine-coded</option>
+              <option value="neutral">Neutral or ambiguous</option>
+            </select>
+          </div>
+          <div class="mr-reason" id="f-name-reason"></div>
+        </div>
+
+        <div class="marker-row" data-kind="pronouns">
+          <div class="mr-input">
+            <label for="f-pronouns-text">Pronouns</label>
+            <input type="text" id="f-pronouns-text" placeholder="e.g. she/her, he/him, they/them, it">
+          </div>
+          <div class="mr-gender">
+            <label for="f-pronouns">Gender coding</label>
+            <select id="f-pronouns">
+              <option value="unknown">Not sure</option>
+              <option value="masc">He / him</option>
+              <option value="fem">She / her</option>
+              <option value="neutral">They / them</option>
+              <option value="object">It</option>
+              <option value="none">None used / unspecified</option>
+            </select>
+          </div>
+          <div class="mr-reason" id="f-pronouns-reason"></div>
+        </div>
+
+        <div class="marker-row" data-kind="voice">
+          <div class="mr-input">
+            <label for="f-voice-text">Voice</label>
+            <input type="text" id="f-voice-text" placeholder="e.g. high-pitched, warm customer-service tone">
+          </div>
+          <div class="mr-gender">
+            <label for="f-voice">Gender coding</label>
+            <select id="f-voice">
+              <option value="unknown">Not sure</option>
+              <option value="masc">Lower-pitched / seems masculine</option>
+              <option value="fem">Higher-pitched / seems feminine</option>
+              <option value="neutral">Deliberately androgynous</option>
+              <option value="none">No fixed voice, or user picks one</option>
+            </select>
+          </div>
+          <div class="mr-reason" id="f-voice-reason"></div>
+        </div>
+
+        <div class="marker-row" data-kind="imagery">
+          <div class="mr-input">
+            <label for="f-imagery-text">Avatar / imagery</label>
+            <input type="text" id="f-imagery-text" placeholder="e.g. blue circular light ring, no human features">
+          </div>
+          <div class="mr-gender">
+            <label for="f-imagery">Gender coding</label>
+            <select id="f-imagery">
+              <option value="unknown">Not sure</option>
+              <option value="masc">Masculine-coded imagery</option>
+              <option value="fem">Feminine-coded imagery</option>
+              <option value="neutral">Abstract / deliberately neutral</option>
+              <option value="none">No avatar or imagery at all</option>
+            </select>
+          </div>
+          <div class="mr-reason" id="f-imagery-reason"></div>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="step">B</span> The actor's behavior</legend>
+      <p class="table-hint">Add a row per distinct task if it does several different things — each gets judged on its own. Manner/tone is a single row below.</p>
+
+      <div class="marker-table" id="taskTable">
+        <div class="marker-row task-row" data-kind="task">
+          <div class="mr-input">
+            <label>Task / activity</label>
+            <input type="text" class="task-text" placeholder="e.g. scheduling and note-taking">
+          </div>
+          <div class="mr-gender">
+            <label>Gender coding</label>
+            <select class="task-type">
+              <option value="neutral">Doesn't map onto a stereotype</option>
+              <option value="fem">Feminine-coded (admin, scheduling, care, support)</option>
+              <option value="masc">Masculine-coded (technical, quantitative, strategic)</option>
+              <option value="mixed">Genuinely spans both</option>
+            </select>
+          </div>
+          <div class="mr-reason task-reason"></div>
+          <button type="button" class="remove-row-btn" hidden aria-label="Remove this task">&times;</button>
+        </div>
+      </div>
+      <button type="button" class="add-row-btn" id="addTaskRow">+ Add another task</button>
+
+      <div class="marker-table" style="margin-top:18px;">
+        <div class="marker-row" data-kind="comportment">
+          <div class="mr-input">
+            <label for="f-comportment-text">Manner / tone</label>
+            <input type="text" id="f-comportment-text" placeholder="e.g. direct and to the point, or warm and apologetic">
+          </div>
+          <div class="mr-gender">
+            <label for="f-comportment">Gender coding</label>
+            <select id="f-comportment">
+              <option value="neutral">Doesn't read strongly either way</option>
+              <option value="fem">Deferential, apologetic, warm</option>
+              <option value="masc">Direct, assertive, authoritative</option>
+              <option value="mixed">Blends both depending on context</option>
+            </select>
+          </div>
+          <div class="mr-reason" id="f-comportment-reason"></div>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="step">C</span> Adaptiveness</legend>
+      <div class="field">
+        <label for="f-adaptive">Does its manner shift based on how you respond to it?</label>
+        <span class="hint">e.g. does it get more accommodating, more apologetic, or otherwise change its behavior in response to feedback or pushback?</span>
+        <select id="f-adaptive">
+          <option value="unclear">Haven't observed enough to say</option>
+          <option value="adaptive">Yes — it visibly adapts to feedback</option>
+          <option value="nonadaptive">No — its manner stays consistent</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-adaptive-notes">Notes on adaptiveness <span class="hint">(optional — what you're basing this on)</span></label>
+        <textarea id="f-adaptive-notes" placeholder="e.g. reporting describes it becoming more apologetic after repeated pushback..."></textarea>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="step">D</span> The director <span class="legend-sub">who made these choices</span></legend>
+      <div class="field">
+        <label for="f-designer">What's known about who designed it?</label>
+        <select id="f-designer">
+          <option value="unknown">Couldn't find anything</option>
+          <option value="org">Only the company/brand itself is credited (e.g. "built by Amazon") — no team or person named</option>
+          <option value="team">A specific team or group is named, but not individual people</option>
+          <option value="named">A specific named person is publicly credited</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-designer-notes">Notes on the director <span class="hint">(optional)</span></label>
+        <textarea id="f-designer-notes" placeholder="e.g. built by an in-house product team; no individual designer named publicly..."></textarea>
+      </div>
+      <div class="field">
+        <label for="f-org-diversity">Org-level gender data, if you have it <span class="hint">— background context, not evidence about this specific decision</span></label>
+        <span class="hint">Diversity reports often report a company-wide number that hides a lower one in technical roles specifically — that split matters more than the headline figure.</span>
+        <select id="f-org-diversity">
+          <option value="none">Nothing available</option>
+          <option value="removed">A figure was published before, but has since been removed or stopped being reported</option>
+          <option value="company-wide">Only company-wide (not role-specific) figures found</option>
+          <option value="technical-specific">A technical/engineering-specific figure found</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-org-diversity-notes">Figures / source <span class="hint">(optional)</span></label>
+        <textarea id="f-org-diversity-notes" placeholder="e.g. 2025 DEI report: 34% women company-wide, 16% in technical roles (source: company report)"></textarea>
+      </div>
+    </fieldset>
+
+    <div class="sheet-actions">
+      <button type="button" id="revealBtn">Reveal the placement</button>
+      <button type="button" id="clearBtn">Clear the sheet</button>
+    </div>
+  </form>
+
+  <section class="results" id="results" hidden>
+    <div class="section-head"><span class="step-num">3</span><h2>The placement</h2></div>
+    <div class="result-card" id="placementCard"></div>
+    <div class="result-card" id="pathwayCard"></div>
+    <div class="result-card" id="directorCard"></div>
+    <div class="result-card" id="reflectCard"></div>
+  </section>
+
+  </div>
+
+  <div id="designPath" hidden>
+
+  <section class="design-intro">
+    <div class="section-head"><span class="step-num">2</span><h2>Design studio</h2></div>
+    <p class="design-intro-copy">The goal here is specific: help you build something that doesn't <em>reaffirm</em> the gender stereotype tied to its job — not just describe your odds either way. Using Conzon &amp; Feldberg's model, you'll make the same four calls a real director makes for an AI actor, deliberately, in the order design actually happens: lock in the job first, then decide how it presents.</p>
+  </section>
+
+  <form class="sheet" id="designSheet">
+    <h2>Design brief</h2>
+
+    <details class="methodology">
+      <summary>How are these categorized as masculine or feminine?</summary>
+      <div class="methodology-body">
+        <p><strong>No, there isn't a lookup table.</strong> This tool doesn't check a name against a gender-name database, or an avatar against a shape/color taxonomy — no such database exists here. You make each call yourself, guided by the rules below; it's a judgment call applied consistently, not a database hit.</p>
+        <p><strong>Name:</strong> is it a name conventionally given to one gender in the language or cultural context you're working in — the way "Michael" reads masculine and "Emma" reads feminine in most English-speaking contexts? This is convention, not universal truth: naming patterns vary by culture, era, and community. Treat it as a starting point you're free to override.</p>
+        <p><strong>Pronouns:</strong> the most direct of the four signals — whichever pronoun you choose to have it referred to by. No inference required, just a decision.</p>
+        <p><strong>Voice:</strong> coded primarily by pitch, since listeners reliably use it as a cue to categorize a voice as male- or female-sounding, and default voice choices in AI products have been shown to trigger the same gendered responses human voices do (Nass, Moon, &amp; Green, 1997; Costa, 2018; Mooshammer &amp; Etzrodt, 2022). A lower-pitched default reads masculine-coded; a higher-pitched one reads feminine-coded.</p>
+        <p><strong>Imagery/avatar:</strong> the hardest call of the four, and the one most worth thinking through deliberately. For a humanlike avatar, this follows the same body-shape and styling cues people use to read a person as male- or female-presenting (Borau, 2025). For a non-human avatar — an abstract shape, an object, a color scheme — there's no formal taxonomy behind the call; it draws on general cultural association instead: angular or hard-edged shapes, cool colors, and tool/vehicle/machinery imagery tend to read as masculine-coded, while soft or rounded shapes, warm or pastel colors, and floral/organic imagery tend to read as feminine-coded. These associations are genuinely contestable and culturally specific.</p>
+        <p><strong>Job/task:</strong> coded using research on which occupations and job functions are stereotypically associated with each gender at work — admin, care, and support work reads as feminine-coded; technical, quantitative, and strategic work reads as masculine-coded (Singh, Chayko, Inamdar, &amp; Floegel, 2020; Eagly &amp; Karau, 2002).</p>
+        <p><strong>Tone/manner:</strong> coded using the standard distinction between agentic traits — assertive, direct, competitive, read as masculine — and communal traits — warm, deferential, accommodating, read as feminine (Rudman &amp; Glick, 2001; Charlesworth &amp; Banaji, 2022; Manzi, Caleo, &amp; Heilman, 2024).</p>
+        <p>None of this is a hard rule — it's the convention this tool uses so "masculine-coded" and "feminine-coded" mean roughly the same thing across every field. <button type="button" class="prov-jump" data-open-method>How this tool works &rarr;</button> sets out how strong the evidence behind each of these six calls actually is, how the reading list was assembled, and why your own judgment is part of what gets recorded here.</p>
+      </div>
+    </details>
+
+    <fieldset>
+      <legend><span class="step">A</span> The job <span class="legend-sub">lock this in first</span></legend>
+      <div class="field">
+        <label for="d-tasks">What will it mostly do?</label>
+        <input type="text" id="d-tasks" placeholder="e.g. scheduling and note-taking, or financial modeling">
+      </div>
+      <div class="field">
+        <label for="d-task-type">How does that work typically get coded?</label>
+        <span class="hint">Be honest about the stereotype, even if you don't like it — you can't avoid reaffirming a bias you haven't named.</span>
+        <select id="d-task-type">
+          <option value="neutral">Doesn't map onto a stereotype</option>
+          <option value="fem">Feminine-coded (admin, scheduling, care, support)</option>
+          <option value="masc">Masculine-coded (technical, quantitative, strategic)</option>
+          <option value="mixed">Genuinely spans both</option>
+        </select>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="step">B</span> The manner</legend>
+      <div class="field">
+        <label for="d-comportment">How should it carry itself day to day?</label>
+        <select id="d-comportment">
+          <option value="neutral">Doesn't need to read strongly either way</option>
+          <option value="fem">Deferential, apologetic, warm</option>
+          <option value="masc">Direct, assertive, authoritative</option>
+          <option value="mixed">Blends both depending on context</option>
+        </select>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="step">C</span> The markers <span class="legend-sub">pick these on purpose</span></legend>
+      <div class="field">
+        <label for="d-name">Working name</label>
+        <input type="text" id="d-name" placeholder="e.g. a placeholder name is fine">
+      </div>
+      <div class="two-col">
+        <div class="field">
+          <label for="d-name-gender">How will that name read?</label>
+          <select id="d-name-gender">
+            <option value="unknown">Haven't decided / not sure</option>
+            <option value="masc">Masculine-coded</option>
+            <option value="fem">Feminine-coded</option>
+            <option value="neutral">Neutral or ambiguous</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="d-pronouns">Pronouns it'll be referred to by</label>
+          <select id="d-pronouns">
+            <option value="unknown">Haven't decided</option>
+            <option value="masc">He / him</option>
+            <option value="fem">She / her</option>
+            <option value="neutral">They / them</option>
+            <option value="object">It</option>
+            <option value="none">None / unspecified</option>
+          </select>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="field">
+          <label for="d-voice">Voice</label>
+          <select id="d-voice">
+            <option value="unknown">Haven't decided</option>
+            <option value="masc">Lower-pitched / seems masculine</option>
+            <option value="fem">Higher-pitched / seems feminine</option>
+            <option value="neutral">Deliberately androgynous</option>
+            <option value="none">No fixed voice, or user picks one</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="d-imagery">Avatar or imagery</label>
+          <select id="d-imagery">
+            <option value="unknown">Haven't decided</option>
+            <option value="masc">Masculine-coded imagery</option>
+            <option value="fem">Feminine-coded imagery</option>
+            <option value="neutral">Abstract / deliberately neutral</option>
+            <option value="none">No avatar or imagery at all</option>
+          </select>
+        </div>
+      </div>
+      <div class="callout" id="markerCallout"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="step">D</span> How much it bends</legend>
+      <div class="field">
+        <label for="d-adaptive">Will it adapt its manner based on how people respond to it?</label>
+        <select id="d-adaptive">
+          <option value="unclear">Haven't decided</option>
+          <option value="adaptive">Yes — it should adjust to feedback</option>
+          <option value="nonadaptive">No — its manner should stay consistent</option>
+        </select>
+      </div>
+      <div class="callout"><strong>To push against the stereotype, pick "No — its manner should stay consistent."</strong> Shorthand for the rest of this note: <em>adaptive</em> is the "Yes" option above, <em>nonadaptive</em> the "No" one. Per the model, that's the only one of the four pathways that loosens a stereotype rather than reaffirming it — and only when it's paired with markers that already don't match the job. Even a deliberate mismatch will drift back into reaffirming the stereotype if it's adaptive, because it'll fold toward "expected" behavior the first time someone reacts badly to it. This is also a real product trade-off: some users read nonadaptive as unhelpful or stubborn. That cost is worth weighing on purpose, not a reason to default back to adaptive.</div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="step">E</span> You, the director</legend>
+      <div class="field">
+        <label for="d-director">Who's actually making these calls?</label>
+        <input type="text" id="d-director" placeholder="e.g. your name/role, or the team">
+      </div>
+      <div class="field">
+        <label for="d-director-notes">What assumptions might you be bringing in without noticing? <span class="hint">(optional, but worth sitting with)</span></label>
+        <textarea id="d-director-notes" placeholder="e.g. our team defaults to a female voice for anything customer-facing, unless someone pushes back..."></textarea>
+      </div>
+      <div class="callout">Per the model, three things constrain a director's choices whether they notice or not: your own gender attitudes, your authority to make a less "expected" design stick even under pushback, and the training data or examples you're limited to. Naming these honestly is most of the work.</div>
+    </fieldset>
+
+    <div class="sheet-actions">
+      <button type="button" id="designRevealBtn">See what this predicts</button>
+      <button type="button" id="designClearBtn">Clear the brief</button>
+    </div>
+  </form>
+
+  <section class="results" id="designResults" hidden>
+    <div class="section-head"><span class="step-num">3</span><h2>What this design predicts</h2></div>
+    <div class="result-card" id="briefCard"></div>
+    <div class="result-card" id="designPathwayCard"></div>
+    <div class="result-card" id="designDirectorCard"></div>
+  </section>
+
+  </div>
+
+  <hr class="rule">
+
+
+  <section class="essay">
+    <div class="block">
+      <h2>Why bother with any of this?</h2>
+      <p>Gender is one of the very first things people use to sort the world <span class="cite">(Ridgeway, 2011)</span> — it takes almost nothing, a name or a pitch of voice, for someone to place a thing as "male" or "female" and start expecting certain behavior from it <span class="cite">(Martin &amp; Slepian, 2020; Nass, Moon, &amp; Green, 1997)</span>. That happens with people. Research on interactive AI suggests it happens with AI too <span class="cite">(Fortunati et al., 2022; Martin &amp; Mason, 2023; Han et al., 2025)</span>, and increasingly, AI assistants sit in the middle of everyday work: booking travel, running numbers, answering customer questions.</p>
+      <p>The concern isn't only that an AI might reflect bias buried in its training data — the more familiar "algorithmic bias" story. It's that an AI with a name, a voice, and a manner is <em>performing</em> gender the way a coworker might, in every single interaction <span class="cite">(West &amp; Zimmerman, 1987)</span>. A scheduling assistant with a feminine name and a deferential tone, used thousands of times a day across a company, quietly rehearses the idea that supportive, subordinate work is women's work <span class="cite">(Ridgeway &amp; Correll, 2004)</span> — and repeated exposure of this kind, at scale, has been shown to shift the gender associations people carry <span class="cite">(Guilbeault et al., 2024)</span>. The reverse pairing — an assistant with the same markers doing confident, technical work without softening for pushback — can quietly work against that idea instead.</p>
+      <p>That second possibility is really the point: these are design choices, not laws of nature. Someone decided the name, the voice, whether it apologizes when you're short with it. A few real teams have already made that choice deliberately — Sage built its accounting chatbot "Pegg" to read as gender-neutral <span class="cite">(Sherriff, 2018)</span>, and a coalition of technologists built "Q," a voice designed not to register as clearly male or female <span class="cite">(Carpenter, 2019; Mortada, 2019)</span>. Being able to name these choices is a first step toward making them on purpose rather than by default.</p>
+    </div>
+    <div class="block">
+      <h2>What it's actually good for</h2>
+      <ul>
+        <li><strong>It makes a default into a decision.</strong> Most of these choices were never argued for. Naming the ones that were made by inertia is most of the value, and it's available whether or not you accept anything the model predicts.</li>
+        <li><strong>It applies the same convention every time.</strong> The conventions are contestable, but they're applied consistently across every field and every product, so two assessments can be compared to each other even if you'd have drawn the lines somewhere else.</li>
+        <li><strong>It keeps markers and behavior apart.</strong> Blending them into a single "how gendered is it" number would hide the one configuration that matters most — markers pointing one way while the work points the other. That pairing is only visible if the two are scored separately.</li>
+        <li><strong>It shows its work.</strong> Every call comes with the reasoning and the sources behind it, so you can disagree with one specific coding decision rather than having to accept or reject the whole verdict.</li>
+        <li><strong>In design mode, it front-loads a trade-off.</strong> The cost of shipping a deliberately misaligned, non-adaptive agent is real, and it's much cheaper to weigh before launch than after.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h2>What this doesn't tell you</h2>
+      <ul>
+        <li><strong>It's binary by design, because the field mostly still is.</strong> This framework sorts things into "masculine" and "feminine," which flattens real people and, arguably, AI too <span class="cite">(Ridgeway &amp; Saperstein, 2024)</span>. A handful of real designers have tried to build deliberately genderless assistants — that possibility sits outside what this tool can score.</li>
+        <li><strong>Gender isn't the only axis worth checking.</strong> Names, voices, and imagery can just as easily be racialized, aged, classed, or accented — a name can read as gendered and read as tied to a particular ethnicity at the same time, and this tool has nothing to say about that.</li>
+        <li><strong>The "reinforces vs. weakens" language is a hypothesis, not a finding.</strong> It comes from a theoretical model built on hypothetical illustrations of how repeated exposure to an AI actor <em>might</em> shift the stereotypes someone holds <span class="cite">(Conzon &amp; Feldberg, working paper)</span> — not from a controlled study measuring that it does. Use it to think, not to conclude.</li>
+        <li><strong>One assessment is a snapshot.</strong> What the underlying theory actually cares about is repeated exposure over time and how real audiences respond to it — a single pass through a form can't capture that.</li>
+        <li><strong>In search mode it reads the marketing, not the product.</strong> One web search, mostly over material the company wrote about itself, with no access to the actual voice or interface. A gap between how something is described and how it behaves is exactly the kind of thing this can't see.</li>
+        <li><strong>One coder is one coder.</strong> A score produced by a single person in a single sitting records that person's reading. It is a data point, not a property of the product <span class="cite">(O'Connor &amp; Joffe, 2020)</span>.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <button type="button" class="method-cta" data-open-method>
+        <span class="method-cta-label">Full methodology</span>
+        <span class="method-cta-title">How this tool works, and where its claims come from</span>
+        <span class="method-cta-desc">How information gets in and what the web search can't see &middot; which of the six calls are well evidenced and which are contestable, one by one &middot; how researchers actually measure stereotype content &middot; how this reading list was assembled and how far each source was checked &middot; why your own judgment is part of what gets recorded &middot; full references</span>
+        <span class="method-cta-go">Read the full methodology &rarr;</span>
+      </button>
+    </div>
+    <div class="block contact-block">
+      <h2>Questions or comments</h2>
+      <p>If a coding call looks wrong, a source is misattributed, or something here is useful for your own work, the authors would like to hear about it.</p>
+      <ul class="contact-list">
+        <li><strong>Vanessa Conzon</strong>, Boston College &middot; <span class="addr" id="addr-conzon-essay">conzon@bc.edu</span><button type="button" class="copy-btn" data-copy-target="addr-conzon-essay" aria-live="polite" aria-label="Copy Vanessa Conzon's email address">Copy</button></li>
+        <li><strong>Allie Feldberg</strong>, Harvard Business School &middot; <span class="addr" id="addr-feldberg-essay">afeldberg@hbs.edu</span><button type="button" class="copy-btn" data-copy-target="addr-feldberg-essay" aria-live="polite" aria-label="Copy Allie Feldberg's email address">Copy</button></li>
+      </ul>
+    </div>
+  </section>
+
+
+
+
+  </div>
+
+  <div id="methodPage" hidden>
+    <button type="button" class="back-link" data-back>&larr; Back to the tool</button>
+
+    <header class="method-header">
+      <h1>How this tool works<span class="accent">Provenance, evidence, and limits</span></h1>
+      <p class="dek">Everything behind the readings the tool gives you: where the information comes from, how strong the evidence is behind each individual call, how anyone measures stereotype content in the first place, how this reading list was assembled, and what the tool is doing with your own judgment.</p>
+    </header>
+
+  <section class="prov" id="provenance">
+    <div class="block">
+      <h2>Where all of this comes from</h2>
+      <p>A tool that hands you a reading of something as loaded as gender should be willing to say where that reading came from. This section is that account — not just which papers are cited, but how the information gets in, how the reading list was assembled, and which calls rest on solid evidence versus a judgment someone could reasonably contest. The practice of shipping a system with a plain-language account of what went into it, what it's for, and where it breaks comes out of the AI documentation literature <span class="cite">(Mitchell et al., 2019; Gebru et al., 2021)</span>.</p>
+    </div>
+
+    <div class="block">
+      <h3 style="font-family:var(--font-display);font-size:17px;margin:0 0 10px;">1. How the information about a product gets here</h3>
+      <p>There are exactly two routes in, and they behave differently.</p>
+      <details class="methodology">
+        <summary>If you fill in the sheet yourself</summary>
+        <div class="methodology-body">
+          <p>Every fact comes from you. The tool contributes no information about the product whatsoever — it only applies the coding conventions below to what you typed and does the arithmetic. If you're wrong about the product, the output is wrong, and nothing here will catch it.</p>
+        </div>
+      </details>
+      <details class="methodology">
+        <summary>If you ask Claude to look it up</summary>
+        <div class="methodology-body">
+          <p><strong>What actually happens:</strong> the tool sends your query to Anthropic's API with instructions to run <em>at most one web search</em>, then return a fixed set of structured codes, a short reason for each, and links. That's a quick scan of public, web-indexed material — product pages, marketing copy, press coverage, documentation — not a literature review. One search is a deliberate trade-off for speed, and it means a hard-to-find fact will usually come back as "not sure" rather than being chased down.</p>
+          <p><strong>It has never seen or heard the product.</strong> Every voice and imagery call in search mode is inferred from <em>text describing</em> a voice or an avatar, not from listening or looking. That's a real gap between what's being coded and what an actual audience encounters.</p>
+          <p><strong>Check the links before you trust them.</strong> Language models fabricate citations at rates that matter: in one study of 636 references generated across 84 literature reviews, 55% of GPT-3.5's and 18% of GPT-4's were fabricated outright, and among the real ones, 43% and 24% respectively carried substantive errors <span class="cite">(Walters &amp; Wilder, 2023)</span>. This tool searches first and is instructed never to invent a URL, which helps, but it doesn't make the failure mode go away.</p>
+          <p><strong>The pool it draws from is itself skewed.</strong> A web search returns what is indexed, English-language, recent, and search-optimized — heavily weighted toward marketing material written by the same people who chose the gender markers. And the underlying material carries its own bias: occupational imagery online is already gender-skewed relative to reality <span class="cite">(Singh et al., 2020)</span>, and image corpora amplify gender bias more than text does <span class="cite">(Guilbeault et al., 2024)</span>. "What the internet says about this product" inherits all of that.</p>
+          <p><strong>It can come back partial.</strong> If the response runs long it gets truncated, and the tool salvages whatever complete fields it can rather than failing outright. When that happens you'll see a note saying so — treat those results as a first draft.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="block">
+      <h3 style="font-family:var(--font-display);font-size:17px;margin:0 0 10px;">2. What each individual call rests on</h3>
+      <p>The six signals are not equally well grounded, and collapsing them into one score hides that. Here is the evidence behind each one, strongest first.</p>
+
+      <div class="ev-row">
+        <span class="ev ev-direct">Observation</span>
+        <div class="ev-body"><strong>Pronouns.</strong> No inference at all — just reporting whatever pronoun the product is actually referred to by, officially or in common usage. The only signal here that isn't a judgment call.</div>
+      </div>
+      <div class="ev-row">
+        <span class="ev ev-strong">Well evidenced</span>
+        <div class="ev-body"><strong>Voice.</strong> Coded by pitch. Listeners reliably use pitch to categorize a voice as male- or female-sounding, and gendered defaults in voice products have been shown to trigger the same stereotyped responses human voices do <span class="cite">(Nass, Moon, &amp; Green, 1997; Costa, 2018; Mooshammer &amp; Etzrodt, 2022)</span>.</div>
+      </div>
+      <div class="ev-row">
+        <span class="ev ev-strong">Well evidenced</span>
+        <div class="ev-body"><strong>Job / task.</strong> Coded against research on which occupations and functions are stereotypically tied to each gender at work <span class="cite">(Eagly &amp; Karau, 2002; Singh et al., 2020)</span>.</div>
+      </div>
+      <div class="ev-row">
+        <span class="ev ev-strong">Well evidenced</span>
+        <div class="ev-body"><strong>Tone / manner.</strong> Uses the long-standing agentic-versus-communal distinction — assertive and direct read masculine, warm and deferential read feminine <span class="cite">(Rudman &amp; Glick, 2001; Charlesworth &amp; Banaji, 2022; Manzi, Caleo, &amp; Heilman, 2024)</span>.</div>
+      </div>
+      <div class="ev-row">
+        <span class="ev ev-moderate">Convention</span>
+        <div class="ev-body"><strong>Name.</strong> There is no name-gender database behind this. It's naming convention in a particular language and culture, which shifts by era and community and leaves plenty of names genuinely shared. Treat it as a default you're expected to override.</div>
+      </div>
+      <div class="ev-row">
+        <span class="ev ev-moderate">Moderate</span>
+        <div class="ev-body"><strong>Imagery — humanlike avatars.</strong> Follows the body-shape and styling cues people use to read a figure as male- or female-presenting <span class="cite">(Borau, 2025)</span>.</div>
+      </div>
+      <div class="ev-row">
+        <span class="ev ev-thin">Weakest link</span>
+        <div class="ev-body"><strong>Imagery — abstract shapes, objects, colors.</strong> No taxonomy exists for this, and none is being consulted. The call leans on general cultural association: angular and cool-toned and machine-like tends to read masculine, soft and rounded and warm-toned tends to read feminine. These associations are culturally specific and genuinely arguable. This is the call most worth writing down your reasoning for, and the one to discount first when a result surprises you.</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3 style="font-family:var(--font-display);font-size:17px;margin:0 0 10px;">3. How anyone knows what the stereotype <em>is</em></h3>
+      <p>The step above says which sources sit behind each call. This one is the question underneath it: when this tool asserts that warmth reads feminine or that technical work reads masculine, where did that content come from? It isn't intuition, and it isn't the authors' opinion. Stereotype content is something researchers measure, by four broad methods.</p>
+
+      <details class="methodology">
+        <summary>Asking large representative samples, over decades</summary>
+        <div class="methodology-body">
+          <p>The oldest method is simply asking people whether a trait is more true of women, more true of men, or equally true of both. Pooling 16 nationally representative U.S. polls covering roughly 30,000 adults between 1946 and 2018, women's perceived advantage in communal traits — affectionate, emotional, compassionate — actually <em>grew</em> over that period, while men's perceived advantage in agentic traits held steady, and belief in equal competence rose sharply <span class="cite">(Eagly, Nater, Miller, Kaufmann, &amp; Sczesny, 2020)</span>.</p>
+          <p>Two things follow for this tool. First, the agentic-versus-communal split it uses to code tone is a measured, repeatedly replicated pattern rather than a convenient dichotomy. Second, that measurement has a date and a country attached to it, and the content moved <em>within</em> the window studied. A coding convention drawn from it is a snapshot of a population, not a fact about men and women.</p>
+        </div>
+      </details>
+
+      <details class="methodology">
+        <summary>Measuring associations people don't report on a survey</summary>
+        <div class="methodology-body">
+          <p>Self-report captures what people are willing and able to say. Reaction-time measures capture associations that show up whether or not someone endorses them, and large-scale collection through platforms like Project Implicit has made it possible to track those associations over time. Across a decade of continuously collected tests, both implicit and explicit gender stereotypes linking men to science and career and women to arts and family have measurably weakened, though from a strong baseline and at a slow rate <span class="cite">(Charlesworth &amp; Banaji, 2022)</span>.</p>
+          <p>The consequence for anyone using this tool: "I don't personally think admin work is women's work" is not evidence that the association isn't operating. That gap between endorsed belief and measured association is much of why a tool like this asks you to write your reading down instead of trusting your sense of your own neutrality.</p>
+        </div>
+      </details>
+
+      <details class="methodology">
+        <summary>Reading it off the culture's own text and images</summary>
+        <div class="methodology-body">
+          <p>A third approach measures associations in large bodies of language and imagery rather than in people. Word embeddings trained on ordinary text reproduce the same associations the reaction-time measures find in humans, including career-versus-family gender associations <span class="cite">(Caliskan, Bryson, &amp; Narayanan, 2017)</span>. Applied across a century of text and checked against census data, the same technique tracks occupational gender associations shifting in step with who actually held those jobs <span class="cite">(Garg, Schiebinger, Jurafsky, &amp; Zou, 2018)</span>. Gender stereotypes turn up in corpora of children's language as consistently as in adults' <span class="cite">(Charlesworth, Yang, Mann, Kurdi, &amp; Banaji, 2021)</span>, and images carry gender bias more strongly than text does <span class="cite">(Guilbeault et al., 2024)</span>.</p>
+          <p>This is the method closest to what this tool is actually about, because an AI product's name, voice, and avatar are exactly the kind of cultural artifact these studies measure. It's also the method that makes the "audience" half of the framework tractable at all.</p>
+        </div>
+      </details>
+
+      <details class="methodology">
+        <summary>Where the content comes from in the first place</summary>
+        <div class="methodology-body">
+          <p>Measuring a stereotype doesn't explain why it holds the content it does. The leading account is that stereotype content is inferred from the roles people observe a group occupying: watch a group concentrated in caretaking work and you come to believe that group is caring by disposition. When people are given information about a group's typical roles, the stereotypes they form follow that role information — including when the roles described are hypothetical or set in the future <span class="cite">(Koenig &amp; Eagly, 2014)</span>. Perceived mismatch between a gender role and a job role is then what produces penalties for the person who doesn't fit <span class="cite">(Eagly &amp; Karau, 2002)</span>.</p>
+          <p><strong>This is the piece that makes an AI assistant worth assessing at all.</strong> If stereotype content tracks the distribution of who is observed doing what, then filling workplaces with feminine-marked agents doing support work is not merely reflecting an existing stereotype. It is adding observations to the pile the next inference gets drawn from. That's the mechanism the whole framework rests on, and it's why "it's just a voice option" and "it's just a name" don't dispose of the question.</p>
+        </div>
+      </details>
+
+      <div class="callout"><strong>What this means for reading your own results.</strong> The stereotype content encoded in these conventions is measured, mostly in the United States, mostly in English, mostly in recent decades — and it demonstrably moves. So a coding decision is anchored to a time and place, and the honest way to use it is to record <em>why</em> you coded something the way you did, not just what you coded. The reasoning survives a shift in the convention. The code alone doesn't. Note also that this tool runs none of these measurements: it applies conventions distilled from that literature, which is a real step removed from the evidence.</div>
+    </div>
+
+    <div class="block">
+      <h3 style="font-family:var(--font-display);font-size:17px;margin:0 0 10px;">4. How the reading list itself was put together</h3>
+      <details class="methodology">
+        <summary>How the reference list was chosen — and what it isn't</summary>
+        <div class="methodology-body">
+          <p><strong>This is a selected bibliography, not a systematic review.</strong> There was no search protocol, no pre-registered inclusion and exclusion criteria, no screening of everything published on the topic. Saying so matters, because a list of twenty citations can look like a survey of a field when it's a curated starting point.</p>
+          <p>The sources arrived by three routes. Most come from the <strong>bibliography of the underlying working paper</strong> — that's where the framework itself and the core gender-theory citations originate, and it's the authoritative layer here. A second set came from <strong>targeted follow-up searches for the specific empirical claims this tool makes on its own</strong>, mainly the coding conventions above: voice pitch, occupational stereotyping, avatar cues, agentic-versus-communal traits. A third, small set are <strong>journalistic sources for particular product facts</strong> — the Pegg and Q examples — where no academic account exists.</p>
+          <p><strong>Peer-reviewed work was preferred but not required</strong>, and the list skews toward English-language research in North American and European contexts, which is a real limit on a framework about cultural convention. Where a claim rests on a single study, that's a thin foundation, and the badges above are the honest signal of which ones those are. Nothing was left out for cutting against the framework.</p>
+        </div>
+      </details>
+      <details class="methodology">
+        <summary>Were these articles actually read?</summary>
+        <div class="methodology-body">
+          <p><strong>Not in full, and the honest answer differs by layer.</strong> This matters enough to state plainly, because "it has a citation" and "someone checked the claim against the paper" are different guarantees, and a reference list looks identical either way.</p>
+          <p><strong>Sources inherited from the working paper's bibliography</strong> are cited here as that paper cites them. The articles were not independently read for this tool, and the claims attached to them rest on the authors' reading rather than a fresh one. For the gender-theory foundations that is a reasonable place to stand, since it is the authors' own field and their own paper. It does mean an error there would propagate into this tool unchanged.</p>
+          <p><strong>Sources added specifically for this tool</strong> — the documentation, stereotype-measurement, citation-accuracy, and coding-reliability literature — were checked against abstracts, publisher records, and indexing databases to confirm authors, journal, year, volume, and pages, and to confirm that the specific claim made here matches what the abstract reports. Full texts were not read.</p>
+          <p><strong>What that level of checking catches, and what it misses.</strong> It catches wrong volume numbers, invented references, and misattributions — one citation in an earlier version of this tool was corrected precisely this way, when the abstract showed the paper covered six attitude domains that did not include gender. It does not catch a finding that an abstract states cleanly but the paper itself qualifies, a result that failed to replicate later, or a methodological problem visible only in the full text. If you are going to rely on any specific claim here for your own work, read the paper.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="block">
+      <h3 style="font-family:var(--font-display);font-size:17px;margin:0 0 10px;">5. One of the things being assessed here is you</h3>
+      <p>Worth being direct about, because it isn't obvious from the interface: when you fill in this sheet by hand, <strong>the tool is asking you to decide whether a name, a voice, or a picture reads as masculine or feminine.</strong> There's no lookup table behind that. So what comes out reflects your associations as much as it reflects any property of the product.</p>
+      <p>That's the design, not a flaw in it. The moment you decide that an angular blue logo "reads masculine," a tacit association has become explicit and arguable — which is the only state in which it can be examined. And the reading is happening anyway: people assign gender to agents carrying no gender markers at all, defaulting to masculine when cues are absent <span class="cite">(Han et al., 2025)</span>, and context shifts how an ambiguous voice gets heard <span class="cite">(Mooshammer &amp; Etzrodt, 2022)</span>. The audience is doing this whether or not anyone writes it down. This just writes it down.</p>
+      <p>So if you find yourself confident about a call you can't actually justify, that's worth sitting with. It's information about the stereotype you're carrying, not a bug in the form.</p>
+      <div class="callout"><strong>The practical version:</strong> have someone else code the same product independently, then compare, and pay attention to where you disagree rather than resolving it quickly. Comparing independent coders is standard practice in qualitative analysis precisely because it surfaces which categories are ambiguous and forces the criteria to be stated out loud <span class="cite">(O'Connor &amp; Joffe, 2020)</span>. Disagreement isn't noise here. It's the most interesting thing the tool produces.</div>
+    </div>
+  </section>
+
+    <section class="prov">
+      <div class="block sources-block">
+        <h2>References</h2>
+        <p class="ref-note">Listed alphabetically. Where a freely available version exists, it is linked. See <em>How the reference list was chosen</em> above for how these were selected and how far each was checked.</p>
+        <ul class="sources-list">
+        <li>Borau, S. (2025). Deception, discrimination, and objectification: Ethical issues of female AI agents. <em>Journal of Business Ethics, 198</em>(1), 1–19.</li>
+        <li>Caliskan, A., Bryson, J. J., &amp; Narayanan, A. (2017). Semantics derived automatically from language corpora contain human-like biases. <em>Science, 356</em>(6334), 183–186. <a href="https://arxiv.org/abs/1608.07187" target="_blank" rel="noopener">arXiv:1608.07187</a></li>
+        <li>Carpenter, J. (2019). Why Project Q is more than the world's first nonbinary voice for technology. <em>Interactions, 26</em>(6), 56–59.</li>
+        <li>Charlesworth, T. E. S., &amp; Banaji, M. R. (2022). Patterns of implicit and explicit stereotypes III: Long-term change in gender stereotypes. <em>Social Psychological and Personality Science, 13</em>(1), 14–26.</li>
+        <li>Charlesworth, T. E. S., Yang, V., Mann, T. C., Kurdi, B., &amp; Banaji, M. R. (2021). Gender stereotypes in natural language: Word embeddings show robust consistency across child and adult language corpora of more than 65 million words. <em>Psychological Science, 32</em>(2), 218–240.</li>
+        <li>Conzon, V., &amp; Feldberg, A. (working paper). Director, actor, audience: An AI-human model of doing gender in the age of interactive artificial intelligence.</li>
+        <li>Costa, P. (2018). Conversing with personal digital assistants: On gender and artificial intelligence. <em>Journal of Science and Technology of the Arts, 10</em>(3), 59–72.</li>
+        <li>Eagly, A. H., &amp; Karau, S. J. (2002). Role congruity theory of prejudice toward female leaders. <em>Psychological Review, 109</em>(3), 573–598.</li>
+        <li>Eagly, A. H., Nater, C., Miller, D. I., Kaufmann, M., &amp; Sczesny, S. (2020). Gender stereotypes have changed: A cross-temporal meta-analysis of U.S. public opinion polls from 1946 to 2018. <em>American Psychologist, 75</em>(3), 301–315.</li>
+        <li>Fiske, S. T., Cuddy, A. J., Glick, P., &amp; Xu, J. (2002). A model of (often mixed) stereotype content: Competence and warmth respectively follow from perceived status and competition. <em>Journal of Personality and Social Psychology, 82</em>(6), 878–902.</li>
+        <li>Fortunati, L., Edwards, A., Edwards, C., Manganelli, A. M., &amp; De Luca, F. (2022). Is Alexa female, male, or neutral? <em>Computers in Human Behavior, 137</em>, 107426.</li>
+        <li>Garg, N., Schiebinger, L., Jurafsky, D., &amp; Zou, J. (2018). Word embeddings quantify 100 years of gender and ethnic stereotypes. <em>Proceedings of the National Academy of Sciences, 115</em>(16), E3635–E3644. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5910851/" target="_blank" rel="noopener">Open access</a></li>
+        <li>Gebru, T., Morgenstern, J., Vecchione, B., Vaughan, J. W., Wallach, H., Daumé, H., III, &amp; Crawford, K. (2021). Datasheets for datasets. <em>Communications of the ACM, 64</em>(12), 86–92. <a href="https://arxiv.org/abs/1803.09010" target="_blank" rel="noopener">arXiv:1803.09010</a></li>
+        <li>Guilbeault, D., Delecourt, S., Hull, T., Desikan, B. S., Chu, M., &amp; Nadler, E. (2024). Online images amplify gender bias. <em>Nature, 626</em>(8001), 1049–1055.</li>
+        <li>Han, H., Lee, Y., Zhang, C., Lu, J., &amp; Wang, L. (2025). He or she? A male-default bias in chatbot gender attribution. <em>Computers in Human Behavior Reports</em>, 100860.</li>
+        <li>Koenig, A. M., &amp; Eagly, A. H. (2014). Evidence for the social role theory of stereotype content: Observations of groups' roles shape stereotypes. <em>Journal of Personality and Social Psychology, 107</em>(3), 371–392.</li>
+        <li>Manzi, F., Caleo, S., &amp; Heilman, M. E. (2024). Unfit or disliked: How descriptive and prescriptive gender stereotypes lead to discrimination against women. <em>Current Opinion in Psychology, 60</em>, 101928.</li>
+        <li>Martin, A. E., &amp; Mason, M. F. (2023). Hey Siri, I love you: People feel more attached to gendered technology. <em>Journal of Experimental Social Psychology, 104</em>, 104402.</li>
+        <li>Martin, A. E., &amp; Slepian, M. L. (2020). The primacy of gender. <em>Perspectives on Psychological Science, 16</em>(6), 1143–1158.</li>
+        <li>Mitchell, M., Wu, S., Zaldivar, A., Barnes, P., Vasserman, L., Hutchinson, B., Spitzer, E., Raji, I. D., &amp; Gebru, T. (2019). Model cards for model reporting. <em>Proceedings of the Conference on Fairness, Accountability, and Transparency (FAT* '19)</em>, 220–229. <a href="https://arxiv.org/abs/1810.03993" target="_blank" rel="noopener">arXiv:1810.03993</a></li>
+        <li>Mooshammer, S., &amp; Etzrodt, K. (2022). Gender ambiguity in voice-based assistants: Gender perception and influences of context. <em>Human-Machine Communication, 5</em>, 49–74.</li>
+        <li>Mortada, D. (2019, March 21). Meet Q, the gender-neutral voice assistant. <em>NPR.</em></li>
+        <li>Nass, C., Moon, Y., &amp; Green, N. (1997). Are machines gender neutral? Gender-stereotypic responses to computers with voices. <em>Journal of Applied Social Psychology, 27</em>(10), 864–876.</li>
+        <li>O'Connor, C., &amp; Joffe, H. (2020). Intercoder reliability in qualitative research: Debates and practical guidelines. <em>International Journal of Qualitative Methods, 19</em>, 1–13. <a href="https://journals.sagepub.com/doi/10.1177/1609406919899220" target="_blank" rel="noopener">Open access</a></li>
+        <li>Ridgeway, C. L. (2011). <em>Framed by gender: How gender inequality persists in the modern world.</em> Oxford University Press.</li>
+        <li>Ridgeway, C. L., &amp; Correll, S. J. (2004). Unpacking the gender system. <em>Gender &amp; Society, 18</em>(4), 510–531.</li>
+        <li>Ridgeway, C. L., &amp; Saperstein, A. (2024). Diversifying gender categories and the sex/gender system. <em>Annual Review of Sociology, 50</em>, 385–405.</li>
+        <li>Rudman, L. A., &amp; Glick, P. (2001). Prescriptive gender stereotypes and backlash toward agentic women. <em>Journal of Social Issues, 57</em>(4), 743–762.</li>
+        <li>Sherriff, L. (2018, March 13). Meet Pegg, a gender-neutral robot assistant. <em>The World.</em></li>
+        <li>Singh, V. K., Chayko, M., Inamdar, R., &amp; Floegel, D. (2020). Female librarians and male computer programmers? Gender bias in occupational images on digital media platforms. <em>Journal of the Association for Information Science and Technology, 71</em>(11), 1281–1294.</li>
+        <li>Walters, W. H., &amp; Wilder, E. I. (2023). Fabrication and errors in the bibliographic citations generated by ChatGPT. <em>Scientific Reports, 13</em>, 14045. <a href="https://www.nature.com/articles/s41598-023-41032-5" target="_blank" rel="noopener">Open access</a></li>
+        <li>West, C., &amp; Zimmerman, D. H. (1987). Doing gender. <em>Gender &amp; Society, 1</em>(2), 125–151.</li>
+      </ul>
+      </div>
+    </section>
+
+    <button type="button" class="back-link back-link-bottom" data-back>&larr; Back to the tool</button>
+  </div>
+
+  <footer>
+    A companion tool by Vanessa Conzon &amp; Allie Feldberg, adapted from their working paper on AI, gender, and "doing gender" in organizations. Built with Claude — Claude's own interpretation of that research for reflection purposes, not an official or peer-reviewed instrument.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---------------- Scoring engine (pure functions) ----------------
+  function tallyMarkers(codes){
+    let fem=0, masc=0, neutral=0, unknown=0;
+    codes.forEach(function(c){
+      if (c === 'masc') masc++;
+      else if (c === 'fem') fem++;
+      else if (c === 'unknown') unknown++;
+      else neutral++;
+    });
+    return { fem: fem, masc: masc, neutral: neutral, unknown: unknown };
+  }
+
+  function placementFromTally(t){
+    const known = t.fem + t.masc + t.neutral;
+    if (known === 0) return 'insufficient';
+    if (t.fem > t.masc) return 'feminine';
+    if (t.masc > t.fem) return 'masculine';
+    if (t.fem === t.masc && t.fem > 0) return 'mixed';
+    return 'neutral';
+  }
+
+  // Continuous -100 (fully masculine-coded) .. +100 (fully feminine-coded) score.
+  // Each signal contributes +1 (fem), -1 (masc), or 0 (neutral/deliberately
+  // androgynous) toward the average; "unknown" signals are excluded entirely
+  // rather than counted as neutral, so an unanswered field doesn't quietly
+  // pull the score toward the middle.
+  function computeScore(t){
+    const known = t.fem + t.masc + t.neutral;
+    if (known === 0) return null;
+    const sum = (t.fem * 1) + (t.masc * -1) + (t.neutral * 0);
+    return Math.round((sum / known) * 100);
+  }
+
+  function scoreLabel(score){
+    if (score === null) return 'Not enough information yet';
+    if (score >= 60) return 'Strongly feminine-coded';
+    if (score >= 20) return 'Leans feminine-coded';
+    if (score > -20) return 'Neutral / balanced';
+    if (score > -60) return 'Leans masculine-coded';
+    return 'Strongly masculine-coded';
+  }
+
+  function renderScoreGauge(score){
+    const pct = score === null ? 50 : (score + 100) / 2;
+    const displayScore = score === null ? '—' : (score > 0 ? '+' + score : String(score));
+    let html = '<div class="score-gauge">';
+    html += '<div class="score-gauge-value">' + scoreLabel(score) + (score !== null ? '<span class="num">' + displayScore + ' / 100</span>' : '') + '</div>';
+    html += '<div class="score-gauge-track"><div class="score-gauge-marker" style="left:' + pct + '%;"></div></div>';
+    html += '<div class="score-gauge-labels"><span>Masculine</span><span>Neutral</span><span>Feminine</span></div>';
+    html += '</div>';
+    return html;
+  }
+
+  function contributionLabel(code){
+    if (code === 'fem') return '+1 (feminine)';
+    if (code === 'masc') return '−1 (masculine)';
+    if (code === 'unknown') return 'excluded (not sure)';
+    return '0 (neutral)';
+  }
+
+  function scoreBreakdownDetails(rows, score, known, total){
+    let html = '<details class="score-breakdown"><summary>How is this score calculated?</summary><div class="score-breakdown-body">';
+    html += '<p>Each signal below contributes <strong>+1</strong> if it reads feminine-coded, <strong>&minus;1</strong> if masculine-coded, or <strong>0</strong> if neutral/deliberately androgynous. Signals marked "not sure" are left out of the average entirely, rather than counted as neutral.</p>';
+    html += '<table><tr><th>Signal</th><th>Reading</th><th>Contributes</th></tr>';
+    rows.forEach(function(r){
+      html += '<tr><td>' + escapeHtml(r.label) + '</td><td>' + escapeHtml(r.reading) + '</td><td>' + contributionLabel(r.code) + '</td></tr>';
+    });
+    html += '</table>';
+    html += '<p>Score = (sum of contributions) &divide; (' + known + ' signal' + (known === 1 ? '' : 's') + ' with a known reading) &times; 100 = <strong>' + (score === null ? 'n/a — no signals are known yet' : (score > 0 ? '+' + score : score)) + '</strong>. ' + (total - known > 0 ? (total - known) + ' of ' + total + ' signal' + ((total - known) === 1 ? '' : 's') + ' ' + ((total - known) === 1 ? 'was' : 'were') + " left out as \"not sure.\"" : 'All ' + total + ' signals were known.') + '</p>';
+    html += '</div></details>';
+    return html;
+  }
+
+  function behaviorCoding(taskCodes, comportmentCode){
+    const score = { fem: 1, masc: -1, mixed: 0, neutral: 0 };
+    const sum = taskCodes.reduce(function(acc, c){ return acc + (score[c] || 0); }, 0) + (score[comportmentCode] || 0);
+    if (sum > 0) return 'fem';
+    if (sum < 0) return 'masc';
+    return 'neutral';
+  }
+
+  function alignmentLabel(placement, behavior){
+    if ((placement === 'feminine' || placement === 'masculine') && (behavior === 'fem' || behavior === 'masc')) {
+      const aligned = (placement === 'feminine' && behavior === 'fem') || (placement === 'masculine' && behavior === 'masc');
+      return aligned ? 'aligned' : 'misaligned';
+    }
+    return 'unclear';
+  }
+
+  function pathwayFor(alignment, adaptiveness){
+    if (alignment === 'aligned' && adaptiveness === 'nonadaptive') return 'aligned-nonadaptive';
+    if (alignment === 'aligned' && adaptiveness === 'adaptive') return 'aligned-adaptive';
+    if (alignment === 'misaligned' && adaptiveness === 'adaptive') return 'misaligned-adaptive';
+    if (alignment === 'misaligned' && adaptiveness === 'nonadaptive') return 'misaligned-nonadaptive';
+    return 'unclear';
+  }
+
+  const PATHWAY_INFO = {
+    'aligned-nonadaptive': {
+      tag: 'amplify',
+      tagLabel: 'reinforce',
+      label: 'Aligned, consistent',
+      copy: "Its markers and its behavior point the same direction, and it doesn't shift that behavior based on feedback. The theorized effect: audiences see the pairing confirmed the same way, interaction after interaction, which tends to reinforce the existing stereotype over time."
+    },
+    'aligned-adaptive': {
+      tag: 'amplify',
+      tagLabel: 'reinforce',
+      label: 'Aligned, and leaning in',
+      copy: "Its markers and behavior already point the same direction — and because it adapts to positive feedback, it tends to lean further into that alignment the more it's used. Of the four patterns, this is the one theorized to reinforce a stereotype the most over time."
+    },
+    'misaligned-adaptive': {
+      tag: 'amplify',
+      tagLabel: 'reinforce',
+      label: 'Misaligned, but folding under feedback',
+      copy: "Right now its behavior cuts against its markers, which could unsettle a stereotype. But because it adapts to negative reactions, the theorized pattern is that it gradually softens back toward what's \"expected\" for its placed gender — meaning the initial challenge fades and the stereotype ends up reinforced anyway."
+    },
+    'misaligned-nonadaptive': {
+      tag: 'attenuate',
+      tagLabel: 'weaken',
+      label: 'Misaligned, and holding its ground',
+      copy: "Its behavior cuts against its markers, and it doesn't fold when that gets pushback. This is the one pattern the theory points to as capable of loosening a stereotype over repeated exposure — precisely because the mismatch doesn't resolve itself back into something familiar."
+    },
+    'unclear': {
+      tag: 'unclear',
+      label: 'Not enough signal to place',
+      copy: "Either the markers are too mixed or unknown to say which gender it's placed as, or the task/manner don't clearly read as gender-coded one way or the other. That's a legitimate result — plenty of real AI products are deliberately (or accidentally) hard to place, which itself sits outside how this model was built to work."
+    }
+  };
+
+  const LABELS = {
+    'feminine': 'feminine', 'masculine': 'masculine', 'mixed': 'a mix of both',
+    'neutral': 'neutral / no strong signal', 'insufficient': 'not enough information'
+  };
+
+  const TASK_CODE_LABELS = {
+    neutral: "Doesn't map onto a stereotype",
+    fem: 'Feminine-coded (admin, scheduling, care, support)',
+    masc: 'Masculine-coded (technical, quantitative, strategic)',
+    mixed: 'Genuinely spans both'
+  };
+
+  // Per Conzon & Feldberg: markers place an actor in a gender category;
+  // behavior is then judged as *aligned* (consistent with that placement)
+  // or *misaligned* (cutting against it) — a separate call from placement
+  // itself, not blended into one number with it.
+  const ALIGN_INFO = {
+    'aligned': {
+      tag: 'aligned',
+      label: 'Aligned',
+      copy: "Its behavior is consistent with the gender its markers place it as — the theorized \"default\": most actors, most of the time, are perceived this way, reflecting pressure to conform to a placed gender (Butler, 1993)."
+    },
+    'misaligned': {
+      tag: 'misaligned',
+      label: 'Misaligned',
+      copy: "Its behavior cuts against the gender its markers place it as — for instance, markers placing it as feminine while it performs strongly masculine-typed work, or vice versa. This is the less common case, and the one theorized to be capable of challenging a stereotype rather than reinforcing it (Morgenroth & Ryan, 2021)."
+    },
+    'unclear': {
+      tag: 'unclear',
+      label: 'Not enough signal',
+      copy: "Either the markers don't clearly place it as one gender or the other, or the job/tone don't clearly read as gender-coded — so there isn't a placed gender and a behavior to compare yet."
+    }
+  };
+
+  // ---------------- DOM refs ----------------
+  const $ = (id) => document.getElementById(id);
+
+  // ---------------- Page navigation (tool <-> methodology) ----------------
+  function showMethodPage(){
+    $('mainContent').hidden = true;
+    $('methodPage').hidden = false;
+    window.scrollTo(0, 0);
+  }
+  function showToolPage(){
+    $('methodPage').hidden = true;
+    $('mainContent').hidden = false;
+    window.scrollTo(0, 0);
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-open-method]'), function(btn){
+    btn.addEventListener('click', showMethodPage);
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-back]'), function(btn){
+    btn.addEventListener('click', showToolPage);
+  });
+
+
+
+  // ---------------- Notice gate ----------------
+  const ack = $('ackSingle');
+  const continueBtn = $('continueBtn');
+  const noticeGate = $('noticeGate');
+  const mainContent = $('mainContent');
+
+  ack.addEventListener('change', function(){
+    continueBtn.disabled = !ack.checked;
+  });
+
+  continueBtn.addEventListener('click', function(){
+    if (continueBtn.disabled) return;
+    noticeGate.hidden = true;
+    mainContent.hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ---------------- Path select ----------------
+  const pathTickets = document.querySelectorAll('.path-select .ticket');
+  const assessPath = $('assessPath');
+  const designPath = $('designPath');
+
+  pathTickets.forEach(function(t){
+    t.addEventListener('click', function(){
+      pathTickets.forEach(function(p){ p.classList.toggle('active', p === t); });
+      const path = t.dataset.path;
+      assessPath.hidden = (path !== 'assess');
+      designPath.hidden = (path !== 'design');
+      const target = path === 'assess' ? assessPath : designPath;
+      window.scrollTo({ top: target.offsetTop - 20, behavior: 'smooth' });
+    });
+  });
+
+  const tickets = document.querySelectorAll('.mode-select .ticket');
+  const searchPanel = $('searchPanel');
+  const sheet = $('sheet');
+  const searchResultsView = $('searchResultsView');
+  const results = $('results');
+
+  const fields = {
+    name: $('f-name'),
+    nameGender: $('f-name-gender'),
+    pronounsText: $('f-pronouns-text'),
+    pronouns: $('f-pronouns'),
+    voiceText: $('f-voice-text'),
+    voice: $('f-voice'),
+    imageryText: $('f-imagery-text'),
+    imagery: $('f-imagery'),
+    comportmentText: $('f-comportment-text'),
+    comportment: $('f-comportment'),
+    adaptive: $('f-adaptive'),
+    adaptiveNotes: $('f-adaptive-notes'),
+    designer: $('f-designer'),
+    designerNotes: $('f-designer-notes'),
+    orgDiversity: $('f-org-diversity'),
+    orgDiversityNotes: $('f-org-diversity-notes')
+  };
+
+  // ---------------- Auto-classification (manual-mode "Claude judges this") ----------------
+  // A small, fast, text-only API call (no web search) that reads whatever the
+  // person typed into a marker/behavior field and judges how it codes, per
+  // the same rules shown in "How are these categorized," above. Pronouns are
+  // handled locally (see classifyPronounsLocal) since that's a parsing task,
+  // not a judgment call.
+  const CLASSIFY_PROMPTS = {
+    name: 'Judge whether the following AI PRODUCT NAME conventionally reads as masculine-coded, feminine-coded, or neutral/ambiguous, based on common naming convention in the language/culture it appears to be from. This is a judgment about convention, not a database lookup — say so is not needed, just make the call.',
+    voice: 'Judge whether the following VOICE description reads as masculine-coded (e.g. lower-pitched) or feminine-coded (e.g. higher-pitched) or neutral/deliberately androgynous, based on the pitch and style cues in the description.',
+    imagery: 'Judge whether the following AVATAR/IMAGERY description reads as masculine-coded or feminine-coded or neutral, based on general cultural association with shape, color, and any human styling or object cues (angular/cool-colored/tool-vehicle-machinery reads masculine-coded; soft/rounded/warm-or-pastel-colored/floral-organic reads feminine-coded). There is no fixed taxonomy — make the judgment call.',
+    task: 'Judge whether the following WORK TASK/ACTIVITY is stereotypically feminine-coded (admin, scheduling, care, support work), masculine-coded (technical, quantitative, strategic work), genuinely mixed/spans both, or neutral (doesn\'t map onto a stereotype at all).',
+    comportment: 'Judge whether the following MANNER/TONE description is feminine-coded (deferential, apologetic, warm), masculine-coded (direct, assertive, authoritative), genuinely blends both, or neutral (doesn\'t read strongly either way).'
+  };
+  const CLASSIFY_CODES = {
+    name: ['masc', 'fem', 'neutral'],
+    voice: ['masc', 'fem', 'neutral'],
+    imagery: ['masc', 'fem', 'neutral'],
+    task: ['fem', 'masc', 'mixed', 'neutral'],
+    comportment: ['fem', 'masc', 'mixed', 'neutral']
+  };
+
+  async function classifyField(kind, text){
+    const system = CLASSIFY_PROMPTS[kind] + ' Respond with ONLY a raw JSON object, no markdown fences, no other text: {"code": one of ' + JSON.stringify(CLASSIFY_CODES[kind]) + ', "reason": "<8 words or fewer, plain language, explaining why"}.';
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 150,
+        system: system,
+        messages: [{ role: 'user', content: text }]
+      })
+    });
+    if (!response.ok) throw new Error('request failed (' + response.status + ')');
+    const data = await response.json();
+    const textBlocks = (data.content || []).filter(function(b){ return b.type === 'text'; }).map(function(b){ return b.text; });
+    const raw = textBlocks.join('\n').trim().replace(/```json/g, '').replace(/```/g, '').trim();
+    const match = raw.match(/\{[\s\S]*\}/);
+    const parsed = JSON.parse(match ? match[0] : raw);
+    if (CLASSIFY_CODES[kind].indexOf(parsed.code) === -1) throw new Error('unrecognized code');
+    return parsed;
+  }
+
+  function classifyPronounsLocal(text){
+    const code = guessCode(text, 'pronoun');
+    const reasonByCode = {
+      fem: 'Reads as she/her', masc: 'Reads as he/him', neutral: 'Reads as they/them',
+      object: 'Reads as it', none: 'No pronoun specified', unknown: "Couldn't tell from this — set it yourself"
+    };
+    return { code: code, reason: reasonByCode[code] || '' };
+  }
+
+  function setReasonState(reasonEl, state, text){
+    reasonEl.classList.remove('thinking', 'err');
+    if (state === 'thinking') { reasonEl.classList.add('thinking'); reasonEl.textContent = 'Claude is reading this…'; }
+    else if (state === 'error') { reasonEl.classList.add('err'); reasonEl.textContent = text || "Couldn't auto-classify — set this yourself."; }
+    else { reasonEl.textContent = text || ''; }
+  }
+
+  // Wires a single (input, select, reasonEl) trio: on blur, if the input has
+  // new (changed) text, classify it and populate the select + reason.
+  function wireAutoClassify(inputEl, selectEl, reasonEl, kind, useLocal){
+    inputEl.addEventListener('blur', function(){
+      const text = inputEl.value.trim();
+      if (!text) { return; }
+      if (inputEl.dataset.lastClassified === text) { return; }
+      if (useLocal) {
+        const result = classifyPronounsLocal(text);
+        selectEl.value = result.code;
+        selectEl.classList.add('auto-set');
+        setReasonState(reasonEl, 'done', result.reason);
+        inputEl.dataset.lastClassified = text;
+        return;
+      }
+      setReasonState(reasonEl, 'thinking');
+      classifyField(kind, text).then(function(result){
+        if (inputEl.value.trim() !== text) { return; } // superseded by further edits
+        selectEl.value = result.code;
+        selectEl.classList.add('auto-set');
+        setReasonState(reasonEl, 'done', result.reason);
+        inputEl.dataset.lastClassified = text;
+      }).catch(function(){
+        setReasonState(reasonEl, 'error');
+      });
+    });
+  }
+
+  wireAutoClassify(fields.name, fields.nameGender, $('f-name-reason'), 'name', false);
+  wireAutoClassify(fields.pronounsText, fields.pronouns, $('f-pronouns-reason'), 'pronouns', true);
+  wireAutoClassify(fields.voiceText, fields.voice, $('f-voice-reason'), 'voice', false);
+  wireAutoClassify(fields.imageryText, fields.imagery, $('f-imagery-reason'), 'imagery', false);
+  wireAutoClassify(fields.comportmentText, fields.comportment, $('f-comportment-reason'), 'comportment', false);
+
+  // ---------------- Task rows (Section B — one row per distinct task) ----------------
+  const taskTable = $('taskTable');
+
+  function wireTaskRow(rowEl){
+    const textEl = rowEl.querySelector('.task-text');
+    const selectEl = rowEl.querySelector('.task-type');
+    const reasonEl = rowEl.querySelector('.task-reason');
+    wireAutoClassify(textEl, selectEl, reasonEl, 'task', false);
+    const removeBtn = rowEl.querySelector('.remove-row-btn');
+    removeBtn.addEventListener('click', function(){
+      rowEl.remove();
+      updateRemoveButtons();
+    });
+  }
+
+  function updateRemoveButtons(){
+    const rows = taskTable.querySelectorAll('.task-row');
+    rows.forEach(function(r){
+      r.querySelector('.remove-row-btn').hidden = (rows.length <= 1);
+    });
+  }
+
+  function addTaskRow(silent){
+    const first = taskTable.querySelector('.task-row');
+    const clone = first.cloneNode(true);
+    clone.querySelector('.task-text').value = '';
+    clone.querySelector('.task-type').value = 'neutral';
+    clone.querySelector('.task-type').classList.remove('auto-set');
+    clone.querySelector('.task-reason').textContent = '';
+    clone.querySelector('.task-reason').className = 'mr-reason task-reason';
+    delete clone.querySelector('.task-text').dataset.lastClassified;
+    taskTable.appendChild(clone);
+    wireTaskRow(clone);
+    updateRemoveButtons();
+    if (!silent) { clone.querySelector('.task-text').focus(); }
+    return clone;
+  }
+
+  wireTaskRow(taskTable.querySelector('.task-row'));
+  $('addTaskRow').addEventListener('click', function(){ addTaskRow(); });
+  updateRemoveButtons();
+
+  function getTaskRowsData(){
+    return Array.from(taskTable.querySelectorAll('.task-row')).map(function(row){
+      return {
+        text: row.querySelector('.task-text').value.trim(),
+        code: row.querySelector('.task-type').value,
+        reason: row.querySelector('.task-reason').textContent.trim()
+      };
+    }).filter(function(t){ return t.text; });
+  }
+
+  function resetTaskRows(){
+    const rows = taskTable.querySelectorAll('.task-row');
+    rows.forEach(function(r, i){ if (i > 0) r.remove(); });
+    const first = taskTable.querySelector('.task-row');
+    first.querySelector('.task-text').value = '';
+    first.querySelector('.task-type').value = 'neutral';
+    first.querySelector('.task-type').classList.remove('auto-set');
+    first.querySelector('.task-reason').textContent = '';
+    delete first.querySelector('.task-text').dataset.lastClassified;
+    updateRemoveButtons();
+  }
+
+  function setMode(mode){
+    const tabMode = (mode === 'search-results') ? 'search' : mode;
+    tickets.forEach(function(t){ t.classList.toggle('active', t.dataset.mode === tabMode); });
+    searchPanel.hidden = (mode !== 'search');
+    sheet.hidden = (mode !== 'manual');
+    searchResultsView.hidden = (mode !== 'search-results');
+    results.hidden = true;
+    if (mode === 'search') { $('searchInput').focus(); }
+  }
+
+  tickets.forEach(function(t){
+    t.addEventListener('click', function(){ setMode(t.dataset.mode); });
+  });
+
+  $('clearBtn').addEventListener('click', function(){
+    sheet.reset();
+    resetTaskRows();
+    ['f-name-reason', 'f-pronouns-reason', 'f-voice-reason', 'f-imagery-reason', 'f-comportment-reason'].forEach(function(id){
+      $(id).textContent = '';
+      $(id).className = 'mr-reason';
+    });
+    [fields.nameGender, fields.pronouns, fields.voice, fields.imagery, fields.comportment].forEach(function(el){ el.classList.remove('auto-set'); });
+    delete fields.name.dataset.lastClassified;
+    delete fields.pronounsText.dataset.lastClassified;
+    delete fields.voiceText.dataset.lastClassified;
+    delete fields.imageryText.dataset.lastClassified;
+    delete fields.comportmentText.dataset.lastClassified;
+    results.hidden = true;
+    $('searchStatus').textContent = '';
+    $('searchSources').innerHTML = '';
+  });
+
+  // ---------------- Example: Claude ----------------
+  $('loadExample').addEventListener('click', function(){
+    setMode('manual');
+    fields.name.value = 'Claude';
+    fields.nameGender.value = 'masc';
+    $('f-name-reason').textContent = 'In English contexts, "Claude" mostly reads as a masculine given name (e.g. Claude Monet, Claude Shannon) — though it\'s also used across genders, especially in French.';
+    fields.pronounsText.value = 'None specified';
+    fields.pronouns.value = 'none';
+    $('f-pronouns-reason').textContent = 'Claude refers to itself as "I" and doesn\'t assert a gender if asked.';
+    fields.voiceText.value = 'No fixed voice by default';
+    fields.voice.value = 'none';
+    $('f-voice-reason').textContent = 'Text-first by default, with several selectable voice options in voice mode.';
+    fields.imageryText.value = 'No avatar or human-shaped imagery';
+    fields.imagery.value = 'none';
+    $('f-imagery-reason').textContent = 'No face or avatar in the standard interface.';
+    const firstTask = taskTable.querySelector('.task-row');
+    firstTask.querySelector('.task-text').value = 'Writing, coding, analysis, research, tutoring, customer support, and more';
+    firstTask.querySelector('.task-type').value = 'mixed';
+    firstTask.querySelector('.task-reason').textContent = 'Genuinely spans admin/care-adjacent and technical/analytical work — no single stereotype fits.';
+    fields.comportmentText.value = 'Adapts tone to context, from direct to warm';
+    fields.comportment.value = 'mixed';
+    $('f-comportment-reason').textContent = 'Manner shifts with the task rather than defaulting one way.';
+    fields.adaptive.value = 'unclear';
+    fields.designer.value = 'org';
+    fields.designerNotes.value = 'Built by Anthropic, a company — not attributed to one named individual designer. Anthropic\'s leadership includes people of different genders (e.g. co-founders Dario Amodei and Daniela Amodei), but that\'s an organizational fact, not a specific "director" of Claude\'s gender presentation.';
+    fields.orgDiversity.value = 'none';
+    fields.orgDiversityNotes.value = 'No public technical-roles gender breakdown found for Anthropic as of this search — several sources note the company doesn\'t publish explicit workforce demographics. Worth noting as a gap, not filling in with a guess.';
+    window.scrollTo({ top: sheet.offsetTop - 20, behavior: 'smooth' });
+  });
+
+  // ---------------- Reveal button -> render results ----------------
+  // Uses a plain click handler on a type="button" element rather than relying on
+  // native <form> submit semantics, which can be unreliable inside sandboxed
+  // artifact/iframe hosts.
+  $('revealBtn').addEventListener('click', function(e){
+    e.preventDefault();
+    render();
+  });
+  sheet.addEventListener('submit', function(e){ e.preventDefault(); });
+
+  // The read-only search-results view has its own "Reveal the placement"
+  // button, wired to the exact same render() — it reads from the same
+  // underlying fields, which applySearchResult() has already populated.
+  $('revealBtnSearch').addEventListener('click', function(e){
+    e.preventDefault();
+    render();
+  });
+  $('editSearchAnswersBtn').addEventListener('click', function(){
+    setMode('manual');
+  });
+
+  function chip(code, label){
+    const cls = (code === 'masc' || code === 'fem') ? code : (code === 'unknown' ? 'unknown' : 'neutral');
+    return '<span class="chip ' + cls + '">' + label + '</span>';
+  }
+
+  function render(){
+    const name = fields.name.value.trim() || 'This AI';
+
+    const markerCodes = [fields.nameGender.value, fields.voice.value, fields.imagery.value, fields.pronouns.value]
+      .map(function(v){ return (v === 'none' || v === 'object') ? 'neutral' : v; });
+    const t = tallyMarkers(markerCodes);
+
+    const isEssentiallyEmpty = !fields.name.value.trim() && t.unknown === 4;
+    if (isEssentiallyEmpty) {
+      $('placementCard').innerHTML = '<h3>Nothing to place yet</h3><div class="headline">The sheet is still blank</div><p>Add a name and pick at least one marker above — or use "Have Claude look it up" — then reveal the placement again.</p>';
+      $('pathwayCard').innerHTML = '';
+      $('directorCard').innerHTML = '';
+      $('reflectCard').innerHTML = '';
+      results.hidden = false;
+      window.scrollTo({ top: results.offsetTop - 20, behavior: 'smooth' });
+      return;
+    }
+
+    const placement = placementFromTally(t);
+
+    const taskRowsData = getTaskRowsData();
+    const taskCodesOnly = taskRowsData.length ? taskRowsData.map(function(r){ return r.code; }) : ['neutral'];
+    const behavior = behaviorCoding(taskCodesOnly, fields.comportment.value);
+    const alignment = alignmentLabel(placement, behavior);
+    const path = pathwayFor(alignment, fields.adaptive.value);
+    const info = PATHWAY_INFO[path];
+
+    // --- Placement card: markers and behavior are scored SEPARATELY, per
+    // Conzon & Feldberg's distinction between the actor's markers (which
+    // place its gender) and the actor's behavior (which is then judged as
+    // aligned or misaligned with that placement) — these are two different
+    // constructs, not one blended average. ---
+    const markerScore = computeScore(t);
+    const markerKnown = t.fem + t.masc + t.neutral;
+    const markerRows = [
+      { label: 'Name', reading: optionLabel(fields.nameGender), code: markerCodes[0] },
+      { label: 'Voice', reading: optionLabel(fields.voice), code: markerCodes[1] },
+      { label: 'Imagery', reading: optionLabel(fields.imagery), code: markerCodes[2] },
+      { label: 'Pronouns', reading: optionLabel(fields.pronouns), code: markerCodes[3] }
+    ];
+
+    const behaviorCodes = (taskRowsData.length ? taskRowsData.map(function(r){ return r.code; }) : []).concat([fields.comportment.value]);
+    const behaviorT = tallyMarkers(behaviorCodes);
+    const behaviorScore = computeScore(behaviorT);
+    const behaviorKnown = behaviorT.fem + behaviorT.masc + behaviorT.neutral;
+    const behaviorRows = taskRowsData.map(function(r, i){
+      return { label: 'Task' + (taskRowsData.length > 1 ? ' ' + (i + 1) : '') + ': ' + r.text, reading: TASK_CODE_LABELS[r.code] || r.code, code: r.code };
+    }).concat([
+      { label: 'Tone / manner', reading: optionLabel(fields.comportment), code: fields.comportment.value }
+    ]);
+
+    let overallHtml = '<h3>Markers vs. behavior</h3>';
+    overallHtml += '<p style="font-size:13.5px;color:var(--ink-soft);margin:0 0 4px;">Per the underlying model, ' + escapeHtml(name) + '\'s <strong>markers</strong> (what places its gender) and its <strong>behavior</strong> (what it then does) are scored separately, then compared.</p>';
+
+    overallHtml += '<div class="marker-behavior-block">';
+    overallHtml += '<div class="sub-label">Markers &mdash; place its gender</div>';
+    overallHtml += renderScoreGauge(markerScore);
+    overallHtml += '<div class="chips">';
+    overallHtml += chip(fields.nameGender.value, 'Name: ' + optionLabel(fields.nameGender));
+    overallHtml += chip(fields.voice.value, 'Voice: ' + optionLabel(fields.voice));
+    overallHtml += chip(fields.imagery.value, 'Imagery: ' + optionLabel(fields.imagery));
+    overallHtml += chip(fields.pronouns.value, 'Pronouns: ' + optionLabel(fields.pronouns));
+    overallHtml += '</div>';
+    overallHtml += scoreBreakdownDetails(markerRows, markerScore, markerKnown, markerCodes.length);
+    if (t.unknown > 0) {
+      overallHtml += '<p class="confidence-note">' + t.unknown + ' of 4 marker signals ' + (t.unknown === 1 ? 'is' : 'are') + ' marked "not sure."</p>';
+    }
+    overallHtml += '</div>';
+
+    overallHtml += '<div class="marker-behavior-block">';
+    overallHtml += '<div class="sub-label">Behavior &mdash; what it then does</div>';
+    overallHtml += renderScoreGauge(behaviorScore);
+    overallHtml += '<div class="chips">';
+    taskRowsData.forEach(function(r, i){
+      overallHtml += chip(r.code, (taskRowsData.length > 1 ? 'Task ' + (i + 1) + ': ' : 'Job: ') + r.text);
+    });
+    overallHtml += chip(fields.comportment.value, 'Tone: ' + optionLabel(fields.comportment));
+    overallHtml += '</div>';
+    overallHtml += scoreBreakdownDetails(behaviorRows, behaviorScore, behaviorKnown, behaviorCodes.length);
+    if (behaviorT.unknown > 0) {
+      overallHtml += '<p class="confidence-note">' + behaviorT.unknown + ' behavior signal' + (behaviorT.unknown === 1 ? ' is' : 's are') + ' left unclear.</p>';
+    }
+    overallHtml += '</div>';
+
+    const alignInfo = ALIGN_INFO[alignment];
+    overallHtml += '<div class="align-callout">';
+    overallHtml += '<div class="headline">' + alignInfo.label + ' <span class="tag ' + alignInfo.tag + '">' + alignInfo.tag + '</span></div>';
+    overallHtml += '<p style="margin:0;">' + alignInfo.copy + '</p>';
+    overallHtml += '</div>';
+
+    if (lastSearchSources.length) {
+      overallHtml += '<p class="confidence-note">Pulled from: ' + lastSearchSources.map(function(s){
+        // url === null means the search never returned this one — show the
+        // title as text rather than a link nothing can vouch for.
+        return s.url
+          ? '<a href="' + escapeAttr(s.url) + '" target="_blank" rel="noopener">' + escapeHtml(s.title || s.url) + '</a>'
+          : escapeHtml(s.title);
+      }).join(' &middot; ') + '</p>';
+    }
+    if (lastSearchConfidence) {
+      overallHtml += '<p class="confidence-note">' + escapeHtml(lastSearchConfidence) + '</p>';
+    }
+    $('placementCard').innerHTML = overallHtml;
+
+    // --- Pathway card ---
+    let pathHtml = '<h3>Alignment &amp; pathway</h3>';
+    pathHtml += '<div class="headline">' + info.label + ' <span class="tag ' + info.tag + '">' + (info.tagLabel || info.tag) + '</span></div>';
+    pathHtml += '<p>' + info.copy + '</p>';
+    if (alignment !== 'unclear') {
+      pathHtml += '<p style="font-size:13px;color:var(--ink-faint);">Marker placement: <strong>' + LABELS[placement] + '</strong> &middot; Behavior reads as: <strong>' + (behavior === 'fem' ? 'feminine-coded' : behavior === 'masc' ? 'masculine-coded' : 'neutral or mixed') + '</strong> &middot; Adapts to feedback: <strong>' + optionLabel(fields.adaptive) + '</strong></p>';
+    }
+    if (fields.adaptiveNotes.value.trim()) {
+      pathHtml += '<p style="font-size:13.5px;">' + escapeHtml(fields.adaptiveNotes.value.trim()) + (lastAdaptiveSource ? ' <a href="' + escapeAttr(lastAdaptiveSource.url) + '" target="_blank" rel="noopener">(' + escapeHtml(lastAdaptiveSource.title || 'source') + ')</a>' : '') + '</p>';
+    }
+    $('pathwayCard').innerHTML = pathHtml;
+
+    // --- Director card ---
+    let dirHtml = '<h3>The director</h3>';
+    const designerVal = fields.designer.value;
+    if (designerVal === 'named') {
+      dirHtml += '<div class="headline">A named individual is credited</div>';
+    } else if (designerVal === 'team') {
+      dirHtml += '<div class="headline">A specific team or group is named — but not individual people</div>';
+    } else if (designerVal === 'org') {
+      dirHtml += '<div class="headline">Only the company/brand is credited — no team or individual named</div>';
+    } else {
+      dirHtml += '<div class="headline">Nothing public found about who designed it</div>';
+    }
+    if (fields.designerNotes.value.trim()) {
+      dirHtml += '<p>' + escapeHtml(fields.designerNotes.value.trim()) + (lastDesignerSource ? ' <a href="' + escapeAttr(lastDesignerSource.url) + '" target="_blank" rel="noopener">(' + escapeHtml(lastDesignerSource.title || 'source') + ')</a>' : '') + '</p>';
+    }
+    dirHtml += '<p style="font-size:13.5px;">This matters because, per the underlying research, a director\'s own gender attitudes, their authority to mandate the AI\'s use, and the data they had available to train it all shape whether an AI ends up gender-aligned or not. That this information is so often unavailable is itself worth noting — it\'s hard to hold a design choice to account when nobody can say who made it.</p>';
+
+    const orgVal = fields.orgDiversity.value;
+    if (orgVal !== 'none' || fields.orgDiversityNotes.value.trim()) {
+      dirHtml += '<div style="margin-top:14px;padding-top:14px;border-top:1px dashed var(--rule);">';
+      dirHtml += '<p style="font-size:13px;font-weight:600;margin-bottom:4px;">Org-level context' + (orgVal === 'technical-specific' ? ' (technical-role-specific)' : orgVal === 'company-wide' ? ' (company-wide only)' : orgVal === 'removed' ? ' (previously published, since removed)' : '') + '</p>';
+      if (fields.orgDiversityNotes.value.trim()) {
+        dirHtml += '<p style="font-size:13.5px;">' + escapeHtml(fields.orgDiversityNotes.value.trim()) + (lastOrgDiversitySource ? ' <a href="' + escapeAttr(lastOrgDiversitySource.url) + '" target="_blank" rel="noopener">(' + escapeHtml(lastOrgDiversitySource.title || 'source') + ')</a>' : '') + '</p>';
+      }
+      if (orgVal === 'company-wide' && lastGeneralDemographicsNote) {
+        dirHtml += '<p style="font-size:13.5px;"><strong>For context:</strong> ' + escapeHtml(lastGeneralDemographicsNote) + (lastGeneralDemographicsSource ? ' <a href="' + escapeAttr(lastGeneralDemographicsSource.url) + '" target="_blank" rel="noopener">(' + escapeHtml(lastGeneralDemographicsSource.title || 'source') + ')</a>' : '') + '</p>';
+      }
+      dirHtml += '<p style="font-size:12.5px;color:var(--ink-faint);font-style:italic;">Treat this as background, not evidence about this specific decision — a department\'s overall composition doesn\'t tell you who actually chose this AI\'s name, voice, or persona. A differently-composed product or brand team could easily have made that call.</p>';
+      dirHtml += '</div>';
+    }
+
+    $('directorCard').innerHTML = dirHtml;
+
+    // --- Reflect card ---
+    let reflectHtml = '<h3>Worth sitting with</h3><ul>';
+    reflectHtml += '<li>If ' + escapeHtml(name) + ' did the opposite kind of task — technical instead of supportive, or vice versa — would its current name, voice, and imagery still feel like a natural fit? A mismatch there is worth noticing.</li>';
+    reflectHtml += '<li>What\'s the closest real alternative design you can imagine that avoids this pattern? What would have to change?</li>';
+    reflectHtml += '<li>Who is the actual audience for this AI, and might their read of these markers differ from yours — because of language, culture, or familiarity with the product?</li>';
+    reflectHtml += '</ul>';
+    $('reflectCard').innerHTML = reflectHtml;
+
+    results.hidden = false;
+    window.scrollTo({ top: results.offsetTop - 20, behavior: 'smooth' });
+  }
+
+  function optionLabel(selectEl){
+    const opt = selectEl.options[selectEl.selectedIndex];
+    return opt ? opt.textContent : '';
+  }
+
+  function escapeHtml(s){
+    const div = document.createElement('div');
+    div.textContent = s;
+    return div.innerHTML;
+  }
+
+  // ---------------- Design studio ----------------
+  const dFields = {
+    tasks: $('d-tasks'),
+    taskType: $('d-task-type'),
+    comportment: $('d-comportment'),
+    name: $('d-name'),
+    nameGender: $('d-name-gender'),
+    pronouns: $('d-pronouns'),
+    voice: $('d-voice'),
+    imagery: $('d-imagery'),
+    adaptive: $('d-adaptive'),
+    director: $('d-director'),
+    directorNotes: $('d-director-notes')
+  };
+  const designSheet = $('designSheet');
+  const designResults = $('designResults');
+  const markerCallout = $('markerCallout');
+
+  const TASK_CODE_LABEL = { fem: 'feminine-coded', masc: 'masculine-coded', mixed: 'mixed', neutral: 'gender-neutral' };
+
+  function refreshMarkerCallout(){
+    const tt = dFields.taskType.value;
+    if (tt === 'fem' || tt === 'masc') {
+      const matchWord = tt === 'fem' ? 'feminine' : 'masculine';
+      const oppositeWord = tt === 'fem' ? 'masculine-coded or neutral' : 'feminine-coded or neutral';
+      markerCallout.innerHTML = 'This job reads as <em>' + TASK_CODE_LABEL[tt] + '</em>. To avoid reaffirming that stereotype, pick markers above that <strong>don\'t</strong> match it — ' + oppositeWord + ' rather than ' + matchWord + '-coded. A ' + matchWord + '-coded name, voice, and image paired with this job is the "expected" combination — and expected is exactly what reaffirms the stereotype the more this gets used.';
+    } else if (tt === 'mixed') {
+      markerCallout.innerHTML = 'A genuinely mixed job doesn\'t carry a single stereotype to reaffirm, so no marker choice above reads as an obvious mismatch — you have real freedom here.';
+    } else {
+      markerCallout.innerHTML = 'You haven\'t named a task above yet, or it doesn\'t map onto a stereotype — once you pick one, this note will tell you which marker choices above would reaffirm it and which would push against it.';
+    }
+  }
+  dFields.taskType.addEventListener('change', refreshMarkerCallout);
+  refreshMarkerCallout();
+
+  $('designRevealBtn').addEventListener('click', function(e){
+    e.preventDefault();
+    renderDesign();
+  });
+  designSheet.addEventListener('submit', function(e){ e.preventDefault(); });
+
+  $('designClearBtn').addEventListener('click', function(){
+    designSheet.reset();
+    designResults.hidden = true;
+    refreshMarkerCallout();
+  });
+
+  function renderDesign(){
+    const name = dFields.name.value.trim() || 'This AI';
+
+    const markerCodes = [dFields.nameGender.value, dFields.voice.value, dFields.imagery.value, dFields.pronouns.value]
+      .map(function(v){ return (v === 'none' || v === 'object') ? 'neutral' : v; });
+    const t = tallyMarkers(markerCodes);
+    const placement = placementFromTally(t);
+
+    const behavior = behaviorCoding([dFields.taskType.value], dFields.comportment.value);
+    const alignment = alignmentLabel(placement, behavior);
+    const path = pathwayFor(alignment, dFields.adaptive.value);
+    const info = PATHWAY_INFO[path];
+
+    // --- Brief card ---
+    let briefHtml = '<h3>The brief, as specced</h3>';
+    briefHtml += '<div class="headline">' + escapeHtml(name) + '</div>';
+    briefHtml += '<p>' + escapeHtml(dFields.tasks.value.trim() || 'No task described yet') + '</p>';
+    briefHtml += '<div class="chips">';
+    briefHtml += chip(dFields.taskType.value, 'Job: ' + optionLabel(dFields.taskType));
+    briefHtml += chip(dFields.comportment.value, 'Manner: ' + optionLabel(dFields.comportment));
+    briefHtml += chip(dFields.nameGender.value, 'Name: ' + optionLabel(dFields.nameGender));
+    briefHtml += chip(dFields.voice.value, 'Voice: ' + optionLabel(dFields.voice));
+    briefHtml += chip(dFields.imagery.value, 'Imagery: ' + optionLabel(dFields.imagery));
+    briefHtml += chip(dFields.pronouns.value, 'Pronouns: ' + optionLabel(dFields.pronouns));
+    briefHtml += '</div>';
+    if (t.unknown > 0) {
+      briefHtml += '<p class="confidence-note">' + t.unknown + ' of 4 markers ' + (t.unknown === 1 ? 'is' : 'are') + ' still undecided — the prediction below will firm up once you pick them.</p>';
+    }
+    $('briefCard').innerHTML = briefHtml;
+
+    // --- Pathway prediction card ---
+    const verdict = info.tag === 'amplify' ? 'Reaffirms the stereotype'
+      : info.tag === 'attenuate' ? 'Pushes against the stereotype'
+      : 'Not enough signal to say';
+    let pathHtml = '<h3>Does this reaffirm the stereotype?</h3>';
+    pathHtml += '<div class="headline">' + verdict + ' <span class="tag ' + info.tag + '">' + (info.tagLabel || info.tag) + '</span></div>';
+    pathHtml += '<p style="font-size:12.5px;color:var(--ink-faint);margin-top:-6px;">Pathway: ' + info.label + '</p>';
+    pathHtml += '<p>' + info.copy.replace('audiences see', 'if you ship this, audiences would see') + '</p>';
+    if (info.tag === 'amplify') {
+      pathHtml += '<p><strong>To stop this from reaffirming the stereotype:</strong> either pick markers that don\'t match the job\'s stereotype, or keep the mismatch you have and make it nonadaptive — don\'t let it soften back into "expected" behavior under pushback.</p>';
+    } else if (info.tag === 'attenuate') {
+      pathHtml += '<p>This is the pathway the model points to as capable of loosening a stereotype rather than reaffirming it — worth shipping on purpose, with eyes open about the UX trade-off noted above.</p>';
+    }
+    $('designPathwayCard').innerHTML = pathHtml;
+
+    // --- Director card ---
+    let dirHtml = '<h3>You, the director</h3>';
+    dirHtml += '<div class="headline">' + escapeHtml(dFields.director.value.trim() || 'Not named yet') + '</div>';
+    if (dFields.directorNotes.value.trim()) {
+      dirHtml += '<p>' + escapeHtml(dFields.directorNotes.value.trim()) + '</p>';
+    }
+    dirHtml += '<p style="font-size:13.5px;">Whatever you land on, someone will eventually ask why this AI looks, sounds, and acts the way it does. Having an honest answer ready — including to the assumptions above — is most of what "designing on purpose" means in practice.</p>';
+    $('designDirectorCard').innerHTML = dirHtml;
+
+    designResults.hidden = false;
+    window.scrollTo({ top: designResults.offsetTop - 20, behavior: 'smooth' });
+  }
+
+  // ---------------- Search mode: call Claude via Anthropic API ----------------
+  let lastSearchSources = [];
+  // Normalised URLs that the web search itself returned this run. Model-written
+  // URLs are checked against this before any of them becomes a link.
+  let verifiedUrls = new Set();
+  let lastSearchConfidence = '';
+  let lastAdaptiveSource = null;
+  let lastDesignerSource = null;
+  let lastOrgDiversitySource = null;
+  let lastGeneralDemographicsNote = '';
+  let lastGeneralDemographicsSource = null;
+
+  $('searchBtn').addEventListener('click', runSearch);
+  $('searchInput').addEventListener('keydown', function(e){ if (e.key === 'Enter') runSearch(); });
+
+  async function runSearch(){
+    const query = $('searchInput').value.trim();
+    const statusEl = $('searchStatus');
+    const sourcesEl = $('searchSources');
+    if (!query) { statusEl.textContent = 'Type a product name or link first.'; statusEl.className = 'search-status error'; return; }
+
+    const btn = $('searchBtn');
+    btn.disabled = true;
+    statusEl.className = 'search-status';
+    statusEl.textContent = 'Searching the wings for public information…';
+    sourcesEl.innerHTML = '';
+    verifiedUrls = new Set();
+
+    const systemPrompt =
+      "You are helping with a structured, academic-style exercise assessing how an AI product is gendered through its public-facing design. Do at most ONE web search, then respond immediately — a complete, valid JSON object matters more than exhaustive research. Never fabricate a fact or a URL; where something is unclear or wasn't found, use the 'unknown' or 'none' code as listed below and say so briefly. " +
+      "Judge each gender code the way described here: name — common naming convention in the relevant language/culture; voice — pitch (lower reads masculine, higher reads feminine); imagery/avatar — for a humanlike avatar, body-shape/styling cues; for a non-human avatar (shape, object, color), general cultural association (angular/cool-colored/tool-vehicle-machinery reads masculine, soft/rounded/warm-or-pastel/floral-organic reads feminine — there is no fixed taxonomy, so treat it as a judgment call); tasks — occupational stereotype (admin/care/support reads feminine, technical/quantitative/strategic reads masculine); comportment — agentic-vs-communal (assertive/direct reads masculine, warm/deferential reads feminine). " +
+      "For designer_credit, read carefully: a note saying 'no individual is named' or 'not attributed to a person' means 'org' or 'team', NEVER 'named' — only use 'named' when a specific person is positively credited. For org_diversity_status, check explicitly for language like 'no longer published' or 'discontinued' before concluding a figure currently exists — that case is 'removed', not 'technical-specific' or 'company-wide'. " +
+      "Return ONLY a raw JSON object — no markdown fences, no other text before or after it — with exactly these keys:\n" +
+      "name (string); name_code ('masc'|'fem'|'neutral'|'unknown'), name_reason (8 words or fewer);\n" +
+      "pronouns_value (what pronoun it's referred to by, if any, a few words), pronouns_code ('masc'|'fem'|'neutral'|'object'|'none'|'unknown'), pronouns_reason (8 words or fewer);\n" +
+      "voice_value (a few words describing its voice, if it has one), voice_code ('masc'|'fem'|'neutral'|'none'|'unknown'), voice_reason (8 words or fewer);\n" +
+      "imagery_value (a few words describing its avatar/imagery, if any), imagery_code ('masc'|'fem'|'neutral'|'none'|'unknown'), imagery_reason (8 words or fewer);\n" +
+      "tasks (array of 1 to 4 objects, each {task: a few words, code: 'fem'|'masc'|'mixed'|'neutral'} — list each genuinely distinct thing it does as its OWN array entry, never merge multiple tasks into one string);\n" +
+      "comportment_value (a few words on its general tone/manner), comportment_code ('fem'|'masc'|'mixed'|'neutral');\n" +
+      "designer_credit ('named'|'team'|'org'|'unknown'), designer_note (12 words or fewer), designer_source ({title,url} object or null);\n" +
+      "org_diversity_status ('technical-specific'|'company-wide'|'removed'|'none'), org_diversity_note (12 words or fewer), org_diversity_source ({title,url} object or null);\n" +
+      "company_country (a couple words — include ONLY if org_diversity_status is 'company-wide', omit this key entirely otherwise);\n" +
+      "general_tech_demographics_note (one short phrase on general, publicly-known gender demographics of software/engineering roles in that country, e.g. from national labor statistics — include ONLY if org_diversity_status is 'company-wide', omit entirely otherwise), general_tech_demographics_source ({title,url} object or null, only alongside the note above);\n" +
+      "adaptive_code ('adaptive'|'nonadaptive'|'unclear'), adaptive_note (12 words or fewer), adaptive_source ({title,url} object or null);\n" +
+      "sources (array of up to 2 {title,url} objects — general citations);\n" +
+      "confidence_note (one plain, complete sentence on which parts you're confident about and which you're not, e.g. \"Confident about the name and voice history; the pronoun and DEI figures were hard to pin down.\").\n" +
+      "Keep the JSON compact — short phrases, not sentences — and write it last, after searching, so it never gets cut off.";
+
+    try {
+      const response = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-6",
+          max_tokens: 2200,
+          system: systemPrompt,
+          messages: [{ role: "user", content: "Product: " + query }],
+          tools: [{ type: "web_search_20250305", name: "web_search" }]
+        })
+      });
+
+      if (!response.ok) throw new Error('Request failed (' + response.status + ')');
+      const data = await response.json();
+      const wasTruncated = data.stop_reason === 'max_tokens';
+
+      // Built before the model's JSON is read, so every URL below can be
+      // checked against what the search actually returned.
+      verifiedUrls = harvestSearchUrls(data.content);
+
+      const textBlocks = (data.content || []).filter(function(b){ return b.type === 'text'; }).map(function(b){ return b.text; });
+      const rawText = textBlocks.join('\n').trim();
+      const cleaned = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+
+      let parsed = null;
+      let salvaged = false;
+      try { parsed = JSON.parse(cleaned); }
+      catch (parseErr) {
+        const match = cleaned.match(/\{[\s\S]*\}/);
+        if (match) {
+          try { parsed = JSON.parse(match[0]); } catch (e2) { /* fall through to salvage */ }
+        }
+      }
+      if (!parsed) {
+        parsed = salvageFields(cleaned);
+        salvaged = Object.keys(parsed).length > 0;
+        if (!salvaged) {
+          throw new Error(wasTruncated
+            ? 'the response ran out of room before any usable details came through — try again, it sometimes fits on a second try'
+            : 'could not parse a result from that search');
+        }
+      }
+
+      populateEditableSheetFromSearch(parsed);
+      renderSearchResultsView(parsed, wasTruncated || salvaged);
+      setMode('search-results');
+
+      if (wasTruncated || salvaged) {
+        statusEl.textContent = 'That ran long and got cut off partway through — pulled in what it could.';
+      } else {
+        statusEl.textContent = '';
+      }
+
+    } catch (err) {
+      statusEl.className = 'search-status error';
+      statusEl.textContent = "Couldn't complete that search (" + err.message + "). You can still fill in the sheet below by hand.";
+      setMode('manual');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  function salvageFields(text){
+    // Best-effort recovery of whatever complete "key": "value" pairs exist
+    // in a truncated/invalid JSON blob, so a cut-off response is still useful.
+    const obj = {};
+    const re = /"(\w+)"\s*:\s*"((?:\\.|[^"\\])*)"/g;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      try { obj[m[1]] = JSON.parse('"' + m[2] + '"'); }
+      catch (e) { obj[m[1]] = m[2]; }
+    }
+    return obj;
+  }
+
+  function escapeAttr(s){ return (s || '').replace(/"/g, '&quot;'); }
+
+  // Still used for manual mode's local (non-API) pronoun classification —
+  // parsing what the person typed is a mechanical task, not a judgment call.
+  function guessCode(text, kind){
+    if (!text) return 'unknown';
+    const s = text.toLowerCase();
+    if (kind === 'pronoun') {
+      if (/she\/her|\bshe\b/.test(s)) return 'fem';
+      if (/he\/him|\bhe\b/.test(s)) return 'masc';
+      if (/they\/them|\bthey\b/.test(s)) return 'neutral';
+      if (/\bit\b/.test(s)) return 'object';
+      if (/no pronoun|none used|unspecified/.test(s)) return 'none';
+    }
+    return 'unknown';
+  }
+
+  // ---------------- Source-link normalisation & dedup ----------------
+  // A search can come back citing the same article many times over — in
+  // testing, one run returned 10 links with a single unique URL between
+  // them — and the duplicates don't look alike: an AMP variant, a "www."
+  // prefix and a utm_source tag all point at one page under three
+  // different strings, often carrying three different display labels. So
+  // comparison happens on a normalised form of the URL and never on the
+  // label. This filters only what already came back; nothing about how
+  // sources are requested or selected changes.
+  const TRACKING_PARAMS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'fbclid', 'gclid', 'ref'];
+
+  function isAmpUrl(u){ return /\/amp\/?(?:[?#]|$)/i.test(String(u || '')); }
+
+  function normalizeUrl(raw){
+    const str = String(raw || '').trim();
+    if (!str) return '';
+    let u;
+    try { u = new URL(str); }
+    catch (e) {
+      // Not a parseable absolute URL — fall back to a cheap textual
+      // normalisation so two identical strings still collapse.
+      return str.toLowerCase().replace(/#.*$/, '').replace(/\/+$/, '');
+    }
+    TRACKING_PARAMS.forEach(function(p){ u.searchParams.delete(p); });
+    const host = u.hostname.toLowerCase().replace(/^www\./, '') + (u.port ? ':' + u.port : '');
+    // Assembled as a string rather than written back through u.pathname,
+    // which would re-expand an emptied path to "/" and so keep the very
+    // trailing slash we're trying to drop on a bare-domain URL.
+    const path = u.pathname
+      .replace(/\/amp\/?$/i, '')          // AMP variant -> canonical article
+      .replace(/\/+$/, '');               // trailing slash
+    const qs = u.searchParams.toString(); // empty query string dropped
+    // The fragment is never read, so it's ignored by construction.
+    return u.protocol.toLowerCase() + '//' + host + path + (qs ? '?' + qs : '');
+  }
+
+  // Collapses entries that normalise to the same URL. When two collapse,
+  // the longer label wins (the more descriptive of the two — and a real
+  // title always beats an empty one, which would otherwise render as a
+  // bare URL), and the non-AMP original wins the href so the link doesn't
+  // land on a stripped mobile page. The href is always one of the URLs
+  // that actually came back; the normalised string exists only to compare.
+  function dedupeSources(list){
+    const byUrl = new Map();
+    const out = [];
+    (Array.isArray(list) ? list : []).forEach(function(s){
+      if (!s || !s.url) return;
+      const key = normalizeUrl(s.url);
+      if (!key) return;
+      const label = (s.title || '').trim();
+      if (!byUrl.has(key)) {
+        const entry = { title: label, url: s.url };
+        byUrl.set(key, entry);
+        out.push(entry);
+        return;
+      }
+      const kept = byUrl.get(key);
+      if (label.length > (kept.title || '').length) kept.title = label;
+      if (isAmpUrl(kept.url) && !isAmpUrl(s.url)) kept.url = s.url;
+    });
+    return out;
+  }
+
+  // The URLs the web search actually returned. These are real by construction
+  // — a search engine returned them, so they are not reconstructions. The
+  // model's own JSON is prose it wrote, URLs included, so a URL that appears
+  // there but not here was recalled from memory, which is where the 404s come
+  // from.
+  //
+  // Per the API, a web_search_tool_result block's .content is an ARRAY of
+  // web_search_result objects on success and a single error OBJECT on failure
+  // (e.g. {error_code:"max_uses_exceeded"}). A server-tool error arrives as a
+  // normal 200 and never throws, so the Array.isArray check below is the only
+  // thing separating the two cases.
+  function harvestSearchUrls(content){
+    const urls = new Set();
+    (Array.isArray(content) ? content : []).forEach(function(block){
+      if (!block || typeof block !== 'object') return;
+      if (block.type === 'web_search_tool_result' && Array.isArray(block.content)) {
+        block.content.forEach(function(result){
+          if (result && result.url) urls.add(normalizeUrl(result.url));
+        });
+        return;
+      }
+      // A cited text block carries the same search-derived URLs. Read
+      // defensively: an unfamiliar citation shape then contributes nothing
+      // rather than breaking the allowlist.
+      if (block.type === 'text' && Array.isArray(block.citations)) {
+        block.citations.forEach(function(c){
+          if (c && c.url) urls.add(normalizeUrl(c.url));
+        });
+      }
+    });
+    return urls;
+  }
+
+  // Dedupes as before, then keeps a URL only if the search returned it. An
+  // unmatched entry keeps its title and loses its link, so the attribution
+  // survives without a dead link behind it.
+  function verifySources(list, allowed){
+    const out = [];
+    const seenTitles = new Set();
+    dedupeSources(list).forEach(function(s){
+      if (allowed.has(normalizeUrl(s.url))) { out.push(s); return; }
+      const title = (s.title || '').trim();
+      if (!title) return; // an unverifiable URL with no title leaves nothing to show
+      // Keyed on the title only because a link-less entry has no URL left to
+      // key on — URL dedup above still never consults the label.
+      const key = title.toLowerCase();
+      if (seenTitles.has(key)) return;
+      seenTitles.add(key);
+      out.push({ title: title, url: null });
+    });
+    return out;
+  }
+
+  // Also gates the per-field source links (designer, org diversity,
+  // adaptiveness) on the same allowlist. There's no title worth showing on its
+  // own in those, so an unverified one simply yields no link.
+  function validSource(s){
+    if (!s || typeof s !== 'object' || !s.url) return null;
+    return verifiedUrls.has(normalizeUrl(s.url)) ? s : null;
+  }
+
+  function markClassified(inputEl){ inputEl.dataset.lastClassified = inputEl.value.trim(); }
+
+  function validCode(c, allowed, fallback){ return allowed.indexOf(c) !== -1 ? c : fallback; }
+
+  // Populates the (currently hidden, not-shown-to-the-user) editable sheet
+  // fields from a search result, purely as the internal data store render()
+  // reads from — the person only ever sees this content in the read-only
+  // panel built by renderSearchResultsView(), unless they explicitly choose
+  // "Edit these answers instead," at which point the sheet becomes visible
+  // and these same fields are what they land on.
+  function populateEditableSheetFromSearch(r){
+    // Note: the sheet fields are scripted into directly, whether or not the
+    // sheet itself is currently visible — setting .value on a hidden <input>
+    // or <select> works fine, so this never needs to change the visible mode.
+    fields.name.value = r.name || $('searchInput').value.trim();
+    fields.nameGender.value = validCode(r.name_code, ['masc', 'fem', 'neutral', 'unknown'], 'unknown');
+    $('f-name-reason').textContent = r.name_reason || '';
+    markClassified(fields.name);
+
+    fields.pronounsText.value = r.pronouns_value || '';
+    fields.pronouns.value = validCode(r.pronouns_code, ['masc', 'fem', 'neutral', 'object', 'none', 'unknown'], 'unknown');
+    $('f-pronouns-reason').textContent = r.pronouns_reason || '';
+    markClassified(fields.pronounsText);
+
+    fields.voiceText.value = r.voice_value || '';
+    fields.voice.value = validCode(r.voice_code, ['masc', 'fem', 'neutral', 'none', 'unknown'], 'unknown');
+    $('f-voice-reason').textContent = r.voice_reason || '';
+    markClassified(fields.voiceText);
+
+    fields.imageryText.value = r.imagery_value || '';
+    fields.imagery.value = validCode(r.imagery_code, ['masc', 'fem', 'neutral', 'none', 'unknown'], 'unknown');
+    $('f-imagery-reason').textContent = r.imagery_reason || '';
+    markClassified(fields.imageryText);
+
+    resetTaskRows();
+    const tasksArr = Array.isArray(r.tasks) ? r.tasks.filter(function(t){ return t && t.task; }) : [];
+    const firstTask = taskTable.querySelector('.task-row');
+    if (tasksArr.length) {
+      tasksArr.forEach(function(t, i){
+        const row = (i === 0) ? firstTask : addTaskRow(true);
+        row.querySelector('.task-text').value = t.task || '';
+        row.querySelector('.task-type').value = validCode(t.code, ['fem', 'masc', 'mixed', 'neutral'], 'neutral');
+        row.querySelector('.task-type').classList.add('auto-set');
+        markClassified(row.querySelector('.task-text'));
+      });
+    }
+
+    fields.comportmentText.value = r.comportment_value || '';
+    fields.comportment.value = validCode(r.comportment_code, ['fem', 'masc', 'mixed', 'neutral'], 'neutral');
+    markClassified(fields.comportmentText);
+
+    [fields.nameGender, fields.pronouns, fields.voice, fields.imagery, fields.comportment].forEach(function(el){ el.classList.add('auto-set'); });
+
+    fields.designer.value = validCode(r.designer_credit, ['named', 'team', 'org', 'unknown'], 'unknown');
+    fields.designerNotes.value = r.designer_note || '';
+    lastDesignerSource = validSource(r.designer_source);
+
+    fields.orgDiversity.value = validCode(r.org_diversity_status, ['technical-specific', 'company-wide', 'removed', 'none'], 'none');
+    fields.orgDiversityNotes.value = r.org_diversity_note || '';
+    lastOrgDiversitySource = validSource(r.org_diversity_source);
+
+    // If only a company-wide (not role-specific) figure turned up, surface
+    // general known demographics for software/engineering roles in the
+    // company's country as background context — the company's own silence
+    // on technical roles specifically doesn't mean nothing is knowable.
+    lastGeneralDemographicsNote = (fields.orgDiversity.value === 'company-wide') ? (r.general_tech_demographics_note || '') : '';
+    lastGeneralDemographicsSource = lastGeneralDemographicsNote ? validSource(r.general_tech_demographics_source) : null;
+
+    fields.adaptive.value = validCode(r.adaptive_code, ['adaptive', 'nonadaptive', 'unclear'], 'unclear');
+    fields.adaptiveNotes.value = r.adaptive_note || '';
+    lastAdaptiveSource = validSource(r.adaptive_source);
+
+    lastSearchSources = verifySources(r.sources, verifiedUrls);
+    lastSearchConfidence = r.confidence_note ? ('How sure is this: ' + r.confidence_note) : '';
+  }
+
+  function roRow(labelText, valueText, code, reasonText){
+    const val = valueText && valueText.trim() ? escapeHtml(valueText.trim()) : '<span class="ro-value empty">Not found</span>';
+    return '<div class="marker-row">' +
+      '<div class="mr-input"><label>' + escapeHtml(labelText) + '</label><div class="ro-value">' + val + '</div></div>' +
+      '<div class="mr-gender"><label>Gender coding</label>' + chip(code, optionLabelFor(labelText, code)) + '</div>' +
+      '<div class="mr-reason">' + escapeHtml(reasonText || '') + '</div>' +
+      '</div>';
+  }
+
+  // Matches the exact option wording used in the editable <select>s, so the
+  // read-only badges say the same thing the sheet would if you opened it.
+  const CODE_LABELS = {
+    name: { masc: 'Masculine-coded', fem: 'Feminine-coded', neutral: 'Neutral or ambiguous', unknown: 'Not sure / haven\u2019t checked' },
+    pronouns: { masc: 'He / him', fem: 'She / her', neutral: 'They / them', object: 'It', none: 'None used / unspecified', unknown: 'Not sure' },
+    voice: { masc: 'Lower-pitched / seems masculine', fem: 'Higher-pitched / seems feminine', neutral: 'Deliberately androgynous', none: 'No fixed voice, or user picks one', unknown: 'Not sure' },
+    imagery: { masc: 'Masculine-coded imagery', fem: 'Feminine-coded imagery', neutral: 'Abstract / deliberately neutral', none: 'No avatar or imagery at all', unknown: 'Not sure' },
+    comportment: { fem: 'Deferential, apologetic, warm', masc: 'Direct, assertive, authoritative', mixed: 'Blends both depending on context', neutral: 'Doesn\u2019t read strongly either way' }
+  };
+  function optionLabelFor(labelText, code){
+    const key = labelText.toLowerCase().indexOf('name') === 0 ? 'name'
+      : labelText.toLowerCase().indexOf('pronoun') === 0 ? 'pronouns'
+      : labelText.toLowerCase().indexOf('voice') === 0 ? 'voice'
+      : labelText.toLowerCase().indexOf('avatar') === 0 ? 'imagery'
+      : labelText.toLowerCase().indexOf('manner') === 0 ? 'comportment'
+      : 'name';
+    return (CODE_LABELS[key] && CODE_LABELS[key][code]) || code;
+  }
+
+  function sourceLink(source){
+    return source ? ' <a href="' + escapeAttr(source.url) + '" target="_blank" rel="noopener">(' + escapeHtml(source.title || 'source') + ')</a>' : '';
+  }
+
+  // Builds the read-only "what Claude found" panel shown after a search —
+  // plain wrapped text and badges, never inputs/selects, so nothing here can
+  // be clicked into or truncated the way a single-line <input> would.
+  function renderSearchResultsView(r, wasPartial){
+    const tasksArr = Array.isArray(r.tasks) ? r.tasks.filter(function(t){ return t && t.task; }) : [];
+    let html = '';
+    if (wasPartial) {
+      html += '<p class="ro-note" style="margin-bottom:14px;"><strong>Heads up:</strong> that search ran long and got cut off partway through, so some fields below may be missing — use "Edit these answers instead" to fill in gaps by hand.</p>';
+    }
+    html += '<fieldset><legend><span class="step">A</span> The actor\'s markers</legend>';
+    html += roRow('Name', r.name, r.name_code, r.name_reason);
+    html += roRow('Pronouns', r.pronouns_value, r.pronouns_code, r.pronouns_reason);
+    html += roRow('Voice', r.voice_value, r.voice_code, r.voice_reason);
+    html += roRow('Avatar / imagery', r.imagery_value, r.imagery_code, r.imagery_reason);
+    html += '</fieldset>';
+
+    html += '<fieldset><legend><span class="step">B</span> The actor\'s behavior</legend>';
+    if (tasksArr.length) {
+      tasksArr.forEach(function(t, i){
+        const taskLabel = 'Task' + (tasksArr.length > 1 ? ' ' + (i + 1) : '');
+        html += '<div class="marker-row">' +
+          '<div class="mr-input"><label>' + taskLabel + '</label><div class="ro-value">' + escapeHtml(t.task) + '</div></div>' +
+          '<div class="mr-gender"><label>Gender coding</label>' + chip(t.code, TASK_CODE_LABELS[t.code] || t.code) + '</div>' +
+          '<div class="mr-reason"></div>' +
+          '</div>';
+      });
+    } else {
+      html += '<div class="marker-row"><div class="mr-input"><label>Tasks</label><div class="ro-value empty">Nothing found</div></div><div class="mr-gender"></div><div class="mr-reason"></div></div>';
+    }
+    html += '<div class="marker-row">' +
+      '<div class="mr-input"><label>Manner / tone</label><div class="ro-value' + (r.comportment_value ? '' : ' empty') + '">' + escapeHtml(r.comportment_value || 'Not found') + '</div></div>' +
+      '<div class="mr-gender"><label>Gender coding</label>' + chip(r.comportment_code, (CODE_LABELS.comportment[r.comportment_code]) || r.comportment_code) + '</div>' +
+      '<div class="mr-reason"></div>' +
+      '</div>';
+    html += '</fieldset>';
+
+    const adaptiveHeadline = r.adaptive_code === 'adaptive' ? 'Yes — visibly adapts to feedback'
+      : r.adaptive_code === 'nonadaptive' ? 'No — manner stays consistent'
+      : "Haven't observed enough to say";
+    html += '<fieldset><legend><span class="step">C</span> Adaptiveness</legend>';
+    html += '<div class="ro-headline">' + adaptiveHeadline + '</div>';
+    if (r.adaptive_note) { html += '<p class="ro-note">' + escapeHtml(r.adaptive_note) + sourceLink(validSource(r.adaptive_source)) + '</p>'; }
+    html += '</fieldset>';
+
+    const designerHeadline = r.designer_credit === 'named' ? 'A named individual is credited'
+      : r.designer_credit === 'team' ? 'A specific team or group is named — but not individual people'
+      : r.designer_credit === 'org' ? 'Only the company/brand is credited'
+      : 'Nothing public found about who designed it';
+    html += '<fieldset><legend><span class="step">D</span> The director</legend>';
+    html += '<div class="ro-headline">' + designerHeadline + '</div>';
+    if (r.designer_note) { html += '<p class="ro-note">' + escapeHtml(r.designer_note) + sourceLink(validSource(r.designer_source)) + '</p>'; }
+    if (r.org_diversity_status && r.org_diversity_status !== 'none') {
+      const orgLabel = r.org_diversity_status === 'technical-specific' ? 'Technical-role-specific figure found'
+        : r.org_diversity_status === 'company-wide' ? 'Only a company-wide figure found'
+        : 'A figure was published before, since removed';
+      html += '<p class="ro-note" style="margin-top:12px;"><strong>' + orgLabel + ':</strong> ' + escapeHtml(r.org_diversity_note || '') + sourceLink(validSource(r.org_diversity_source)) + '</p>';
+      if (r.org_diversity_status === 'company-wide' && r.general_tech_demographics_note) {
+        html += '<p class="ro-note"><strong>For context:</strong> ' + escapeHtml(r.general_tech_demographics_note) + sourceLink(validSource(r.general_tech_demographics_source)) + '</p>';
+      }
+    }
+    html += '</fieldset>';
+
+    if (r.confidence_note) {
+      html += '<p class="ro-note" style="margin-top:4px;font-style:italic;">' + escapeHtml('How sure is this: ' + r.confidence_note) + '</p>';
+    }
+
+    $('searchResultsBody').innerHTML = html;
+  }
+
+  // ---------------- Copy-to-clipboard for contact addresses ----------------
+  // The address itself is plain selectable text (see .addr), so these buttons
+  // are only a convenience — if every one of them failed, the addresses would
+  // still be readable and selectable. The button copies whatever the <span>
+  // actually displays rather than a duplicated string, so the two can never
+  // drift apart. Nothing here sends mail, and no message ever claims it did.
+  function selectAddress(el){
+    if (!el) return;
+    try {
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+    } catch (e) {
+      // Selecting for the viewer is a nicety; the text is still there to
+      // select by hand, so a failure here needs no message of its own.
+    }
+  }
+
+  function flashCopyBtn(btn, message){
+    if (!btn.dataset.restoreLabel) btn.dataset.restoreLabel = btn.textContent;
+    btn.textContent = message;
+    btn.classList.add('is-flash');
+    clearTimeout(Number(btn.dataset.flashTimer));
+    btn.dataset.flashTimer = String(setTimeout(function(){
+      btn.textContent = btn.dataset.restoreLabel;
+      btn.classList.remove('is-flash');
+    }, 2200));
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.copy-btn[data-copy-target]'), function(btn){
+    btn.addEventListener('click', function(){
+      const addrEl = $(btn.dataset.copyTarget);
+      const text = addrEl ? addrEl.textContent.trim() : '';
+      if (!text) return;
+      // navigator.clipboard is absent in some embedded contexts and can
+      // reject even where it exists — no permission, or a gesture the host
+      // doesn't count. Both cases land on the same fallback: select the
+      // address so it can be copied by hand.
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function(){
+          flashCopyBtn(btn, 'Copied');
+        }).catch(function(){
+          selectAddress(addrEl);
+          flashCopyBtn(btn, 'Selected');
+        });
+      } else {
+        selectAddress(addrEl);
+        flashCopyBtn(btn, 'Selected');
+      }
+    });
+  });
+
+})();
+</script>
+</body>
+</html>
