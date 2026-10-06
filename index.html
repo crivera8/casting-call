@@ -780,7 +780,7 @@
       <button class="ticket" type="button" data-path="design">
         <span class="ticket-label">Path B</span>
         <span class="ticket-title">Design your own AI agent</span>
-        <span class="ticket-desc">Building something new? Make deliberate choices so it doesn't end up reaffirming the gender stereotype tied to its job.</span>
+        <span class="ticket-desc">Set the name, voice, manner, and job of a new AI deliberately, so it doesn't end up reaffirming the gender stereotype tied to its job.</span>
       </button>
     </div>
   </section>
@@ -1046,7 +1046,7 @@
         <p><strong>Name:</strong> is it a name conventionally given to one gender in the language or cultural context you're working in — the way "Michael" reads masculine and "Emma" reads feminine in most English-speaking contexts? This is convention, not universal truth: naming patterns vary by culture, era, and community. Treat it as a starting point you're free to override.</p>
         <p><strong>Pronouns:</strong> the most direct of the four signals — whichever pronoun you choose to have it referred to by. No inference required, just a decision.</p>
         <p><strong>Voice:</strong> coded primarily by pitch, since listeners reliably use it as a cue to categorize a voice as male- or female-sounding, and default voice choices in AI products have been shown to trigger the same gendered responses human voices do (Nass, Moon, &amp; Green, 1997; Costa, 2018; Mooshammer &amp; Etzrodt, 2022). A lower-pitched default reads stereotypically masculine-coded; a higher-pitched one reads stereotypically feminine-coded.</p>
-        <p><strong>Imagery/avatar:</strong> the hardest call of the four, and the one most worth thinking through deliberately. For a humanlike avatar, this follows the same body-shape and styling cues people use to read a person as male- or female-presenting (Borau, 2025). For a non-human avatar — an abstract shape, an object, a color scheme — there's no formal taxonomy behind the call; it draws on general cultural association instead: angular or hard-edged shapes, cool colors, and tool/vehicle/machinery imagery tend to read as stereotypically masculine-coded, while soft or rounded shapes, warm or pastel colors, and floral/organic imagery tend to read as stereotypically feminine-coded. These associations are genuinely contestable and culturally specific.</p>
+        <p><strong>Imagery/avatar:</strong> the hardest call of the four, and the one most worth double-checking. For a humanlike avatar, this follows the same body-shape and styling cues people use to read a person as male- or female-presenting (Borau, 2025). For a non-human avatar — an abstract shape, an object, a color scheme — there's no formal taxonomy behind the call; it draws on general cultural association instead: angular or hard-edged shapes, cool colors, and tool/vehicle/machinery imagery tend to read as stereotypically masculine-coded, while soft or rounded shapes, warm or pastel colors, and floral/organic imagery tend to read as stereotypically feminine-coded. These associations are genuinely contestable and culturally specific.</p>
         <p><strong>Job/task:</strong> coded using research on which occupations and job functions are stereotypically associated with each gender at work — admin, care, and support work reads as stereotypically feminine-coded; technical, quantitative, and strategic work reads as stereotypically masculine-coded (Singh, Chayko, Inamdar, &amp; Floegel, 2020; Eagly &amp; Karau, 2002).</p>
         <p><strong>Tone/manner:</strong> coded using the standard distinction between agentic traits — assertive, direct, competitive, read as masculine — and communal traits — warm, deferential, accommodating, read as feminine (Rudman &amp; Glick, 2001; Charlesworth &amp; Banaji, 2022; Manzi, Caleo, &amp; Heilman, 2024).</p>
         <p>None of this is a hard rule — it's the convention this tool uses so "stereotypically masculine-coded" and "stereotypically feminine-coded" mean roughly the same thing across every field. <button type="button" class="prov-jump" data-open-method>How this tool works &rarr;</button> sets out how strong the evidence behind each of these six calls actually is, how the reading list was assembled, and why your own judgment is part of what gets recorded here.</p>
@@ -1054,14 +1054,14 @@
     </details>
 
     <fieldset>
-      <legend><span class="step">A</span> The job <span class="legend-sub">lock this in first</span></legend>
+      <legend><span class="step">A</span> The job <span class="legend-sub">the markers below are judged against this</span></legend>
       <div class="field">
         <label for="d-tasks">What will it mostly do?</label>
         <input type="text" id="d-tasks" placeholder="e.g. scheduling and note-taking, or financial modeling">
       </div>
       <div class="field">
         <label for="d-task-type">How does that work typically get coded?</label>
-        <span class="hint">Be honest about the stereotype, even if you don't like it — you can't avoid reaffirming a bias you haven't named.</span>
+        <span class="hint">This records how the work is conventionally coded, not how it ought to be.</span>
         <select id="d-task-type">
           <option value="neutral">Doesn't map onto a stereotype</option>
           <option value="fem">Stereotypically feminine-coded (admin, scheduling, care, support)</option>
@@ -1085,7 +1085,7 @@
     </fieldset>
 
     <fieldset>
-      <legend><span class="step">C</span> The markers <span class="legend-sub">pick these on purpose</span></legend>
+      <legend><span class="step">C</span> The markers <span class="legend-sub">name, pronouns, voice, imagery</span></legend>
       <div class="field">
         <label for="d-name">Working name</label>
         <input type="text" id="d-name" placeholder="e.g. a placeholder name is fine">
@@ -1147,7 +1147,7 @@
           <option value="nonadaptive">No — its manner should stay consistent</option>
         </select>
       </div>
-      <div class="callout"><strong>To push against the stereotype, pick "No — its manner should stay consistent."</strong> Shorthand for the rest of this note: <em>adaptive</em> is the "Yes" option above, <em>nonadaptive</em> the "No" one. Per the model, that's the only one of the four pathways that loosens a stereotype rather than reaffirming it — and only when it's paired with markers that already don't match the job. Even a deliberate mismatch will drift back into reaffirming the stereotype if it's adaptive, because it'll fold toward "expected" behavior the first time someone reacts badly to it. This is also a real product trade-off: some users read nonadaptive as unhelpful or stubborn. That cost is worth weighing on purpose, not a reason to default back to adaptive.</div>
+      <div class="callout"><strong>To push against the stereotype, pick "No — its manner should stay consistent."</strong> Shorthand for the rest of this note: <em>adaptive</em> is the "Yes" option above, <em>nonadaptive</em> the "No" one. Per the model, that's the only one of the four pathways that loosens a stereotype rather than reaffirming it — and only when it's paired with markers that already don't match the job. Even a deliberate mismatch will drift back into reaffirming the stereotype if it's adaptive, because it'll fold toward "expected" behavior the first time someone reacts badly to it. This is also a real product trade-off: some users read nonadaptive as unhelpful or stubborn. That is a real cost to weigh, not a reason to default back to adaptive.</div>
     </fieldset>
 
     <fieldset>
@@ -1157,7 +1157,7 @@
         <input type="text" id="d-director" placeholder="e.g. your name/role, or the team">
       </div>
       <div class="field">
-        <label for="d-director-notes">What assumptions might you be bringing in without noticing? <span class="hint">(optional, but worth sitting with)</span></label>
+        <label for="d-director-notes">What assumptions might you be bringing in without noticing? <span class="hint">(optional)</span></label>
         <textarea id="d-director-notes" placeholder="e.g. our team defaults to a female voice for anything customer-facing, unless someone pushes back..."></textarea>
       </div>
       <div class="callout">Per the model, three things constrain a director's choices whether they notice or not: your own gender attitudes, your authority to make a less "expected" design stick even under pushback, and the training data or examples you're limited to. Naming these honestly is most of the work.</div>
@@ -2112,7 +2112,7 @@
       const oppositeWord = tt === 'fem' ? 'stereotypically masculine-coded or neutral' : 'stereotypically feminine-coded or neutral';
       markerCallout.innerHTML = 'This job reads as <em>' + TASK_CODE_LABEL[tt] + '</em>. To avoid reaffirming that stereotype, pick markers above that <strong>don\'t</strong> match it — ' + oppositeWord + ' rather than ' + matchWord + '-coded. A ' + matchWord + '-coded name, voice, and image paired with this job is the "expected" combination — and expected is exactly what reaffirms the stereotype the more this gets used.';
     } else if (tt === 'mixed') {
-      markerCallout.innerHTML = 'A genuinely mixed job doesn\'t carry a single stereotype to reaffirm, so no marker choice above reads as an obvious mismatch — you have real freedom here.';
+      markerCallout.innerHTML = 'A mixed job doesn\'t carry a single stereotype to reaffirm, so no marker choice above reads as an obvious mismatch.';
     } else {
       markerCallout.innerHTML = 'You haven\'t named a task above yet, or it doesn\'t map onto a stereotype — once you pick one, this note will tell you which marker choices above would reaffirm it and which would push against it.';
     }
@@ -2146,7 +2146,7 @@
     const info = PATHWAY_INFO[path];
 
     // --- Brief card ---
-    let briefHtml = '<h3>The brief, as specced</h3>';
+    let briefHtml = '<h3>The brief</h3>';
     briefHtml += '<div class="headline">' + escapeHtml(name) + '</div>';
     briefHtml += '<p>' + escapeHtml(dFields.tasks.value.trim() || 'No task described yet') + '</p>';
     briefHtml += '<div class="chips">';
@@ -2173,7 +2173,7 @@
     if (info.tag === 'amplify') {
       pathHtml += '<p><strong>To stop this from reaffirming the stereotype:</strong> either pick markers that don\'t match the job\'s stereotype, or keep the mismatch you have and make it nonadaptive — don\'t let it soften back into "expected" behavior under pushback.</p>';
     } else if (info.tag === 'attenuate') {
-      pathHtml += '<p>This is the pathway the model points to as capable of loosening a stereotype rather than reaffirming it — worth shipping on purpose, with eyes open about the UX trade-off noted above.</p>';
+      pathHtml += '<p>This is the pathway the model points to as capable of loosening a stereotype rather than reaffirming it. The UX trade-off noted above still applies.</p>';
     }
     $('designPathwayCard').innerHTML = pathHtml;
 
@@ -2183,7 +2183,7 @@
     if (dFields.directorNotes.value.trim()) {
       dirHtml += '<p>' + escapeHtml(dFields.directorNotes.value.trim()) + '</p>';
     }
-    dirHtml += '<p style="font-size:13.5px;">Whatever you land on, someone will eventually ask why this AI looks, sounds, and acts the way it does. Having an honest answer ready — including to the assumptions above — is most of what "designing on purpose" means in practice.</p>';
+    dirHtml += '<p style="font-size:13.5px;">These are the choices a user, a reviewer, or a colleague is most likely to ask about later.</p>';
     $('designDirectorCard').innerHTML = dirHtml;
 
     designResults.hidden = false;

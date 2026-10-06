@@ -5,6 +5,41 @@ called `casting-call.html` until 2026-10-06; see the entry for that date.
 
 ## 2026-10-06
 
+### Path B: coaching register removed
+
+Twelve edits. The pattern swept for, rather than only the two instances
+reported: second-person coaching and therapeutic register -- breezy
+imperatives ("lock this in first", "pick these on purpose"), instructions
+about how to feel ("Be honest about the stereotype, even if you don't like
+it", "worth sitting with", "with eyes open"), sincerity intensifiers
+("genuinely", "real freedom here"), knowing jargon ("as specced"), and a
+closing moral ("Whatever you land on... is most of what designing on purpose
+means in practice"). Each is replaced by a statement of what the field is
+for or what the result means.
+
+Two findings beyond the copy:
+
+- **The section A hint was doing real work** and the replacement keeps it.
+  "Be honest about the stereotype, even if you don't like it" exists because
+  an aspirational answer here breaks the tool -- the marker guidance keys off
+  this field. It now reads "This records how the work is conventionally
+  coded, not how it ought to be," which says the same thing without
+  presuming the reader is reluctant.
+
+- **The shared explainer had already drifted.** The "How are these
+  categorized" block is duplicated in both paths, and the two copies had
+  diverged: Path A read "the one most worth double-checking", Path B "the
+  one most worth thinking through deliberately". Path B's was both the
+  Claude-ism and the drifted copy, so converging it on Path A's wording
+  fixed both. The one difference that remains between the copies is
+  deliberate -- Path A ends with an instruction about its notes field, which
+  Path B has no equivalent of.
+
+Deliberately left: "Genuinely spans both" and "These associations are
+genuinely contestable" both appear in copy shared with Path A, so changing
+them on one side only would re-open the drift just closed. Path A's own
+"Worth sitting with" heading is also untouched, being out of scope.
+
 ### "Feminine-coded" -> "stereotypically feminine-coded" throughout
 
 All 60 occurrences, both cases and both genders: 21 lowercase and 9
