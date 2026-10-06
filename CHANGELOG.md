@@ -5,6 +5,28 @@ called `casting-call.html` until 2026-10-06; see the entry for that date.
 
 ## 2026-10-06
 
+### The deployment target is a claude.ai artifact
+
+Settled, and recorded in `README.md` so it is not re-litigated. The two
+Claude-backed features — `runSearch` and `classifyField` — send nothing but
+`Content-Type: application/json`. No `x-api-key`, no `anthropic-version`, no
+`anthropic-dangerous-direct-browser-access`. A real browser call to Anthropic
+needs all three, so a request shaped like this cannot succeed anywhere that
+forwards it as written; it works only where something **intercepts** the call
+to that hostname and rewrites it, which is what the claude.ai artifact sandbox
+does.
+
+That makes a public URL and the sandbox the same slot: hosting the file is
+exactly what turns the interception off. The GitHub Pages copy is therefore a
+preview of the current build in manual mode, not the working tool.
+
+**Added a sign-in notice** as the first line of "Before the curtain rises":
+"You'll need to be signed in to Claude to use this tool." Thea & Drew has
+carried this sentence since 2026-10-05 and Casting Call did not, which matters
+more here — an unauthenticated viewer gets no warning, just a search that
+reports it couldn't complete and source links that quietly render as plain
+text.
+
 ### The hosted site was serving the wrong build
 
 GitHub Pages is enabled on this repo and live at

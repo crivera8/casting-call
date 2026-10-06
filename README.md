@@ -40,24 +40,36 @@ Note that an artifact published through Claude Code cannot reach `api.anthropic.
 
 **Badge labels are separate from badge logic.** `PATHWAY_INFO[...].tag` is the internal key — it sets the CSS class and is what the `info.tag === 'amplify'` comparisons test. `tagLabel` is what the user actually reads. Change the label; leave the key alone.
 
-## The API caveat (worth deciding before hosting)
+## How this runs: as a claude.ai artifact (decided)
 
 Two features call `https://api.anthropic.com/v1/messages`:
 
 - `runSearch` — the "Have Claude look it up" search in Path A, Option A. Declares the `web_search_20250305` server tool.
 - `classifyField` — the per-field "Claude judges how this reads" helper in the manual coding sheet. No web search; a small text-only call.
 
-**Neither call carries an API key.** They work because the Claude.ai artifact sandbox injects authentication at runtime.
+**Neither call carries an API key** — and neither sends `anthropic-version` or `anthropic-dangerous-direct-browser-access` either. All they send is `Content-Type: application/json`.
 
-| Where it's hosted | Manual coding | Claude-powered search & auto-classify |
+That is the whole story in one line. A real browser call to Anthropic needs all three of those headers; a request shaped like this one cannot succeed anywhere that forwards it as written. It works only where something **intercepts** the call to that hostname and rewrites it — supplying credentials, the version header, and the CORS bypass. The claude.ai artifact sandbox does exactly that.
+
+**So this file is meant to be run as a claude.ai artifact, and that is the decision.** Upload `index.html` to a Claude chat and ask Claude to open it as an artifact. Both Claude-powered features work there, including real web search.
+
+Two consequences of that decision:
+
+- **Every user must be signed in to Claude**, or the two Claude-backed features fail. The disclosure page says so in its first line.
+- **A public URL and the sandbox are the same slot — you cannot have both.** Hosting the file on GitHub Pages or any domain is precisely what turns the interception off. That is not a bug to fix later; it is what hosting means here.
+
+The GitHub Pages copy of this repo therefore serves as a *preview* of the current build in manual mode, not as the working tool.
+
+| Where it runs | Manual coding | Claude-powered search & auto-classify |
 |---|---|---|
-| Artifact inside Claude.ai | Works | Works |
+| **Artifact inside claude.ai** — the intended home | Works | Works |
+| Artifact published through Claude Code | Works | **Fails** — CSP blocks the host; that route needs `claude.use('sample')`, which has no web search |
 | GitHub Pages or any static host | Works | **Fails** |
 | Opened as a local file | Works | **Fails** |
 
 Everything a user types in by hand — the full coding sheet, the scoring, the placement, the design studio, the methodology page — is pure client-side JavaScript and works anywhere. Only the two API-backed features depend on the sandbox.
 
-If the hosted version needs working search, it requires your own API key routed through a small server-side proxy. **Do not put a key in this file**: it's client-side, so the key would be visible to anyone who views source, and committing it to a public repo would leak it. If search can live only in the Claude-hosted version, no proxy is needed and the repo copy simply degrades to manual mode.
+Should a public URL with working search ever be wanted, it needs your own API key behind a small server-side proxy, with the two `fetch` URLs repointed at that proxy. **Never put a key in this file**: it is client-side, so the key would be visible to anyone who views source, and committing it to a public repo would leak it. No proxy is needed for the decision above — the repo copy simply degrades to manual mode, which is intended.
 
 ## How source links behave
 
