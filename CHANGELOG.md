@@ -1,6 +1,45 @@
 # Changelog
 
-All changes below are to `casting-call.html`, the build that keeps the live web search.
+All changes below are to `index.html`, the build that keeps the live web search. It was
+called `casting-call.html` until 2026-10-06; see the entry for that date.
+
+## 2026-10-06
+
+### The hosted site was serving the wrong build
+
+GitHub Pages is enabled on this repo and live at
+<https://vanecon.github.io/casting-call/>. Pages serves `index.html` from the
+repo root, and that slot held the **old** 68 KB build — so the public URL had
+been quietly serving a version that predates the methodology page, the
+per-field auto-classification, the source-link verification, and the
+disclosure-page additions. Measured before the fix: the root returned 67,727
+bytes, byte-identical to the old build, while the current build sat unvisited
+at `/casting-call.html`.
+
+What made this worth fixing rather than documenting: **both builds carry the
+identical `<title>`** — "Casting Call — Assessing How an AI Gets Gendered |
+Conzon & Feldberg". Nothing on the page distinguished them, so anyone sent the
+link would have had no way to notice they were reading the superseded tool.
+
+The fix is a rename, not a redirect or a second copy:
+
+- `casting-call.html` → `index.html`. The current build now *is* the page
+  Pages serves, at the clean root URL, with no redirect hop.
+- The old build → `old/index.html`, parked where it cannot be mistaken for
+  current and still reachable at `/old/` for comparison.
+
+A redirect page or a duplicated file would both have worked, and both were
+rejected: a duplicate is the divergence problem this repo already had once,
+and a redirect leaves two names for one file. There is now exactly one build.
+
+Safe to rename because the file references its own name nowhere and loads no
+relative assets — every `src`/`href` in it is either an absolute citation URL
+or built at runtime from a search result. Nothing to repoint.
+
+`README.md` updated throughout, including the "upload this file to Claude"
+instructions, which named the old filename.
+
+---
 
 ## 2026-10-01
 
