@@ -5,6 +5,15 @@ called `casting-call.html` until 2026-10-06; see the entry for that date.
 
 ## 2026-10-06
 
+### Masthead
+
+- **Added a standfirst paragraph** above "Every AI assistant has a director...",
+  stating plainly what the tool is for: reflecting on the gender-typing of the
+  AI tools researchers use, plus the feature for taking a gender-conscious
+  approach to designing their own. The page previously opened straight into the
+  framing line, which says what the subject is but not what the tool does.
+  Styled as a second `.dek`, so it stacks with the existing one.
+
 ### The deployment target is a claude.ai artifact
 
 Settled, and recorded in `README.md` so it is not re-litigated. The two
