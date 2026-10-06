@@ -833,11 +833,11 @@
         <p><strong>No, there isn't a lookup table.</strong> This tool doesn't check a name against a gender-name database, or an avatar against a shape/color taxonomy — no such database exists here. In manual mode, <em>you</em> make each call, guided by the rules below. In search mode, Claude makes the same call using its general knowledge and whatever the web search turns up, described in a short note; a simple keyword check then tries to translate that note into a dropdown selection, which is imperfect — always review it before revealing the placement. Either way, the decision is a judgment call applied consistently, not a database hit.</p>
         <p><strong>Name:</strong> is it a name conventionally given to one gender in the relevant language or cultural context — the way "Michael" reads masculine and "Emma" reads feminine in most English-speaking contexts? This is convention, not universal truth: naming patterns vary by culture, era, and community, and plenty of names are shared across genders. Treat it as a starting point you're free to override.</p>
         <p><strong>Pronouns:</strong> the most direct of the four signals — whatever pronoun the product is actually referred to by, officially or in common usage. No inference required, just reporting.</p>
-        <p><strong>Voice:</strong> coded primarily by pitch, since listeners reliably use it as a cue to categorize a voice as male- or female-sounding, and default voice choices in AI products have been shown to trigger the same gendered responses human voices do (Nass, Moon, &amp; Green, 1997; Costa, 2018; Mooshammer &amp; Etzrodt, 2022). Lower-pitched defaults read masculine-coded; higher-pitched defaults read feminine-coded.</p>
-        <p><strong>Imagery/avatar:</strong> the hardest call of the four, and the one most worth double-checking. For a humanlike avatar, this follows the same body-shape and styling cues people use to read a person as male- or female-presenting (Borau, 2025). For a non-human avatar — an abstract shape, an object, a color scheme — there's no formal taxonomy behind the call; it draws on general cultural association instead: angular or hard-edged shapes, cool colors, and tool/vehicle/machinery imagery tend to read as masculine-coded, while soft or rounded shapes, warm or pastel colors, and floral/organic imagery tend to read as feminine-coded. These associations are genuinely contestable and culturally specific, so note your reasoning in the notes field rather than leaving it implicit.</p>
-        <p><strong>Job/task:</strong> coded using research on which occupations and job functions are stereotypically associated with each gender at work — admin, care, and support work reads as feminine-coded; technical, quantitative, and strategic work reads as masculine-coded (Singh, Chayko, Inamdar, &amp; Floegel, 2020; Eagly &amp; Karau, 2002).</p>
+        <p><strong>Voice:</strong> coded primarily by pitch, since listeners reliably use it as a cue to categorize a voice as male- or female-sounding, and default voice choices in AI products have been shown to trigger the same gendered responses human voices do (Nass, Moon, &amp; Green, 1997; Costa, 2018; Mooshammer &amp; Etzrodt, 2022). Lower-pitched defaults read stereotypically masculine-coded; higher-pitched defaults read stereotypically feminine-coded.</p>
+        <p><strong>Imagery/avatar:</strong> the hardest call of the four, and the one most worth double-checking. For a humanlike avatar, this follows the same body-shape and styling cues people use to read a person as male- or female-presenting (Borau, 2025). For a non-human avatar — an abstract shape, an object, a color scheme — there's no formal taxonomy behind the call; it draws on general cultural association instead: angular or hard-edged shapes, cool colors, and tool/vehicle/machinery imagery tend to read as stereotypically masculine-coded, while soft or rounded shapes, warm or pastel colors, and floral/organic imagery tend to read as stereotypically feminine-coded. These associations are genuinely contestable and culturally specific, so note your reasoning in the notes field rather than leaving it implicit.</p>
+        <p><strong>Job/task:</strong> coded using research on which occupations and job functions are stereotypically associated with each gender at work — admin, care, and support work reads as stereotypically feminine-coded; technical, quantitative, and strategic work reads as stereotypically masculine-coded (Singh, Chayko, Inamdar, &amp; Floegel, 2020; Eagly &amp; Karau, 2002).</p>
         <p><strong>Tone/manner:</strong> coded using the standard distinction between agentic traits — assertive, direct, competitive, read as masculine — and communal traits — warm, deferential, accommodating, read as feminine (Rudman &amp; Glick, 2001; Charlesworth &amp; Banaji, 2022; Manzi, Caleo, &amp; Heilman, 2024).</p>
-        <p>None of this is a hard rule or a validated instrument — it's the convention this tool applies consistently across every field, grounded in the same research the underlying paper draws on, so "masculine-coded" and "feminine-coded" mean roughly the same thing everywhere they appear here. <button type="button" class="prov-jump" data-open-method>How this tool works &rarr;</button> sets out how strong the evidence behind each of these six calls actually is, how the reading list was assembled, and why your own judgment is part of what gets recorded here.</p>
+        <p>None of this is a hard rule or a validated instrument — it's the convention this tool applies consistently across every field, grounded in the same research the underlying paper draws on, so "stereotypically masculine-coded" and "stereotypically feminine-coded" mean roughly the same thing everywhere they appear here. <button type="button" class="prov-jump" data-open-method>How this tool works &rarr;</button> sets out how strong the evidence behind each of these six calls actually is, how the reading list was assembled, and why your own judgment is part of what gets recorded here.</p>
       </div>
     </details>
 
@@ -855,8 +855,8 @@
             <label for="f-name-gender">Gender coding</label>
             <select id="f-name-gender">
               <option value="unknown">Not sure / haven't checked</option>
-              <option value="masc">Masculine-coded</option>
-              <option value="fem">Feminine-coded</option>
+              <option value="masc">Stereotypically masculine-coded</option>
+              <option value="fem">Stereotypically feminine-coded</option>
               <option value="neutral">Neutral or ambiguous</option>
             </select>
           </div>
@@ -909,8 +909,8 @@
             <label for="f-imagery">Gender coding</label>
             <select id="f-imagery">
               <option value="unknown">Not sure</option>
-              <option value="masc">Masculine-coded imagery</option>
-              <option value="fem">Feminine-coded imagery</option>
+              <option value="masc">Stereotypically masculine-coded imagery</option>
+              <option value="fem">Stereotypically feminine-coded imagery</option>
               <option value="neutral">Abstract / deliberately neutral</option>
               <option value="none">No avatar or imagery at all</option>
             </select>
@@ -934,8 +934,8 @@
             <label>Gender coding</label>
             <select class="task-type">
               <option value="neutral">Doesn't map onto a stereotype</option>
-              <option value="fem">Feminine-coded (admin, scheduling, care, support)</option>
-              <option value="masc">Masculine-coded (technical, quantitative, strategic)</option>
+              <option value="fem">Stereotypically feminine-coded (admin, scheduling, care, support)</option>
+              <option value="masc">Stereotypically masculine-coded (technical, quantitative, strategic)</option>
               <option value="mixed">Genuinely spans both</option>
             </select>
           </div>
@@ -1045,11 +1045,11 @@
         <p><strong>No, there isn't a lookup table.</strong> This tool doesn't check a name against a gender-name database, or an avatar against a shape/color taxonomy — no such database exists here. You make each call yourself, guided by the rules below; it's a judgment call applied consistently, not a database hit.</p>
         <p><strong>Name:</strong> is it a name conventionally given to one gender in the language or cultural context you're working in — the way "Michael" reads masculine and "Emma" reads feminine in most English-speaking contexts? This is convention, not universal truth: naming patterns vary by culture, era, and community. Treat it as a starting point you're free to override.</p>
         <p><strong>Pronouns:</strong> the most direct of the four signals — whichever pronoun you choose to have it referred to by. No inference required, just a decision.</p>
-        <p><strong>Voice:</strong> coded primarily by pitch, since listeners reliably use it as a cue to categorize a voice as male- or female-sounding, and default voice choices in AI products have been shown to trigger the same gendered responses human voices do (Nass, Moon, &amp; Green, 1997; Costa, 2018; Mooshammer &amp; Etzrodt, 2022). A lower-pitched default reads masculine-coded; a higher-pitched one reads feminine-coded.</p>
-        <p><strong>Imagery/avatar:</strong> the hardest call of the four, and the one most worth thinking through deliberately. For a humanlike avatar, this follows the same body-shape and styling cues people use to read a person as male- or female-presenting (Borau, 2025). For a non-human avatar — an abstract shape, an object, a color scheme — there's no formal taxonomy behind the call; it draws on general cultural association instead: angular or hard-edged shapes, cool colors, and tool/vehicle/machinery imagery tend to read as masculine-coded, while soft or rounded shapes, warm or pastel colors, and floral/organic imagery tend to read as feminine-coded. These associations are genuinely contestable and culturally specific.</p>
-        <p><strong>Job/task:</strong> coded using research on which occupations and job functions are stereotypically associated with each gender at work — admin, care, and support work reads as feminine-coded; technical, quantitative, and strategic work reads as masculine-coded (Singh, Chayko, Inamdar, &amp; Floegel, 2020; Eagly &amp; Karau, 2002).</p>
+        <p><strong>Voice:</strong> coded primarily by pitch, since listeners reliably use it as a cue to categorize a voice as male- or female-sounding, and default voice choices in AI products have been shown to trigger the same gendered responses human voices do (Nass, Moon, &amp; Green, 1997; Costa, 2018; Mooshammer &amp; Etzrodt, 2022). A lower-pitched default reads stereotypically masculine-coded; a higher-pitched one reads stereotypically feminine-coded.</p>
+        <p><strong>Imagery/avatar:</strong> the hardest call of the four, and the one most worth thinking through deliberately. For a humanlike avatar, this follows the same body-shape and styling cues people use to read a person as male- or female-presenting (Borau, 2025). For a non-human avatar — an abstract shape, an object, a color scheme — there's no formal taxonomy behind the call; it draws on general cultural association instead: angular or hard-edged shapes, cool colors, and tool/vehicle/machinery imagery tend to read as stereotypically masculine-coded, while soft or rounded shapes, warm or pastel colors, and floral/organic imagery tend to read as stereotypically feminine-coded. These associations are genuinely contestable and culturally specific.</p>
+        <p><strong>Job/task:</strong> coded using research on which occupations and job functions are stereotypically associated with each gender at work — admin, care, and support work reads as stereotypically feminine-coded; technical, quantitative, and strategic work reads as stereotypically masculine-coded (Singh, Chayko, Inamdar, &amp; Floegel, 2020; Eagly &amp; Karau, 2002).</p>
         <p><strong>Tone/manner:</strong> coded using the standard distinction between agentic traits — assertive, direct, competitive, read as masculine — and communal traits — warm, deferential, accommodating, read as feminine (Rudman &amp; Glick, 2001; Charlesworth &amp; Banaji, 2022; Manzi, Caleo, &amp; Heilman, 2024).</p>
-        <p>None of this is a hard rule — it's the convention this tool uses so "masculine-coded" and "feminine-coded" mean roughly the same thing across every field. <button type="button" class="prov-jump" data-open-method>How this tool works &rarr;</button> sets out how strong the evidence behind each of these six calls actually is, how the reading list was assembled, and why your own judgment is part of what gets recorded here.</p>
+        <p>None of this is a hard rule — it's the convention this tool uses so "stereotypically masculine-coded" and "stereotypically feminine-coded" mean roughly the same thing across every field. <button type="button" class="prov-jump" data-open-method>How this tool works &rarr;</button> sets out how strong the evidence behind each of these six calls actually is, how the reading list was assembled, and why your own judgment is part of what gets recorded here.</p>
       </div>
     </details>
 
@@ -1064,8 +1064,8 @@
         <span class="hint">Be honest about the stereotype, even if you don't like it — you can't avoid reaffirming a bias you haven't named.</span>
         <select id="d-task-type">
           <option value="neutral">Doesn't map onto a stereotype</option>
-          <option value="fem">Feminine-coded (admin, scheduling, care, support)</option>
-          <option value="masc">Masculine-coded (technical, quantitative, strategic)</option>
+          <option value="fem">Stereotypically feminine-coded (admin, scheduling, care, support)</option>
+          <option value="masc">Stereotypically masculine-coded (technical, quantitative, strategic)</option>
           <option value="mixed">Genuinely spans both</option>
         </select>
       </div>
@@ -1095,8 +1095,8 @@
           <label for="d-name-gender">How will that name read?</label>
           <select id="d-name-gender">
             <option value="unknown">Haven't decided / not sure</option>
-            <option value="masc">Masculine-coded</option>
-            <option value="fem">Feminine-coded</option>
+            <option value="masc">Stereotypically masculine-coded</option>
+            <option value="fem">Stereotypically feminine-coded</option>
             <option value="neutral">Neutral or ambiguous</option>
           </select>
         </div>
@@ -1127,8 +1127,8 @@
           <label for="d-imagery">Avatar or imagery</label>
           <select id="d-imagery">
             <option value="unknown">Haven't decided</option>
-            <option value="masc">Masculine-coded imagery</option>
-            <option value="fem">Feminine-coded imagery</option>
+            <option value="masc">Stereotypically masculine-coded imagery</option>
+            <option value="fem">Stereotypically feminine-coded imagery</option>
             <option value="neutral">Abstract / deliberately neutral</option>
             <option value="none">No avatar or imagery at all</option>
           </select>
@@ -1445,7 +1445,7 @@
     return 'neutral';
   }
 
-  // Continuous -100 (fully masculine-coded) .. +100 (fully feminine-coded) score.
+  // Continuous -100 (fully stereotypically masculine-coded) .. +100 (fully stereotypically feminine-coded) score.
   // Each signal contributes +1 (fem), -1 (masc), or 0 (neutral/deliberately
   // androgynous) toward the average; "unknown" signals are excluded entirely
   // rather than counted as neutral, so an unanswered field doesn't quietly
@@ -1459,11 +1459,11 @@
 
   function scoreLabel(score){
     if (score === null) return 'Not enough information yet';
-    if (score >= 60) return 'Strongly feminine-coded';
-    if (score >= 20) return 'Leans feminine-coded';
+    if (score >= 60) return 'Strongly stereotypically feminine-coded';
+    if (score >= 20) return 'Leans stereotypically feminine-coded';
     if (score > -20) return 'Neutral / balanced';
-    if (score > -60) return 'Leans masculine-coded';
-    return 'Strongly masculine-coded';
+    if (score > -60) return 'Leans stereotypically masculine-coded';
+    return 'Strongly stereotypically masculine-coded';
   }
 
   function renderScoreGauge(score){
@@ -1486,7 +1486,7 @@
 
   function scoreBreakdownDetails(rows, score, known, total){
     let html = '<details class="score-breakdown"><summary>How is this score calculated?</summary><div class="score-breakdown-body">';
-    html += '<p>Each signal below contributes <strong>+1</strong> if it reads feminine-coded, <strong>&minus;1</strong> if masculine-coded, or <strong>0</strong> if neutral/deliberately androgynous. Signals marked "not sure" are left out of the average entirely, rather than counted as neutral.</p>';
+    html += '<p>Each signal below contributes <strong>+1</strong> if it reads stereotypically feminine-coded, <strong>&minus;1</strong> if stereotypically masculine-coded, or <strong>0</strong> if neutral/deliberately androgynous. Signals marked "not sure" are left out of the average entirely, rather than counted as neutral.</p>';
     html += '<table><tr><th>Signal</th><th>Reading</th><th>Contributes</th></tr>';
     rows.forEach(function(r){
       html += '<tr><td>' + escapeHtml(r.label) + '</td><td>' + escapeHtml(r.reading) + '</td><td>' + contributionLabel(r.code) + '</td></tr>';
@@ -1560,8 +1560,8 @@
 
   const TASK_CODE_LABELS = {
     neutral: "Doesn't map onto a stereotype",
-    fem: 'Feminine-coded (admin, scheduling, care, support)',
-    masc: 'Masculine-coded (technical, quantitative, strategic)',
+    fem: 'Stereotypically feminine-coded (admin, scheduling, care, support)',
+    masc: 'Stereotypically masculine-coded (technical, quantitative, strategic)',
     mixed: 'Genuinely spans both'
   };
 
@@ -1675,11 +1675,11 @@
   // handled locally (see classifyPronounsLocal) since that's a parsing task,
   // not a judgment call.
   const CLASSIFY_PROMPTS = {
-    name: 'Judge whether the following AI PRODUCT NAME conventionally reads as masculine-coded, feminine-coded, or neutral/ambiguous, based on common naming convention in the language/culture it appears to be from. This is a judgment about convention, not a database lookup — say so is not needed, just make the call.',
-    voice: 'Judge whether the following VOICE description reads as masculine-coded (e.g. lower-pitched) or feminine-coded (e.g. higher-pitched) or neutral/deliberately androgynous, based on the pitch and style cues in the description.',
-    imagery: 'Judge whether the following AVATAR/IMAGERY description reads as masculine-coded or feminine-coded or neutral, based on general cultural association with shape, color, and any human styling or object cues (angular/cool-colored/tool-vehicle-machinery reads masculine-coded; soft/rounded/warm-or-pastel-colored/floral-organic reads feminine-coded). There is no fixed taxonomy — make the judgment call.',
-    task: 'Judge whether the following WORK TASK/ACTIVITY is stereotypically feminine-coded (admin, scheduling, care, support work), masculine-coded (technical, quantitative, strategic work), genuinely mixed/spans both, or neutral (doesn\'t map onto a stereotype at all).',
-    comportment: 'Judge whether the following MANNER/TONE description is feminine-coded (deferential, apologetic, warm), masculine-coded (direct, assertive, authoritative), genuinely blends both, or neutral (doesn\'t read strongly either way).'
+    name: 'Judge whether the following AI PRODUCT NAME conventionally reads as stereotypically masculine-coded, stereotypically feminine-coded, or neutral/ambiguous, based on common naming convention in the language/culture it appears to be from. This is a judgment about convention, not a database lookup — say so is not needed, just make the call.',
+    voice: 'Judge whether the following VOICE description reads as stereotypically masculine-coded (e.g. lower-pitched) or stereotypically feminine-coded (e.g. higher-pitched) or neutral/deliberately androgynous, based on the pitch and style cues in the description.',
+    imagery: 'Judge whether the following AVATAR/IMAGERY description reads as stereotypically masculine-coded or stereotypically feminine-coded or neutral, based on general cultural association with shape, color, and any human styling or object cues (angular/cool-colored/tool-vehicle-machinery reads stereotypically masculine-coded; soft/rounded/warm-or-pastel-colored/floral-organic reads stereotypically feminine-coded). There is no fixed taxonomy — make the judgment call.',
+    task: 'Judge whether the following WORK TASK/ACTIVITY is stereotypically feminine-coded (admin, scheduling, care, support work), stereotypically masculine-coded (technical, quantitative, strategic work), genuinely mixed/spans both, or neutral (doesn\'t map onto a stereotype at all).',
+    comportment: 'Judge whether the following MANNER/TONE description is stereotypically feminine-coded (deferential, apologetic, warm), stereotypically masculine-coded (direct, assertive, authoritative), genuinely blends both, or neutral (doesn\'t read strongly either way).'
   };
   const CLASSIFY_CODES = {
     name: ['masc', 'fem', 'neutral'],
@@ -2022,7 +2022,7 @@
     pathHtml += '<div class="headline">' + info.label + ' <span class="tag ' + info.tag + '">' + (info.tagLabel || info.tag) + '</span></div>';
     pathHtml += '<p>' + info.copy + '</p>';
     if (alignment !== 'unclear') {
-      pathHtml += '<p style="font-size:13px;color:var(--ink-faint);">Marker placement: <strong>' + LABELS[placement] + '</strong> &middot; Behavior reads as: <strong>' + (behavior === 'fem' ? 'feminine-coded' : behavior === 'masc' ? 'masculine-coded' : 'neutral or mixed') + '</strong> &middot; Adapts to feedback: <strong>' + optionLabel(fields.adaptive) + '</strong></p>';
+      pathHtml += '<p style="font-size:13px;color:var(--ink-faint);">Marker placement: <strong>' + LABELS[placement] + '</strong> &middot; Behavior reads as: <strong>' + (behavior === 'fem' ? 'stereotypically feminine-coded' : behavior === 'masc' ? 'stereotypically masculine-coded' : 'neutral or mixed') + '</strong> &middot; Adapts to feedback: <strong>' + optionLabel(fields.adaptive) + '</strong></p>';
     }
     if (fields.adaptiveNotes.value.trim()) {
       pathHtml += '<p style="font-size:13.5px;">' + escapeHtml(fields.adaptiveNotes.value.trim()) + (lastAdaptiveSource ? ' <a href="' + escapeAttr(lastAdaptiveSource.url) + '" target="_blank" rel="noopener">(' + escapeHtml(lastAdaptiveSource.title || 'source') + ')</a>' : '') + '</p>';
@@ -2103,13 +2103,13 @@
   const designResults = $('designResults');
   const markerCallout = $('markerCallout');
 
-  const TASK_CODE_LABEL = { fem: 'feminine-coded', masc: 'masculine-coded', mixed: 'mixed', neutral: 'gender-neutral' };
+  const TASK_CODE_LABEL = { fem: 'stereotypically feminine-coded', masc: 'stereotypically masculine-coded', mixed: 'mixed', neutral: 'gender-neutral' };
 
   function refreshMarkerCallout(){
     const tt = dFields.taskType.value;
     if (tt === 'fem' || tt === 'masc') {
       const matchWord = tt === 'fem' ? 'feminine' : 'masculine';
-      const oppositeWord = tt === 'fem' ? 'masculine-coded or neutral' : 'feminine-coded or neutral';
+      const oppositeWord = tt === 'fem' ? 'stereotypically masculine-coded or neutral' : 'stereotypically feminine-coded or neutral';
       markerCallout.innerHTML = 'This job reads as <em>' + TASK_CODE_LABEL[tt] + '</em>. To avoid reaffirming that stereotype, pick markers above that <strong>don\'t</strong> match it — ' + oppositeWord + ' rather than ' + matchWord + '-coded. A ' + matchWord + '-coded name, voice, and image paired with this job is the "expected" combination — and expected is exactly what reaffirms the stereotype the more this gets used.';
     } else if (tt === 'mixed') {
       markerCallout.innerHTML = 'A genuinely mixed job doesn\'t carry a single stereotype to reaffirm, so no marker choice above reads as an obvious mismatch — you have real freedom here.';
@@ -2543,10 +2543,10 @@
   // Matches the exact option wording used in the editable <select>s, so the
   // read-only badges say the same thing the sheet would if you opened it.
   const CODE_LABELS = {
-    name: { masc: 'Masculine-coded', fem: 'Feminine-coded', neutral: 'Neutral or ambiguous', unknown: 'Not sure / haven\u2019t checked' },
+    name: { masc: 'Stereotypically masculine-coded', fem: 'Stereotypically feminine-coded', neutral: 'Neutral or ambiguous', unknown: 'Not sure / haven\u2019t checked' },
     pronouns: { masc: 'He / him', fem: 'She / her', neutral: 'They / them', object: 'It', none: 'None used / unspecified', unknown: 'Not sure' },
     voice: { masc: 'Lower-pitched / seems masculine', fem: 'Higher-pitched / seems feminine', neutral: 'Deliberately androgynous', none: 'No fixed voice, or user picks one', unknown: 'Not sure' },
-    imagery: { masc: 'Masculine-coded imagery', fem: 'Feminine-coded imagery', neutral: 'Abstract / deliberately neutral', none: 'No avatar or imagery at all', unknown: 'Not sure' },
+    imagery: { masc: 'Stereotypically masculine-coded imagery', fem: 'Stereotypically feminine-coded imagery', neutral: 'Abstract / deliberately neutral', none: 'No avatar or imagery at all', unknown: 'Not sure' },
     comportment: { fem: 'Deferential, apologetic, warm', masc: 'Direct, assertive, authoritative', mixed: 'Blends both depending on context', neutral: 'Doesn\u2019t read strongly either way' }
   };
   function optionLabelFor(labelText, code){

@@ -5,6 +5,32 @@ called `casting-call.html` until 2026-10-06; see the entry for that date.
 
 ## 2026-10-06
 
+### "Feminine-coded" -> "stereotypically feminine-coded" throughout
+
+All 60 occurrences, both cases and both genders: 21 lowercase and 9
+capitalized for each of feminine and masculine. The one instance that already
+read "stereotypically feminine-coded" was left alone rather than doubled.
+
+Verified that none of these strings is load-bearing. The internal codes are
+`fem`, `masc`, `mixed` and `neutral`, and every occurrence changed was a
+display label, an `<option>`'s text, prose, or a comment -- the `value="fem"` /
+`value="masc"` attributes and all `'fem'`/`'masc'` comparisons are untouched
+and were counted before and after to confirm it.
+
+Two consequences worth knowing:
+
+- **The gauge labels are now long**: "Strongly stereotypically
+  feminine-coded", "Leans stereotypically masculine-coded". Grammatical but
+  wordy for a badge. Left consistent with everything else on the grounds that
+  these are the most assertive-sounding strings in the tool and therefore the
+  ones that most need the hedge; easy to shorten if they read badly in use.
+- **The classifier prompts changed too**, which is a behaviour change rather
+  than a copy change. `CLASSIFY_PROMPTS` now asks Claude to judge whether
+  something reads as *stereotypically* masculine- or feminine-coded. The
+  return contract is untouched -- still `fem`/`masc`/`mixed`/`neutral` -- so
+  nothing downstream shifts, but the framing handed to the model now matches
+  the framing shown to the reader.
+
 ### Masthead
 
 - **Added a standfirst paragraph** above "Every AI assistant has a director...",
