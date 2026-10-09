@@ -271,6 +271,10 @@
   .search-row button:disabled{ background: var(--ink-faint); cursor: not-allowed; }
   .search-status{ margin-top: 12px; font-size: 13.5px; color: var(--ink-soft); min-height: 1em; }
   .search-status.error{ color: var(--curtain); }
+  /* [search-failure-note] start: explains why a failed lookup landed on the manual sheet. Remove the whole feature by deleting the blocks marked [search-failure-note]. */
+  .search-failure-note{ margin: 0 0 16px; padding: 10px 14px; border-left: 3px solid var(--curtain); background: var(--paper-dim); color: var(--curtain); font-size: 13.5px; line-height: 1.5; border-radius: 3px; }
+  .search-failure-detail{ margin-top: 4px; font-size: 12px; color: var(--ink-faint); }
+  /* [search-failure-note] end */
   .search-sources{ margin-top: 10px; font-size: 12.5px; color: var(--ink-faint); }
   .search-sources a{ color: var(--slate); }
 
@@ -461,6 +465,8 @@
   }
   .ro-value.empty{ color: var(--ink-faint); font-style: italic; }
   .mr-gender .chip{ display:inline-block; margin-top: 1px; }
+  .src-tag{ display:inline-block; margin-left:6px; padding:1px 7px; border-radius:10px; font-family: var(--font-mono); font-size:10.5px; letter-spacing:.03em; border:1px solid var(--rule); color: var(--ink-soft); background: var(--paper-card); white-space:nowrap; }
+  .src-tag.src-knowledge{ color: var(--curtain); border-color: var(--curtain); }
   .ro-note{ font-size: 13.5px; color: var(--ink-soft); margin: 6px 0 0; line-height: 1.5; }
   .ro-note a, .mr-reason a{ color: var(--curtain); }
   .ro-headline{ font-family: var(--font-display); font-size: 15.5px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
@@ -817,6 +823,7 @@
   <div class="sheet search-results-view" id="searchResultsView" hidden>
     <h2>What Claude found</h2>
     <p class="fine-print">This is Claude's own research, not something you typed — so nothing below is editable. If something looks wrong, use "Edit these answers" below rather than trying to click into it.</p>
+    <p class="fine-print" id="srcLegend">Results can vary from one search to the next, because they depend on which pages the search brings back. Tags show where each answer came from: <strong>Other source</strong> (from a page the search returned), or <strong>Claude&rsquo;s general knowledge</strong> (not from a page the search returned).</p>
     <div id="searchResultsBody"></div>
     <div class="search-results-actions">
       <button type="button" id="revealBtnSearch">Reveal the placement</button>
@@ -825,12 +832,15 @@
   </div>
 
   <form class="sheet" id="sheet" hidden>
+    <!-- [search-failure-note] start -->
+    <div class="search-failure-note" id="searchFailureNote" role="alert" hidden></div>
+    <!-- [search-failure-note] end -->
     <h2>Character breakdown sheet</h2>
 
     <details class="methodology">
       <summary>How are these categorized as masculine or feminine?</summary>
       <div class="methodology-body">
-        <p><strong>No, there isn't a lookup table.</strong> This tool doesn't check a name against a gender-name database, or an avatar against a shape/color taxonomy — no such database exists here. In manual mode, <em>you</em> make each call, guided by the rules below. In search mode, Claude makes the same call using its general knowledge and whatever the web search turns up, described in a short note; a simple keyword check then tries to translate that note into a dropdown selection, which is imperfect — always review it before revealing the placement. Either way, the decision is a judgment call applied consistently, not a database hit.</p>
+        <p><strong>No, there isn't a lookup table.</strong> This tool doesn't check a name against a gender-name database, or an avatar against a shape/color taxonomy — no such database exists here. In manual mode, <em>you</em> make each call, guided by the rules below. In search mode, Claude makes the same call using its general knowledge and whatever the web search turns up, and returns each selection directly with a short reason, tagged to show whether it came from a page the search returned or from its general knowledge. That is imperfect, so always review it before revealing the placement. Either way, the decision is a judgment call applied consistently, not a database hit.</p>
         <p><strong>Name:</strong> is it a name conventionally given to one gender in the relevant language or cultural context — the way "Michael" reads masculine and "Emma" reads feminine in most English-speaking contexts? This is convention, not universal truth: naming patterns vary by culture, era, and community, and plenty of names are shared across genders. Treat it as a starting point you're free to override.</p>
         <p><strong>Pronouns:</strong> the most direct of the four signals — whatever pronoun the product is actually referred to by, officially or in common usage. No inference required, just reporting.</p>
         <p><strong>Voice:</strong> coded primarily by pitch, since listeners reliably use it as a cue to categorize a voice as male- or female-sounding, and default voice choices in AI products have been shown to trigger the same gendered responses human voices do (Nass, Moon, &amp; Green, 1997; Costa, 2018; Mooshammer &amp; Etzrodt, 2022). Lower-pitched defaults read stereotypically masculine-coded; higher-pitched defaults read stereotypically feminine-coded.</p>
@@ -894,7 +904,7 @@
               <option value="masc">Lower-pitched / seems masculine</option>
               <option value="fem">Higher-pitched / seems feminine</option>
               <option value="neutral">Deliberately androgynous</option>
-              <option value="none">No fixed voice, or user picks one</option>
+              <option value="none">Varies &mdash; no fixed voice, or user picks one</option>
             </select>
           </div>
           <div class="mr-reason" id="f-voice-reason"></div>
@@ -1676,14 +1686,14 @@
   // not a judgment call.
   const CLASSIFY_PROMPTS = {
     name: 'Judge whether the following AI PRODUCT NAME conventionally reads as stereotypically masculine-coded, stereotypically feminine-coded, or neutral/ambiguous, based on common naming convention in the language/culture it appears to be from. This is a judgment about convention, not a database lookup — say so is not needed, just make the call.',
-    voice: 'Judge whether the following VOICE description reads as stereotypically masculine-coded (e.g. lower-pitched) or stereotypically feminine-coded (e.g. higher-pitched) or neutral/deliberately androgynous, based on the pitch and style cues in the description.',
+    voice: 'Judge whether the following VOICE description reads as stereotypically masculine-coded (e.g. lower-pitched) or stereotypically feminine-coded (e.g. higher-pitched) or neutral/deliberately androgynous, based on the pitch and style cues in the description. If the description says the voice varies, or that there are several voices or the user picks one, answer none instead of choosing a gender.',
     imagery: 'Judge whether the following AVATAR/IMAGERY description reads as stereotypically masculine-coded or stereotypically feminine-coded or neutral, based on general cultural association with shape, color, and any human styling or object cues (angular/cool-colored/tool-vehicle-machinery reads stereotypically masculine-coded; soft/rounded/warm-or-pastel-colored/floral-organic reads stereotypically feminine-coded). There is no fixed taxonomy — make the judgment call.',
     task: 'Judge whether the following WORK TASK/ACTIVITY is stereotypically feminine-coded (admin, scheduling, care, support work), stereotypically masculine-coded (technical, quantitative, strategic work), genuinely mixed/spans both, or neutral (doesn\'t map onto a stereotype at all).',
     comportment: 'Judge whether the following MANNER/TONE description is stereotypically feminine-coded (deferential, apologetic, warm), stereotypically masculine-coded (direct, assertive, authoritative), genuinely blends both, or neutral (doesn\'t read strongly either way).'
   };
   const CLASSIFY_CODES = {
     name: ['masc', 'fem', 'neutral'],
-    voice: ['masc', 'fem', 'neutral'],
+    voice: ['masc', 'fem', 'neutral', 'none'],
     imagery: ['masc', 'fem', 'neutral'],
     task: ['fem', 'masc', 'mixed', 'neutral'],
     comportment: ['fem', 'masc', 'mixed', 'neutral']
@@ -1696,6 +1706,7 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
+        temperature: 0,
         max_tokens: 150,
         system: system,
         messages: [{ role: 'user', content: text }]
@@ -1825,6 +1836,54 @@
     updateRemoveButtons();
   }
 
+  // [search-failure-note] start
+  // Turns the technical error into plain words plus what to do next. The original
+  // message stays underneath as "Details" so it can be reported.
+  function explainSearchFailure(message){
+    const msg = String(message || '');
+    const m = msg.match(/Request failed \((\d+)\)/);
+    let what, todo;
+    if (m) {
+      const code = parseInt(m[1], 10);
+      if (code === 429) { what = 'The search service is busy, or a usage limit was reached (error 429).'; todo = 'Wait a few minutes, then go back to Option A and search again. If it keeps happening, your Claude usage limit may be used up.'; }
+      else if (code === 401 || code === 403) { what = 'This page isn\u2019t allowed to use the search service (error ' + code + '), which usually means it is open outside Claude.'; todo = 'Fill in the sheet below by hand instead.'; }
+      else if (code === 400) { what = 'The search request was rejected (error 400).'; todo = 'Try a different product name or link. If it keeps happening, let whoever runs this page know.'; }
+      else if (code >= 500) { what = 'The search service is temporarily unavailable (error ' + code + ').'; todo = 'Wait a minute, then go back to Option A and search again.'; }
+      else { what = 'The search service returned an error (' + code + ').'; todo = 'Try again in a minute.'; }
+    } else if (/reach the service/i.test(msg)) {
+      what = 'Couldn\u2019t reach the search service.';
+      todo = 'Check your internet connection and search again from Option A. If you opened this page outside Claude (for example on a website), the lookup isn\u2019t available there, so use the sheet below.';
+    } else if (/ran out of room|cut off/i.test(msg)) {
+      what = 'The answer ran too long and got cut off.'; todo = 'Go back to Option A and search again; that usually works.';
+    } else if (/could not parse/i.test(msg)) {
+      what = 'The search ran, but its answer couldn\u2019t be read.'; todo = 'Go back to Option A and search again; that usually works.';
+    } else {
+      what = 'Something went wrong with the search.'; todo = 'Try again in a moment. If it keeps happening, use the sheet below.';
+    }
+    const text = what + ' ' + todo + (/sheet/i.test(todo) ? '' : ' You can also fill in the sheet below by hand.');
+    return { text: text, detail: msg };
+  }
+  function showSearchFailureNote(info){
+    const el = $('searchFailureNote');
+    el.textContent = '';
+    const main = document.createElement('div');
+    main.textContent = info.text;
+    el.appendChild(main);
+    if (info.detail) {
+      const d = document.createElement('div');
+      d.className = 'search-failure-detail';
+      d.textContent = 'Details: ' + info.detail;
+      el.appendChild(d);
+    }
+    el.hidden = false;
+  }
+  function hideSearchFailureNote(){
+    const el = $('searchFailureNote');
+    el.textContent = '';
+    el.hidden = true;
+  }
+
+  // [search-failure-note] end
   function setMode(mode){
     const tabMode = (mode === 'search-results') ? 'search' : mode;
     tickets.forEach(function(t){ t.classList.toggle('active', t.dataset.mode === tabMode); });
@@ -1832,6 +1891,7 @@
     sheet.hidden = (mode !== 'manual');
     searchResultsView.hidden = (mode !== 'search-results');
     results.hidden = true;
+    if (mode !== 'manual') hideSearchFailureNote(); // [search-failure-note]
     if (mode === 'search') { $('searchInput').focus(); }
   }
 
@@ -2216,37 +2276,43 @@
     statusEl.className = 'search-status';
     statusEl.textContent = 'Searching the wings for public information…';
     sourcesEl.innerHTML = '';
+    hideSearchFailureNote(); // [search-failure-note]
     verifiedUrls = new Set();
 
     const systemPrompt =
-      "You are helping with a structured, academic-style exercise assessing how an AI product is gendered through its public-facing design. Do at most ONE web search, then respond immediately — a complete, valid JSON object matters more than exhaustive research. Never fabricate a fact or a URL; where something is unclear or wasn't found, use the 'unknown' or 'none' code as listed below and say so briefly. " +
+      "You are helping with a structured, academic-style exercise assessing how an AI product is gendered through its public-facing design. Do at most ONE web search, then respond immediately — a complete, valid JSON object matters more than exhaustive research. This tool only assesses AI assistants, agents and chatbots, so when a name is shared by other things the product is the AI assistant (for example, Amazon's Alexa voice assistant is NOT alexa.com, which was Alexa Internet, a retired web-traffic ranking site). Work out the maker from that. Make your single search query exactly the product name, then its maker, then the words AI assistant (for example: Siri Apple AI assistant) — nothing else. Fill the markers (name, pronouns, voice, imagery) and behavior (tasks, manner/tone) as well as you can from whatever pages your search returned, then from your general knowledge, and say which in markers_basis. Where nothing supports an answer use the unknown or none code rather than guessing. Ignore capitalization and extra spaces in what the user typed (alexa, ALEXA and Alexa are the same product; so are differently-cased links). If the user supplied a link, treat it as naming the product. Never fabricate a fact or a URL; where something is unclear or wasn't found, use the 'unknown' or 'none' code as listed below and say so briefly. " +
       "Judge each gender code the way described here: name — common naming convention in the relevant language/culture; voice — pitch (lower reads masculine, higher reads feminine); imagery/avatar — for a humanlike avatar, body-shape/styling cues; for a non-human avatar (shape, object, color), general cultural association (angular/cool-colored/tool-vehicle-machinery reads masculine, soft/rounded/warm-or-pastel/floral-organic reads feminine — there is no fixed taxonomy, so treat it as a judgment call); tasks — occupational stereotype (admin/care/support reads feminine, technical/quantitative/strategic reads masculine); comportment — agentic-vs-communal (assertive/direct reads masculine, warm/deferential reads feminine). " +
       "For designer_credit, read carefully: a note saying 'no individual is named' or 'not attributed to a person' means 'org' or 'team', NEVER 'named' — only use 'named' when a specific person is positively credited. For org_diversity_status, check explicitly for language like 'no longer published' or 'discontinued' before concluding a figure currently exists — that case is 'removed', not 'technical-specific' or 'company-wide'. " +
       "Return ONLY a raw JSON object — no markdown fences, no other text before or after it — with exactly these keys:\n" +
       "name (string); name_code ('masc'|'fem'|'neutral'|'unknown'), name_reason (8 words or fewer);\n" +
       "pronouns_value (what pronoun it's referred to by, if any, a few words), pronouns_code ('masc'|'fem'|'neutral'|'object'|'none'|'unknown'), pronouns_reason (8 words or fewer);\n" +
       "voice_value (a few words describing its voice, if it has one), voice_code ('masc'|'fem'|'neutral'|'none'|'unknown'), voice_reason (8 words or fewer);\n" +
+      "VOICE RULE: If the product offers more than one voice, or its voice varies by language, region, device or user choice, do NOT pick one: set the voice code to 'none' and start the voice value with the word Varies (for example: Varies - user picks; default sounds higher-pitched).\n" +
       "imagery_value (a few words describing its avatar/imagery, if any), imagery_code ('masc'|'fem'|'neutral'|'none'|'unknown'), imagery_reason (8 words or fewer);\n" +
-      "tasks (array of 1 to 4 objects, each {task: a few words, code: 'fem'|'masc'|'mixed'|'neutral'} — list each genuinely distinct thing it does as its OWN array entry, never merge multiple tasks into one string);\n" +
+      "tasks (array of AT MOST 3 objects, each {task: a few words, code: 'fem'|'masc'|'mixed'|'neutral'}; never merge multiple tasks into one string and never return more than three);\n" +
+      "TASK RULES: pick the three tasks the product is most prominently presented as doing, and list them in the order the source presents them (the first thing it leads with comes first), using the source's own wording where you can, in a few words. The three must be DISTINCT: never list two that cover the same activity (for example, do not list both 'calls, texts and reminders' and 'messaging and calls'), and never split one activity into several entries to fill the list.\n" +
       "comportment_value (a few words on its general tone/manner), comportment_code ('fem'|'masc'|'mixed'|'neutral');\n" +
       "designer_credit ('named'|'team'|'org'|'unknown'), designer_note (12 words or fewer), designer_source ({title,url} object or null);\n" +
       "org_diversity_status ('technical-specific'|'company-wide'|'removed'|'none'), org_diversity_note (12 words or fewer), org_diversity_source ({title,url} object or null);\n" +
       "company_country (a couple words — include ONLY if org_diversity_status is 'company-wide', omit this key entirely otherwise);\n" +
       "general_tech_demographics_note (one short phrase on general, publicly-known gender demographics of software/engineering roles in that country, e.g. from national labor statistics — include ONLY if org_diversity_status is 'company-wide', omit entirely otherwise), general_tech_demographics_source ({title,url} object or null, only alongside the note above);\n" +
       "adaptive_code ('adaptive'|'nonadaptive'|'unclear'), adaptive_note (12 words or fewer), adaptive_source ({title,url} object or null);\n" +
+      "markers_basis (object with the keys name, pronouns, voice, imagery, tasks, comportment; each value 'web' if what you wrote for it comes from a page your search returned, or 'knowledge' if it comes from your own general knowledge);\n" +
       "sources (array of up to 2 {title,url} objects — general citations);\n" +
       "confidence_note (one plain, complete sentence on which parts you're confident about and which you're not, e.g. \"Confident about the name and voice history; the pronoun and DEI figures were hard to pin down.\").\n" +
       "Keep the JSON compact — short phrases, not sentences — and write it last, after searching, so it never gets cut off.";
 
     try {
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
+      const userMsg = 'Product (an AI assistant, agent or chatbot): ' + query;
+      const response = await fetchWithRetry("https://api.anthropic.com/v1/messages", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           model: "claude-sonnet-4-6",
+          temperature: 0,
           max_tokens: 2200,
           system: systemPrompt,
-          messages: [{ role: "user", content: "Product: " + query }],
+          messages: [{ role: "user", content: userMsg }],
           tools: [{ type: "web_search_20250305", name: "web_search" }]
         })
       });
@@ -2282,12 +2348,14 @@
         }
       }
 
+      setMarkerSources(parsed);
+
       populateEditableSheetFromSearch(parsed);
       renderSearchResultsView(parsed, wasTruncated || salvaged);
       setMode('search-results');
 
       if (wasTruncated || salvaged) {
-        statusEl.textContent = 'That ran long and got cut off partway through — pulled in what it could.';
+        statusEl.textContent = 'That ran long and got cut off partway through \u2014 pulled in what it could.';
       } else {
         statusEl.textContent = '';
       }
@@ -2296,9 +2364,44 @@
       statusEl.className = 'search-status error';
       statusEl.textContent = "Couldn't complete that search (" + err.message + "). You can still fill in the sheet below by hand.";
       setMode('manual');
+      showSearchFailureNote(explainSearchFailure(err.message)); // [search-failure-note]
     } finally {
       btn.disabled = false;
     }
+  }
+
+  // A dropped connection ("Failed to fetch") is retried once after a short
+  // pause before the page gives up. HTTP errors (400, 429...) are not retried:
+  // those mean the service answered.
+  async function fetchWithRetry(url, init){
+    try { return await fetch(url, init); }
+    catch (e) {
+      if (e && e.name === 'AbortError') throw e;
+      await new Promise(function(r){ setTimeout(r, 1200); });
+      try { return await fetch(url, init); }
+      catch (e2) {
+        if (e2 && e2.name === 'AbortError') throw e2;
+        throw new Error('couldn\u2019t reach the service (the connection dropped twice) \u2014 please try again');
+      }
+    }
+  }
+
+  // Records, per field, where each answer came from, using the search's own
+  // markers_basis: 'other' (a page the search returned), 'knowledge' (Claude's
+  // general knowledge) or 'unspecified'.
+  function setMarkerSources(r){
+    const basis = (r.markers_basis && typeof r.markers_basis === 'object') ? r.markers_basis : {};
+    const srcs = {};
+    ['name', 'pronouns', 'voice', 'imagery', 'tasks', 'comportment'].forEach(function(k){
+      const b = String(basis[k] || '').toLowerCase();
+      srcs[k] = b === 'web' ? 'other' : b === 'knowledge' ? 'knowledge' : 'unspecified';
+    });
+    r.marker_sources = srcs;
+  }
+
+  const SRC_LABELS = { other: 'Other source', knowledge: 'Claude\u2019s general knowledge', unspecified: 'Source not specified' };
+  function srcTag(src){
+    return src ? ' <span class="src-tag src-' + escapeAttr(src) + '">' + escapeHtml(SRC_LABELS[src] || src) + '</span>' : '';
   }
 
   function salvageFields(text){
@@ -2490,7 +2593,7 @@
     markClassified(fields.imageryText);
 
     resetTaskRows();
-    const tasksArr = Array.isArray(r.tasks) ? r.tasks.filter(function(t){ return t && t.task; }) : [];
+    const tasksArr = Array.isArray(r.tasks) ? r.tasks.filter(function(t){ return t && t.task; }).slice(0, 3) : [];
     const firstTask = taskTable.querySelector('.task-row');
     if (tasksArr.length) {
       tasksArr.forEach(function(t, i){
@@ -2531,12 +2634,12 @@
     lastSearchConfidence = r.confidence_note ? ('How sure is this: ' + r.confidence_note) : '';
   }
 
-  function roRow(labelText, valueText, code, reasonText){
+  function roRow(labelText, valueText, code, reasonText, src){
     const val = valueText && valueText.trim() ? escapeHtml(valueText.trim()) : '<span class="ro-value empty">Not found</span>';
     return '<div class="marker-row">' +
       '<div class="mr-input"><label>' + escapeHtml(labelText) + '</label><div class="ro-value">' + val + '</div></div>' +
       '<div class="mr-gender"><label>Gender coding</label>' + chip(code, optionLabelFor(labelText, code)) + '</div>' +
-      '<div class="mr-reason">' + escapeHtml(reasonText || '') + '</div>' +
+      '<div class="mr-reason">' + escapeHtml(reasonText || '') + srcTag(src) + '</div>' +
       '</div>';
   }
 
@@ -2545,7 +2648,7 @@
   const CODE_LABELS = {
     name: { masc: 'Stereotypically masculine-coded', fem: 'Stereotypically feminine-coded', neutral: 'Neutral or ambiguous', unknown: 'Not sure / haven\u2019t checked' },
     pronouns: { masc: 'He / him', fem: 'She / her', neutral: 'They / them', object: 'It', none: 'None used / unspecified', unknown: 'Not sure' },
-    voice: { masc: 'Lower-pitched / seems masculine', fem: 'Higher-pitched / seems feminine', neutral: 'Deliberately androgynous', none: 'No fixed voice, or user picks one', unknown: 'Not sure' },
+    voice: { masc: 'Lower-pitched / seems masculine', fem: 'Higher-pitched / seems feminine', neutral: 'Deliberately androgynous', none: 'Varies \u2014 no fixed voice, or user picks one', unknown: 'Not sure' },
     imagery: { masc: 'Stereotypically masculine-coded imagery', fem: 'Stereotypically feminine-coded imagery', neutral: 'Abstract / deliberately neutral', none: 'No avatar or imagery at all', unknown: 'Not sure' },
     comportment: { fem: 'Deferential, apologetic, warm', masc: 'Direct, assertive, authoritative', mixed: 'Blends both depending on context', neutral: 'Doesn\u2019t read strongly either way' }
   };
@@ -2567,26 +2670,27 @@
   // plain wrapped text and badges, never inputs/selects, so nothing here can
   // be clicked into or truncated the way a single-line <input> would.
   function renderSearchResultsView(r, wasPartial){
-    const tasksArr = Array.isArray(r.tasks) ? r.tasks.filter(function(t){ return t && t.task; }) : [];
+    const tasksArr = Array.isArray(r.tasks) ? r.tasks.filter(function(t){ return t && t.task; }).slice(0, 3) : [];
     let html = '';
     if (wasPartial) {
       html += '<p class="ro-note" style="margin-bottom:14px;"><strong>Heads up:</strong> that search ran long and got cut off partway through, so some fields below may be missing — use "Edit these answers instead" to fill in gaps by hand.</p>';
     }
     html += '<fieldset><legend><span class="step">A</span> The actor\'s markers</legend>';
-    html += roRow('Name', r.name, r.name_code, r.name_reason);
-    html += roRow('Pronouns', r.pronouns_value, r.pronouns_code, r.pronouns_reason);
-    html += roRow('Voice', r.voice_value, r.voice_code, r.voice_reason);
-    html += roRow('Avatar / imagery', r.imagery_value, r.imagery_code, r.imagery_reason);
+    const ms = r.marker_sources || {};
+    html += roRow('Name', r.name, r.name_code, r.name_reason, ms.name);
+    html += roRow('Pronouns', r.pronouns_value, r.pronouns_code, r.pronouns_reason, ms.pronouns);
+    html += roRow('Voice', r.voice_value, r.voice_code, r.voice_reason, ms.voice);
+    html += roRow('Avatar / imagery', r.imagery_value, r.imagery_code, r.imagery_reason, ms.imagery);
     html += '</fieldset>';
 
-    html += '<fieldset><legend><span class="step">B</span> The actor\'s behavior</legend>';
+    html += '<fieldset><legend><span class="step">B</span> The actor\'s behavior <span class="legend-sub">top three tasks</span></legend>';
     if (tasksArr.length) {
       tasksArr.forEach(function(t, i){
         const taskLabel = 'Task' + (tasksArr.length > 1 ? ' ' + (i + 1) : '');
         html += '<div class="marker-row">' +
           '<div class="mr-input"><label>' + taskLabel + '</label><div class="ro-value">' + escapeHtml(t.task) + '</div></div>' +
           '<div class="mr-gender"><label>Gender coding</label>' + chip(t.code, TASK_CODE_LABELS[t.code] || t.code) + '</div>' +
-          '<div class="mr-reason"></div>' +
+          '<div class="mr-reason">' + srcTag(ms.tasks) + '</div>' +
           '</div>';
       });
     } else {
@@ -2595,7 +2699,7 @@
     html += '<div class="marker-row">' +
       '<div class="mr-input"><label>Manner / tone</label><div class="ro-value' + (r.comportment_value ? '' : ' empty') + '">' + escapeHtml(r.comportment_value || 'Not found') + '</div></div>' +
       '<div class="mr-gender"><label>Gender coding</label>' + chip(r.comportment_code, (CODE_LABELS.comportment[r.comportment_code]) || r.comportment_code) + '</div>' +
-      '<div class="mr-reason"></div>' +
+      '<div class="mr-reason">' + srcTag(ms.comportment) + '</div>' +
       '</div>';
     html += '</fieldset>';
 
@@ -2686,7 +2790,8 @@
     });
   });
 
-})();
+
+  })();
 </script>
 </body>
 </html>
