@@ -946,7 +946,7 @@
               <option value="neutral">Doesn't map onto a stereotype</option>
               <option value="fem">Stereotypically feminine-coded (admin, scheduling, care, support)</option>
               <option value="masc">Stereotypically masculine-coded (technical, quantitative, strategic)</option>
-              <option value="mixed">Genuinely spans both</option>
+              <option value="mixed">Spans both</option>
             </select>
           </div>
           <div class="mr-reason task-reason"></div>
@@ -1076,7 +1076,7 @@
           <option value="neutral">Doesn't map onto a stereotype</option>
           <option value="fem">Stereotypically feminine-coded (admin, scheduling, care, support)</option>
           <option value="masc">Stereotypically masculine-coded (technical, quantitative, strategic)</option>
-          <option value="mixed">Genuinely spans both</option>
+          <option value="mixed">Spans both</option>
         </select>
       </div>
     </fieldset>
@@ -1572,7 +1572,7 @@
     neutral: "Doesn't map onto a stereotype",
     fem: 'Stereotypically feminine-coded (admin, scheduling, care, support)',
     masc: 'Stereotypically masculine-coded (technical, quantitative, strategic)',
-    mixed: 'Genuinely spans both'
+    mixed: 'Spans both'
   };
 
   // Per Conzon & Feldberg: markers place an actor in a gender category;
@@ -1688,8 +1688,8 @@
     name: 'Judge whether the following AI PRODUCT NAME conventionally reads as stereotypically masculine-coded, stereotypically feminine-coded, or neutral/ambiguous, based on common naming convention in the language/culture it appears to be from. This is a judgment about convention, not a database lookup — say so is not needed, just make the call.',
     voice: 'Judge whether the following VOICE description reads as stereotypically masculine-coded (e.g. lower-pitched) or stereotypically feminine-coded (e.g. higher-pitched) or neutral/deliberately androgynous, based on the pitch and style cues in the description. If the description says the voice varies, or that there are several voices or the user picks one, answer none instead of choosing a gender.',
     imagery: 'Judge whether the following AVATAR/IMAGERY description reads as stereotypically masculine-coded or stereotypically feminine-coded or neutral, based on general cultural association with shape, color, and any human styling or object cues (angular/cool-colored/tool-vehicle-machinery reads stereotypically masculine-coded; soft/rounded/warm-or-pastel-colored/floral-organic reads stereotypically feminine-coded). There is no fixed taxonomy — make the judgment call.',
-    task: 'Judge whether the following WORK TASK/ACTIVITY is stereotypically feminine-coded (admin, scheduling, care, support work), stereotypically masculine-coded (technical, quantitative, strategic work), genuinely mixed/spans both, or neutral (doesn\'t map onto a stereotype at all).',
-    comportment: 'Judge whether the following MANNER/TONE description is stereotypically feminine-coded (deferential, apologetic, warm), stereotypically masculine-coded (direct, assertive, authoritative), genuinely blends both, or neutral (doesn\'t read strongly either way).'
+    task: 'Judge whether the following WORK TASK/ACTIVITY is stereotypically feminine-coded (admin, scheduling, care, support work), stereotypically masculine-coded (technical, quantitative, strategic work), mixed (it spans both), or neutral (doesn\'t map onto a stereotype at all).',
+    comportment: 'Judge whether the following MANNER/TONE description is stereotypically feminine-coded (deferential, apologetic, warm), stereotypically masculine-coded (direct, assertive, authoritative), a blend of both, or neutral (doesn\'t read strongly either way).'
   };
   const CLASSIFY_CODES = {
     name: ['masc', 'fem', 'neutral'],
@@ -1700,7 +1700,7 @@
   };
 
   async function classifyField(kind, text){
-    const system = CLASSIFY_PROMPTS[kind] + ' Respond with ONLY a raw JSON object, no markdown fences, no other text: {"code": one of ' + JSON.stringify(CLASSIFY_CODES[kind]) + ', "reason": "<8 words or fewer, plain language, explaining why"}.';
+    const system = CLASSIFY_PROMPTS[kind] + " Do not use the word 'genuinely' in your explanations. State the observation plainly." + ' Respond with ONLY a raw JSON object, no markdown fences, no other text: {"code": one of ' + JSON.stringify(CLASSIFY_CODES[kind]) + ', "reason": "<8 words or fewer, plain language, explaining why"}.';
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1935,7 +1935,7 @@
     const firstTask = taskTable.querySelector('.task-row');
     firstTask.querySelector('.task-text').value = 'Writing, coding, analysis, research, tutoring, customer support, and more';
     firstTask.querySelector('.task-type').value = 'mixed';
-    firstTask.querySelector('.task-reason').textContent = 'Genuinely spans admin/care-adjacent and technical/analytical work — no single stereotype fits.';
+    firstTask.querySelector('.task-reason').textContent = 'Spans admin/care-adjacent and technical/analytical work — no single stereotype fits.';
     fields.comportmentText.value = 'Adapts tone to context, from direct to warm';
     fields.comportment.value = 'mixed';
     $('f-comportment-reason').textContent = 'Manner shifts with the task rather than defaulting one way.';
@@ -2281,7 +2281,7 @@
 
     const systemPrompt =
       "You are helping with a structured, academic-style exercise assessing how an AI product is gendered through its public-facing design. Do at most ONE web search, then respond immediately — a complete, valid JSON object matters more than exhaustive research. This tool only assesses AI assistants, agents and chatbots, so when a name is shared by other things the product is the AI assistant (for example, Amazon's Alexa voice assistant is NOT alexa.com, which was Alexa Internet, a retired web-traffic ranking site). Work out the maker from that. Make your single search query exactly the product name, then its maker, then the words AI assistant (for example: Siri Apple AI assistant) — nothing else. Fill the markers (name, pronouns, voice, imagery) and behavior (tasks, manner/tone) as well as you can from whatever pages your search returned, then from your general knowledge, and say which in markers_basis. Where nothing supports an answer use the unknown or none code rather than guessing. Ignore capitalization and extra spaces in what the user typed (alexa, ALEXA and Alexa are the same product; so are differently-cased links). If the user supplied a link, treat it as naming the product. Never fabricate a fact or a URL; where something is unclear or wasn't found, use the 'unknown' or 'none' code as listed below and say so briefly. " +
-      "Judge each gender code the way described here: name — common naming convention in the relevant language/culture; voice — pitch (lower reads masculine, higher reads feminine); imagery/avatar — for a humanlike avatar, body-shape/styling cues; for a non-human avatar (shape, object, color), general cultural association (angular/cool-colored/tool-vehicle-machinery reads masculine, soft/rounded/warm-or-pastel/floral-organic reads feminine — there is no fixed taxonomy, so treat it as a judgment call); tasks — occupational stereotype (admin/care/support reads feminine, technical/quantitative/strategic reads masculine); comportment — agentic-vs-communal (assertive/direct reads masculine, warm/deferential reads feminine). " +
+      "Judge each gender code the way described here: name — common naming convention in the relevant language/culture; voice — pitch (lower reads masculine, higher reads feminine); imagery/avatar — for a humanlike avatar, body-shape/styling cues; for a non-human avatar (shape, object, color), general cultural association (angular/cool-colored/tool-vehicle-machinery reads masculine, soft/rounded/warm-or-pastel/floral-organic reads feminine — there is no fixed taxonomy, so treat it as a judgment call); tasks — occupational stereotype (admin/care/support reads feminine, technical/quantitative/strategic reads masculine); comportment — agentic-vs-communal (assertive/direct reads masculine, warm/deferential reads feminine). Do not use the word 'genuinely' in your explanations. State the observation plainly. " +
       "For designer_credit, read carefully: a note saying 'no individual is named' or 'not attributed to a person' means 'org' or 'team', NEVER 'named' — only use 'named' when a specific person is positively credited. For org_diversity_status, check explicitly for language like 'no longer published' or 'discontinued' before concluding a figure currently exists — that case is 'removed', not 'technical-specific' or 'company-wide'. " +
       "Return ONLY a raw JSON object — no markdown fences, no other text before or after it — with exactly these keys:\n" +
       "name (string); name_code ('masc'|'fem'|'neutral'|'unknown'), name_reason (8 words or fewer);\n" +
