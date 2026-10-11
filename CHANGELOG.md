@@ -3,6 +3,116 @@
 All changes below are to `index.html`, the build that keeps the live web search. It was
 called `casting-call.html` until 2026-10-06; see the entry for that date.
 
+## 2026-10-09
+
+Edits to `index.html`. The reasoning, the test results and the open questions
+behind them are in `docs/decision-rules-log.md`.
+
+### Path A, Option A: one general web search
+
+`runSearch` makes one request with one `web_search_20250305` call at
+`temperature: 0`. The query is the product name, its maker and the words
+"AI assistant". Claude is told the product is an AI assistant, agent or
+chatbot, so a name shared with something else resolves to the AI (Alexa, not
+alexa.com), and that names and pasted links are not case-sensitive.
+
+Removed, because tests showed no stability benefit and the requirement caused
+most of the failures: the rule that the search must land on the product's
+official site, the confirmation search for the site Claude named, the retry
+when that site was rejected, the official-site link, and the "no official site,
+try again" message. A second pass that read the official site's own pages was
+tried first and dropped: the same results at about three times the input
+tokens.
+
+### Behaviors, voice and source tags
+
+- **At most three tasks**, the most prominent first, in the order the source
+  gives them, with no two covering the same activity. The page also cuts any
+  list to three, so the limit holds even if Claude returns more.
+- **A voice that varies is recorded as varying.** If a product offers more than
+  one voice, or its voice varies by language, region, device or user choice,
+  the result is code `none`, worded "Varies", instead of one pick. It scores as
+  neutral. Siri had been returned as both "higher-pitched" and "deliberately
+  androgynous" on different runs.
+- **Every answer carries a tag**: Other source, Claude's general knowledge, or
+  Source not specified. It is Claude's own report of where the answer came from,
+  and the page cannot verify it.
+- **A line above the answers says results can vary** from one search to the
+  next, because they depend on which pages the search brings back.
+
+### "Genuinely" in the gender-coding output
+
+The word is gone from the output that says how feminine or masculine something
+is, in two ways.
+
+- **Printed text, four places.** The "mixed" label changed from "Genuinely
+  spans both" to "Spans both" in `TASK_CODE_LABELS` (the result chip) and in the
+  task dropdown of each path, Path A's and Path B's. The worked example's reason
+  now begins "Spans admin/care-adjacent and technical/analytical work". The tone
+  dropdowns read "Blends both depending on context" and never had the word.
+- **The prompts that write the explanations.** Removed from the two
+  `CLASSIFY_PROMPTS` entries that had it (task and tone), and `classifyField`
+  and the lookup prompt now each carry "Do not use the word 'genuinely' in your
+  explanations. State the observation plainly." It is not an output filter:
+  deleting the word afterwards can leave a broken sentence.
+
+This reverses the 2026-10-06 decision to leave "Genuinely spans both". The
+reason given then, that changing it on one side would re-open the drift between
+the two paths, no longer applies: both paths' task dropdowns and the shared
+label table changed together, so they still match.
+
+A live check (three lookups and eight classifier calls) found the word 0 times
+in Claude's text, the results panel, the dropdowns and the labels. That is a
+small sample, and the old version was not run live for comparison.
+
+Deliberately left: the five explanatory notes that still use the word, including
+"These associations are genuinely contestable..." in the copy shared between
+the paths. They are page text, not the output that rates how feminine or
+masculine something is.
+
+### Failure notice on the manual sheet
+
+When a lookup fails, the page still opens the manual sheet (Option B) as before
+but now says why, at the top of the sheet: in plain words, what happened and what
+to do next, with the technical message underneath as "Details". Before, the
+reason was written into the search panel, which is hidden once the manual sheet
+opens, so a usage limit, a dropped connection and an unreadable answer all
+looked the same. `explainSearchFailure` and `showSearchFailureNote` hold it.
+
+It is provisional. Every piece is marked `[search-failure-note]`, and deleting
+each marked line or block restores the previous page exactly (checked by diff).
+
+### One retry on a network error
+
+If the main search fails with a network error, `fetchWithRetry` waits about a
+second and tries once more. An HTTP error (for example 400 or 429) is not
+retried, because the service did answer.
+
+### Methodology text corrected
+
+It said a keyword check turns Claude's note into the dropdown choice. The code
+stopped doing that: Claude returns each selection directly, with a reason and a
+source tag. The sentence now says so.
+
+### Stability measured, not changed
+
+Eight products were measured, five runs each, while this was built. The final
+result (aligned, misaligned, unclear) held for six and varied for Claude and
+GitHub Copilot, where one borderline reading tips a neutral placement into a
+directional one. The causes that remain are pronouns coded "unknown" when usage
+is mixed, how tone and ambiguous tasks are coded, the name "Claude", and
+adaptiveness (the prompt gives Claude no definition of it). Each lookup costs
+about 21,000 input tokens, one call and one search. These are research decisions,
+listed in the decision log; none were made in this change.
+
+### Deliberately not changed
+
+- **Scoring.** `tallyMarkers`, `placementFromTally`, `computeScore`,
+  `behaviorCoding`, `alignmentLabel` and `pathwayFor` are untouched.
+- **Where it runs.** Still a claude.ai artifact, per the README. The two API
+  calls still need the artifact sandbox; hosting the file elsewhere still leaves
+  Option B working and Option A failing, now with a notice that says so.
+
 ## 2026-10-06
 
 ### Path B: coaching register removed
