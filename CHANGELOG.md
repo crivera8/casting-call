@@ -103,10 +103,12 @@ reading step and the blank handling.
 The page says up front that results can vary from one request to the next, above
 the brief and again in the prediction card.
 
-Tested against a stand-in for Claude, not against the real thing, and the readings'
-steadiness has not been measured (open item 40). The avatar proposal does not
-steer; whether it should, toward or away from the job's stereotype, is for the
-research team to decide.
+The page's flows were tested against a stand-in for Claude. The reading and
+proposal calls were then run live (90 calls): the job and name readings were the
+same in every run, and the avatar reading in 29 of 30 (open item 40). The avatar
+proposal does not steer; whether it should, toward or away from the job's
+stereotype, is for the research team to decide. Without steering, the proposal read
+the same as the job in 24 of 30 runs and neutral in the other 6.
 
 ### Essay, notices and explainer boxes say who makes each reading
 
