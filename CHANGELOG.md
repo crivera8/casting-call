@@ -5,10 +5,11 @@ called `casting-call.html` until 2026-10-06; see the entry for that date.
 
 ## 2026-10-12
 
-Edits to `index.html` for the submission build: the authors' names, affiliations
-and contact details are removed from everything a reader of the tool sees. Names
-in code comments and in the git history were left alone on purpose. The reasoning
-and the restore instructions are in `decision-rules-log.md` (R18).
+Two sets of edits to `index.html`. For the submission build, the authors' names,
+affiliations and contact details are removed from everything a reader of the tool
+sees. Names in code comments and in the git history were left alone on purpose.
+The reasoning and the restore instructions are in `decision-rules-log.md` (R18).
+Separately, the voice rule changed; see the last section (R10).
 
 ### Authors' names and contact details removed from the visible page
 
@@ -41,6 +42,35 @@ that is needed.
 
 The 2026-10-09 entry pointed to `docs/decision-rules-log.md`. The log is in the
 repo root, so the path now reads `decision-rules-log.md`.
+
+### Voice: the default voice is used when there is one
+
+This is separate from the anonymization above. The voice rule used to code every
+product with more than one voice as "varies". It now says: if the product has one
+default voice, use it for the voice code and say that other voices exist; if there
+is no single default (the user chooses at setup, it differs by country or
+language, or it changed), record "varies". It changed in two places, the lookup
+prompt and the manual-mode voice classifier, and nowhere else: the model,
+temperature, token limit, search settings and scoring are untouched (checked by
+comparing the requests the page sends before and after).
+
+Siri still comes out "varies", which is accurate: reports say users choose a voice
+at setup, with none preselected. Alexa is now coded on its default voice
+(feminine), which raises its marker score from 33 or 50 to 75.
+
+A check of Siri and Alexa, five lookups each, behaved as intended: Siri was
+"varies" in all five, and Alexa was feminine in all five with "other voices
+available" in the wording. The final result held in 9 of 10 lookups; the exception
+was an adaptiveness reading of "unclear". The word "genuinely" appeared 0 times.
+
+A second set, Bixby and Gemini (five lookups each), found no single default for
+either: Bixby was "varies" in all five (its voices differ by language and region)
+and Gemini was "varies" in all five (the user selects a voice at setup), so their
+results did not change from before. A last check on two products with no voice,
+GitHub Copilot and DeepSeek (three lookups each), left the voice code unchanged:
+"none" in every run, with wording that says there is no voice. Scores for any
+product with a clear default, such as Alexa, are no longer comparable with earlier
+measurements.
 
 ## 2026-10-09
 
