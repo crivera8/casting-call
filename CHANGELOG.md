@@ -5,11 +5,14 @@ called `casting-call.html` until 2026-10-06; see the entry for that date.
 
 ## 2026-10-12
 
-Two sets of edits to `index.html`. For the submission build, the authors' names,
+Three sets of edits to `index.html`. For the submission build, the authors' names,
 affiliations and contact details are removed from everything a reader of the tool
-sees. Names in code comments and in the git history were left alone on purpose.
-The reasoning and the restore instructions are in `decision-rules-log.md` (R18).
-Separately, the voice rule changed; see the last section (R10).
+sees. Names in code comments and in the git history were left alone on purpose
+(R18). The voice rule changed (R10). And the design studio changed: Claude now reads
+the job and the name and proposes an avatar, and the essay and notices say who makes
+each reading (R19, R20). Path A's scoring and display are unchanged. The README was
+also corrected (last section of this entry). The reasoning is in
+`decision-rules-log.md`.
 
 ### Authors' names and contact details removed from the visible page
 
@@ -71,6 +74,63 @@ GitHub Copilot and DeepSeek (three lookups each), left the voice code unchanged:
 "none" in every run, with wording that says there is no voice. Scores for any
 product with a clear default, such as Alexa, are no longer comparable with earlier
 measurements.
+
+### Design studio: Claude reads the job and the name, and proposes an avatar
+
+In the design studio the person types the job and a working name, and Claude fills
+in how the work typically gets coded and how the name reads, each with a short
+reason. It reuses the reading step that Path A's manual mode already had, so the
+prompts for those two readings are unchanged. Claude also proposes one avatar for
+the job, with no instruction to match or avoid the job's stereotype, and says how
+it reads. The proposal appears on its own once the job is described, like the other
+readings, and a "Propose another" button asks for something clearly different (or
+"Try again" after a failure). Pronouns,
+voice, manner and adaptiveness stay the person's own decisions, every reading can
+be changed, and the dropdowns still work by hand if Claude is unavailable.
+
+The readings Claude fills in start blank, here (the job, the name and the avatar) and
+in Path A's manual mode (name, pronouns, voice, imagery, tone and each task row), so
+a default cannot be mistaken for Claude's reading. A blank counts exactly as the old
+default did: a blank name, pronouns, voice, imagery or avatar is "not sure" and left
+out of the score, and a blank tone, task or job counts as neutral. Path A's scoring
+and every results screen are unchanged from the original: ten scenarios give
+identical text and markup, the scoring functions and prompts are byte-identical, and
+the design studio gives the same verdict, pathway and chips for six sets of choices.
+A blank tone or task still counts as neutral without the results saying so, as it did
+originally (open item 43). The only Path A code touched is an optional hook in the
+reading step and the blank handling.
+
+The page says up front that results can vary from one request to the next, above
+the brief and again in the prediction card.
+
+Tested against a stand-in for Claude, not against the real thing, and the readings'
+steadiness has not been measured (open item 40). The avatar proposal does not
+steer; whether it should, toward or away from the job's stereotype, is for the
+research team to decide.
+
+### Essay, notices and explainer boxes say who makes each reading
+
+Wording that said the person makes the readings, or that the tool contributes no
+information, was changed where Claude now makes them. The methodology page now has
+three routes in, with a short section on the design studio, and its argument that
+"one of the things being assessed here is you" now covers Claude's readings too.
+The opening notice now says Claude reads some of what you type (Path A's manual mode
+already did), the essay's consistency claim now sits beside the variation notes, and
+Path A's "How are these categorized" box now describes manual mode accurately. The
+design studio intro says "the same calls" where it said "the same four calls".
+
+The full before and after text for every changed passage is in
+`decision-rules-log.md` (R20) and in `wording-review.md`, for the authors to confirm.
+
+### README brought up to date
+
+Twelve factual corrections, with no change to the README's decisions or contact
+details: the size of `index.html` (2,935 lines, about 179 KB) and the token estimate;
+the number of calls to Anthropic's API (three, adding the design studio's
+`proposeAvatar`, with `classifyField` now also used for the design studio's job and
+name); and the statement that the design studio works anywhere, which now applies to
+its dropdowns only, because Claude's readings and avatar proposal need the artifact
+sandbox.
 
 ## 2026-10-09
 

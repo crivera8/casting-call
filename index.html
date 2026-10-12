@@ -388,6 +388,17 @@
   .mr-reason:empty{ display:none; }
   .mr-reason.thinking{ color: var(--ink-faint); }
   .mr-reason.err{ color: var(--curtain); }
+  /* [path-b-readings] start */
+  /* The note keeps one line of space even when empty, so the "reading" message appearing never shifts the page and eats a click. */
+  .read-note{ font-size: 12.5px; color: var(--ink-soft); font-style: italic; line-height: 1.4; margin-top: 4px; min-height: 1.4em; }
+  .read-note.thinking{ color: var(--ink-faint); }
+  .read-note.err{ color: var(--curtain); }
+  .field select.auto-set{ border-color: var(--gold); background: #FDFBF6; }
+  .design-note{ font-size: 12.5px; color: var(--ink-faint); font-style: italic; margin: 0 0 16px; }
+  .avatar-propose{ margin-top: 10px; }
+  #d-avatar-btn[hidden]{ display: none; }
+  .avatar-proposal{ margin: 8px 0 0; padding: 9px 10px; background: var(--paper-dim); border-radius: 3px; font-size: 14px; line-height: 1.45; }
+  /* [path-b-readings] end */
   .task-row{ padding-right: 30px; }
   .remove-row-btn{
     position: absolute; top: 12px; right: 0; background: none; border: none; cursor: pointer;
@@ -754,13 +765,13 @@
 
     <p><strong>A note on bias:</strong> like any AI trained on existing scholarship, Casting Call can gravitate toward familiar methods, frameworks, and academic traditions. If your work sits outside that mainstream — non-Western contexts, understudied populations, less conventional methods — weigh its input accordingly, and don't let it substitute for other perspectives.</p>
 
-    <p><strong>On the data you put in:</strong> if you fill in the sheet yourself, that stays in this conversation. If you ask Claude to look a product up, Claude runs a web search through Anthropic's API to gather public information — the usual handling for any Claude conversation applies to that search and to this chat. See Anthropic's privacy policy if you want the specifics for your account.</p>
+    <p><strong>On the data you put in:</strong> if you fill in the sheet yourself, what you type stays in this conversation, and Claude reads some of it, such as a name or a job, to fill in how each one reads. If you ask Claude to look a product up, Claude runs a web search through Anthropic's API to gather public information — the usual handling for any Claude conversation applies to that search and to this chat. See Anthropic's privacy policy if you want the specifics for your account.</p>
 
     <p><strong>On opting out of model training:</strong> to opt out of sharing your inputs and outputs with Anthropic, please open Settings &rarr; Privacy in Claude.ai or the Claude mobile app. Under &ldquo;Help Improve our AI models,&rdquo; toggle the setting off. This stops new chats and coding sessions from being used for future model training; data already used in training is not removed. <a href="https://privacy.claude.com/en/articles/12109829-how-do-i-change-my-model-improvement-privacy-settings" target="_blank" rel="noopener">Anthropic&rsquo;s instructions</a></p>
 
     <p><strong>On the framework:</strong> it's adapted from academic theorizing on AI and "doing gender" in organizations — a research paper's model, not a validated psychometric instrument. It's a structured way to think something through, not a scientific measurement.</p>
 
-    <p><strong>On where the answers come from:</strong> a full account sits on the <em>How this tool works</em> page, linked at the foot of the tool — how information gets in, which of the six calls are well evidenced and which are contestable, how the reading list was assembled, and the fact that when you code by hand the tool is partly recording your own gender associations rather than measuring the product.</p>
+    <p><strong>On where the answers come from:</strong> a full account sits on the <em>How this tool works</em> page, linked at the foot of the tool — how information gets in, which of the six calls are well evidenced and which are contestable, how the reading list was assembled, and the fact that the tool is partly recording gender associations rather than measuring the product: yours when you code by hand, and Claude's where it reads for you.</p>
 
     <label class="check-row">
       <input type="checkbox" id="ackSingle">
@@ -837,14 +848,14 @@
     <details class="methodology">
       <summary>How are these categorized as masculine or feminine?</summary>
       <div class="methodology-body">
-        <p><strong>No, there isn't a lookup table.</strong> This tool doesn't check a name against a gender-name database, or an avatar against a shape/color taxonomy — no such database exists here. In manual mode, <em>you</em> make each call, guided by the rules below. In search mode, Claude makes the same call using its general knowledge and whatever the web search turns up, and returns each selection directly with a short reason, tagged to show whether it came from a page the search returned or from its general knowledge. That is imperfect, so always review it before revealing the placement. Either way, the decision is a judgment call applied consistently, not a database hit.</p>
+        <p><strong>No, there isn't a lookup table.</strong> This tool doesn't check a name against a gender-name database, or an avatar against a shape/color taxonomy — no such database exists here. In manual mode, you type what you know, Claude reads it using the rules below and fills in each selection with a short reason, and you can change any of them. In search mode, Claude makes the same call using its general knowledge and whatever the web search turns up, and returns each selection directly with a short reason, tagged to show whether it came from a page the search returned or from its general knowledge. That is imperfect, so always review it before revealing the placement. Either way, the decision is a judgment call applied consistently, not a database hit.</p>
         <p><strong>Name:</strong> is it a name conventionally given to one gender in the relevant language or cultural context — the way "Michael" reads masculine and "Emma" reads feminine in most English-speaking contexts? This is convention, not universal truth: naming patterns vary by culture, era, and community, and plenty of names are shared across genders. Treat it as a starting point you're free to override.</p>
         <p><strong>Pronouns:</strong> the most direct of the four signals — whatever pronoun the product is actually referred to by, officially or in common usage. No inference required, just reporting.</p>
         <p><strong>Voice:</strong> coded primarily by pitch, since listeners reliably use it as a cue to categorize a voice as male- or female-sounding, and default voice choices in AI products have been shown to trigger the same gendered responses human voices do (Nass, Moon, &amp; Green, 1997; Costa, 2018; Mooshammer &amp; Etzrodt, 2022). Lower-pitched defaults read stereotypically masculine-coded; higher-pitched defaults read stereotypically feminine-coded.</p>
         <p><strong>Imagery/avatar:</strong> the hardest call of the four, and the one most worth double-checking. For a humanlike avatar, this follows the same body-shape and styling cues people use to read a person as male- or female-presenting (Borau, 2025). For a non-human avatar — an abstract shape, an object, a color scheme — there's no formal taxonomy behind the call; it draws on general cultural association instead: angular or hard-edged shapes, cool colors, and tool/vehicle/machinery imagery tend to read as stereotypically masculine-coded, while soft or rounded shapes, warm or pastel colors, and floral/organic imagery tend to read as stereotypically feminine-coded. These associations are genuinely contestable and culturally specific, so note your reasoning in the notes field rather than leaving it implicit.</p>
         <p><strong>Job/task:</strong> coded using research on which occupations and job functions are stereotypically associated with each gender at work — admin, care, and support work reads as stereotypically feminine-coded; technical, quantitative, and strategic work reads as stereotypically masculine-coded (Singh, Chayko, Inamdar, &amp; Floegel, 2020; Eagly &amp; Karau, 2002).</p>
         <p><strong>Tone/manner:</strong> coded using the standard distinction between agentic traits — assertive, direct, competitive, read as masculine — and communal traits — warm, deferential, accommodating, read as feminine (Rudman &amp; Glick, 2001; Charlesworth &amp; Banaji, 2022; Manzi, Caleo, &amp; Heilman, 2024).</p>
-        <p>None of this is a hard rule or a validated instrument — it's the convention this tool applies consistently across every field, grounded in the same research the underlying paper draws on, so "stereotypically masculine-coded" and "stereotypically feminine-coded" mean roughly the same thing everywhere they appear here. <button type="button" class="prov-jump" data-open-method>How this tool works &rarr;</button> sets out how strong the evidence behind each of these six calls actually is, how the reading list was assembled, and why your own judgment is part of what gets recorded here.</p>
+        <p>None of this is a hard rule or a validated instrument — it's the convention this tool applies consistently across every field, grounded in the same research the underlying paper draws on, so "stereotypically masculine-coded" and "stereotypically feminine-coded" mean roughly the same thing everywhere they appear here. <button type="button" class="prov-jump" data-open-method>How this tool works &rarr;</button> sets out how strong the evidence behind each of these six calls actually is, how the reading list was assembled, and why your own judgment, and Claude's, is part of what gets recorded here.</p>
       </div>
     </details>
 
@@ -861,7 +872,8 @@
           <div class="mr-gender">
             <label for="f-name-gender">Gender coding</label>
             <select id="f-name-gender">
-              <option value="unknown">Not sure / haven't checked</option>
+              <!-- [blank-readings] --><option value="" selected></option>
+          <option value="unknown">Not sure / haven't checked</option>
               <option value="masc">Stereotypically masculine-coded</option>
               <option value="fem">Stereotypically feminine-coded</option>
               <option value="neutral">Neutral or ambiguous</option>
@@ -878,7 +890,8 @@
           <div class="mr-gender">
             <label for="f-pronouns">Gender coding</label>
             <select id="f-pronouns">
-              <option value="unknown">Not sure</option>
+              <!-- [blank-readings] --><option value="" selected></option>
+          <option value="unknown">Not sure</option>
               <option value="masc">He / him</option>
               <option value="fem">She / her</option>
               <option value="neutral">They / them</option>
@@ -897,7 +910,8 @@
           <div class="mr-gender">
             <label for="f-voice">Gender coding</label>
             <select id="f-voice">
-              <option value="unknown">Not sure</option>
+              <!-- [blank-readings] --><option value="" selected></option>
+          <option value="unknown">Not sure</option>
               <option value="masc">Lower-pitched / seems masculine</option>
               <option value="fem">Higher-pitched / seems feminine</option>
               <option value="neutral">Deliberately androgynous</option>
@@ -915,7 +929,8 @@
           <div class="mr-gender">
             <label for="f-imagery">Gender coding</label>
             <select id="f-imagery">
-              <option value="unknown">Not sure</option>
+              <!-- [blank-readings] --><option value="" selected></option>
+          <option value="unknown">Not sure</option>
               <option value="masc">Stereotypically masculine-coded imagery</option>
               <option value="fem">Stereotypically feminine-coded imagery</option>
               <option value="neutral">Abstract / deliberately neutral</option>
@@ -940,7 +955,8 @@
           <div class="mr-gender">
             <label>Gender coding</label>
             <select class="task-type">
-              <option value="neutral">Doesn't map onto a stereotype</option>
+              <!-- [blank-readings] --><option value="" selected></option>
+          <option value="neutral">Doesn't map onto a stereotype</option>
               <option value="fem">Stereotypically feminine-coded (admin, scheduling, care, support)</option>
               <option value="masc">Stereotypically masculine-coded (technical, quantitative, strategic)</option>
               <option value="mixed">Spans both</option>
@@ -961,7 +977,8 @@
           <div class="mr-gender">
             <label for="f-comportment">Gender coding</label>
             <select id="f-comportment">
-              <option value="neutral">Doesn't read strongly either way</option>
+              <!-- [blank-readings] --><option value="" selected></option>
+          <option value="neutral">Doesn't read strongly either way</option>
               <option value="fem">Deferential, apologetic, warm</option>
               <option value="masc">Direct, assertive, authoritative</option>
               <option value="mixed">Blends both depending on context</option>
@@ -1040,7 +1057,7 @@
 
   <section class="design-intro">
     <div class="section-head"><span class="step-num">2</span><h2>Design studio</h2></div>
-    <p class="design-intro-copy">The goal here is specific: help you build something that doesn't <em>reaffirm</em> the gender stereotype tied to its job — not just describe your odds either way. You'll make the same four calls a real director makes for an AI actor, deliberately, in the order design actually happens: lock in the job first, then decide how it presents.</p>
+    <p class="design-intro-copy">The goal here is specific: help you build something that doesn't <em>reaffirm</em> the gender stereotype tied to its job — not just describe your odds either way. You'll make the same calls a real director makes for an AI actor, deliberately, in the order design actually happens: lock in the job first, then decide how it presents.</p>
   </section>
 
   <form class="sheet" id="designSheet">
@@ -1049,16 +1066,20 @@
     <details class="methodology">
       <summary>How are these categorized as masculine or feminine?</summary>
       <div class="methodology-body">
-        <p><strong>No, there isn't a lookup table.</strong> This tool doesn't check a name against a gender-name database, or an avatar against a shape/color taxonomy — no such database exists here. You make each call yourself, guided by the rules below; it's a judgment call applied consistently, not a database hit.</p>
+        <p><strong>No, there isn't a lookup table.</strong> This tool doesn't check a name against a gender-name database, or an avatar against a shape/color taxonomy — no such database exists here. Claude makes the call for the job, the name and the avatar, guided by the rules below, and you can change any of them. Pronouns, voice, manner and adaptiveness are your own decisions. It's a judgment call applied consistently, not a database hit.</p>
         <p><strong>Name:</strong> is it a name conventionally given to one gender in the language or cultural context you're working in — the way "Michael" reads masculine and "Emma" reads feminine in most English-speaking contexts? This is convention, not universal truth: naming patterns vary by culture, era, and community. Treat it as a starting point you're free to override.</p>
         <p><strong>Pronouns:</strong> the most direct of the four signals — whichever pronoun you choose to have it referred to by. No inference required, just a decision.</p>
         <p><strong>Voice:</strong> coded primarily by pitch, since listeners reliably use it as a cue to categorize a voice as male- or female-sounding, and default voice choices in AI products have been shown to trigger the same gendered responses human voices do (Nass, Moon, &amp; Green, 1997; Costa, 2018; Mooshammer &amp; Etzrodt, 2022). A lower-pitched default reads stereotypically masculine-coded; a higher-pitched one reads stereotypically feminine-coded.</p>
         <p><strong>Imagery/avatar:</strong> the hardest call of the four, and the one most worth double-checking. For a humanlike avatar, this follows the same body-shape and styling cues people use to read a person as male- or female-presenting (Borau, 2025). For a non-human avatar — an abstract shape, an object, a color scheme — there's no formal taxonomy behind the call; it draws on general cultural association instead: angular or hard-edged shapes, cool colors, and tool/vehicle/machinery imagery tend to read as stereotypically masculine-coded, while soft or rounded shapes, warm or pastel colors, and floral/organic imagery tend to read as stereotypically feminine-coded. These associations are genuinely contestable and culturally specific.</p>
         <p><strong>Job/task:</strong> coded using research on which occupations and job functions are stereotypically associated with each gender at work — admin, care, and support work reads as stereotypically feminine-coded; technical, quantitative, and strategic work reads as stereotypically masculine-coded (Singh, Chayko, Inamdar, &amp; Floegel, 2020; Eagly &amp; Karau, 2002).</p>
         <p><strong>Tone/manner:</strong> coded using the standard distinction between agentic traits — assertive, direct, competitive, read as masculine — and communal traits — warm, deferential, accommodating, read as feminine (Rudman &amp; Glick, 2001; Charlesworth &amp; Banaji, 2022; Manzi, Caleo, &amp; Heilman, 2024).</p>
-        <p>None of this is a hard rule — it's the convention this tool uses so "stereotypically masculine-coded" and "stereotypically feminine-coded" mean roughly the same thing across every field. <button type="button" class="prov-jump" data-open-method>How this tool works &rarr;</button> sets out how strong the evidence behind each of these six calls actually is, how the reading list was assembled, and why your own judgment is part of what gets recorded here.</p>
+        <p>None of this is a hard rule — it's the convention this tool uses so "stereotypically masculine-coded" and "stereotypically feminine-coded" mean roughly the same thing across every field. <button type="button" class="prov-jump" data-open-method>How this tool works &rarr;</button> sets out how strong the evidence behind each of these six calls actually is, how the reading list was assembled, and why your own judgment, and Claude's, is part of what gets recorded here.</p>
       </div>
     </details>
+
+    <!-- [path-b-readings] start -->
+    <p class="design-note">Results can vary from one request to the next, because Claude's answers are not identical every time. Treat Claude's readings and its avatar proposal as a starting point; you can change any of them.</p>
+    <!-- [path-b-readings] end -->
 
     <fieldset>
       <legend><span class="step">A</span> The job <span class="legend-sub">the markers below are judged against this</span></legend>
@@ -1067,14 +1088,16 @@
         <input type="text" id="d-tasks" placeholder="e.g. scheduling and note-taking, or financial modeling">
       </div>
       <div class="field">
-        <label for="d-task-type">How does that work typically get coded?</label>
-        <span class="hint">This records how the work is conventionally coded, not how it ought to be.</span>
+        <label for="d-task-type">How that work typically gets coded (Claude's reading)</label>
+        <span class="hint">This records how the work is conventionally coded, not how it ought to be. Claude fills it in from what you typed above; you can change it.</span>
         <select id="d-task-type">
+          <!-- [blank-readings] --><option value="" selected></option>
           <option value="neutral">Doesn't map onto a stereotype</option>
           <option value="fem">Stereotypically feminine-coded (admin, scheduling, care, support)</option>
           <option value="masc">Stereotypically masculine-coded (technical, quantitative, strategic)</option>
           <option value="mixed">Spans both</option>
         </select>
+        <div class="read-note" id="d-task-reason"></div>
       </div>
     </fieldset>
 
@@ -1099,13 +1122,16 @@
       </div>
       <div class="two-col">
         <div class="field">
-          <label for="d-name-gender">How will that name read?</label>
+          <label for="d-name-gender">How that name reads (Claude's reading)</label>
+          <span class="hint">Claude fills this in from the working name; you can change it.</span>
           <select id="d-name-gender">
+            <!-- [blank-readings] --><option value="" selected></option>
             <option value="unknown">Haven't decided / not sure</option>
             <option value="masc">Stereotypically masculine-coded</option>
             <option value="fem">Stereotypically feminine-coded</option>
             <option value="neutral">Neutral or ambiguous</option>
           </select>
+          <div class="read-note" id="d-name-reason"></div>
         </div>
         <div class="field">
           <label for="d-pronouns">Pronouns it'll be referred to by</label>
@@ -1131,14 +1157,23 @@
           </select>
         </div>
         <div class="field">
-          <label for="d-imagery">Avatar or imagery</label>
+          <label for="d-imagery">Avatar or imagery (Claude proposes one)</label>
+          <span class="hint">Claude fills this in from the job you typed above: it proposes an avatar and says how it reads. You can change the reading, or choose your own.</span>
           <select id="d-imagery">
+            <!-- [blank-readings] --><option value="" selected></option>
             <option value="unknown">Haven't decided</option>
             <option value="masc">Stereotypically masculine-coded imagery</option>
             <option value="fem">Stereotypically feminine-coded imagery</option>
             <option value="neutral">Abstract / deliberately neutral</option>
             <option value="none">No avatar or imagery at all</option>
           </select>
+          <!-- [path-b-readings] start -->
+          <div class="avatar-propose">
+            <button type="button" class="add-row-btn" id="d-avatar-btn" hidden>Propose another</button>
+            <p class="avatar-proposal" id="d-avatar-proposal" hidden></p>
+            <div class="read-note" id="d-avatar-reason"></div>
+          </div>
+          <!-- [path-b-readings] end -->
         </div>
       </div>
       <div class="callout" id="markerCallout"></div>
@@ -1199,9 +1234,9 @@
       <h2>What it's actually good for</h2>
       <ul>
         <li><strong>It makes a default into a decision.</strong> Most of these choices were never argued for. Naming the ones that were made by inertia is most of the value, and it's available whether or not you accept anything the model predicts.</li>
-        <li><strong>It applies the same convention every time.</strong> The conventions are contestable, but they're applied consistently across every field and every product, so two assessments can be compared to each other even if you'd have drawn the lines somewhere else.</li>
+        <li><strong>It applies the same convention every time.</strong> The conventions are contestable, but they're applied consistently across every field and every product, so two assessments can be compared to each other even if you'd have drawn the lines somewhere else. Claude's own readings can still vary from one request to the next, so small differences between two assessments mean little.</li>
         <li><strong>It keeps markers and behavior apart.</strong> Blending them into a single "how gendered is it" number would hide the one configuration that matters most — markers pointing one way while the work points the other. That pairing is only visible if the two are scored separately.</li>
-        <li><strong>It shows its work.</strong> Every call comes with the reasoning and the sources behind it, so you can disagree with one specific coding decision rather than having to accept or reject the whole verdict.</li>
+        <li><strong>It shows its work.</strong> Every call comes with the reasoning behind it (and, in search mode, the sources), so you can disagree with one specific coding decision rather than having to accept or reject the whole verdict.</li>
         <li><strong>In design mode, it front-loads a trade-off.</strong> The cost of shipping a deliberately misaligned, non-adaptive agent is real, and it's much cheaper to weigh before launch than after.</li>
       </ul>
     </div>
@@ -1213,14 +1248,14 @@
         <li><strong>The "reinforces vs. weakens" language is a hypothesis, not a finding.</strong> It comes from a theoretical model built on hypothetical illustrations of how repeated exposure to an AI actor <em>might</em> shift the stereotypes someone holds <span class="cite">(Conzon &amp; Feldberg, working paper)</span> — not from a controlled study measuring that it does. Use it to think, not to conclude.</li>
         <li><strong>One assessment is a snapshot.</strong> What the underlying theory actually cares about is repeated exposure over time and how real audiences respond to it — a single pass through a form can't capture that.</li>
         <li><strong>In search mode it reads the marketing, not the product.</strong> One web search, mostly over material the company wrote about itself, with no access to the actual voice or interface. A gap between how something is described and how it behaves is exactly the kind of thing this can't see.</li>
-        <li><strong>One coder is one coder.</strong> A score produced by a single person in a single sitting records that person's reading. It is a data point, not a property of the product <span class="cite">(O'Connor &amp; Joffe, 2020)</span>.</li>
+        <li><strong>One coder is one coder.</strong> A score produced by a single coder, a person or Claude, in a single sitting records that coder's reading. It is a data point, not a property of the product <span class="cite">(O'Connor &amp; Joffe, 2020)</span>.</li>
       </ul>
     </div>
     <div class="block">
       <button type="button" class="method-cta" data-open-method>
         <span class="method-cta-label">Full methodology</span>
         <span class="method-cta-title">How this tool works, and where its claims come from</span>
-        <span class="method-cta-desc">How information gets in and what the web search can't see &middot; which of the six calls are well evidenced and which are contestable, one by one &middot; how researchers actually measure stereotype content &middot; how this reading list was assembled and how far each source was checked &middot; why your own judgment is part of what gets recorded &middot; full references</span>
+        <span class="method-cta-desc">How information gets in and what the web search can't see &middot; which of the six calls are well evidenced and which are contestable, one by one &middot; how researchers actually measure stereotype content &middot; how this reading list was assembled and how far each source was checked &middot; why your own judgment, and Claude's, is part of what gets recorded &middot; full references</span>
         <span class="method-cta-go">Read the full methodology &rarr;</span>
       </button>
     </div>
@@ -1247,11 +1282,11 @@
 
     <div class="block">
       <h3 style="font-family:var(--font-display);font-size:17px;margin:0 0 10px;">1. How the information about a product gets here</h3>
-      <p>There are exactly two routes in, and they behave differently.</p>
+      <p>There are three routes in, and they behave differently.</p>
       <details class="methodology">
         <summary>If you fill in the sheet yourself</summary>
         <div class="methodology-body">
-          <p>Every fact comes from you. The tool contributes no information about the product whatsoever — it only applies the coding conventions below to what you typed and does the arithmetic. If you're wrong about the product, the output is wrong, and nothing here will catch it.</p>
+          <p>Every fact comes from you. The tool contributes no facts about the product whatsoever — it only applies the coding conventions below to what you typed, with Claude reading each entry to fill in how it reads, and does the arithmetic. If you're wrong about the product, the output is wrong, and nothing here will catch it.</p>
         </div>
       </details>
       <details class="methodology">
@@ -1264,6 +1299,15 @@
           <p><strong>It can come back partial.</strong> If the response runs long it gets truncated, and the tool salvages whatever complete fields it can rather than failing outright. When that happens you'll see a note saying so — treat those results as a first draft.</p>
         </div>
       </details>
+      <!-- [path-b-readings] start -->
+      <details class="methodology">
+        <summary>If you use the design studio</summary>
+        <div class="methodology-body">
+          <p><strong>What actually happens:</strong> you describe the job the agent will do and give it a working name, and Claude reads each one using the coding conventions below and fills in how it reads, with a short reason. Claude also proposes an avatar for the job and says how that avatar reads; a button asks for another. No web search is involved: Claude works from what you typed and from its general knowledge. Every reading and the proposal can be changed, and they can differ from one request to the next.</p>
+          <p><strong>The avatar is an idea, not a design.</strong> Claude describes a concept in words. It has not made or tested an image, and the call it rests on is the weakest in the tool (see section 2).</p>
+        </div>
+      </details>
+      <!-- [path-b-readings] end -->
     </div>
 
     <div class="block">
@@ -1296,7 +1340,7 @@
       </div>
       <div class="ev-row">
         <span class="ev ev-thin">Weakest link</span>
-        <div class="ev-body"><strong>Imagery — abstract shapes, objects, colors.</strong> No taxonomy exists for this, and none is being consulted. The call leans on general cultural association: angular and cool-toned and machine-like tends to read masculine, soft and rounded and warm-toned tends to read feminine. These associations are culturally specific and genuinely arguable. This is the call most worth writing down your reasoning for, and the one to discount first when a result surprises you.</div>
+        <div class="ev-body"><strong>Imagery — abstract shapes, objects, colors.</strong> No taxonomy exists for this, and none is being consulted. The call leans on general cultural association: angular and cool-toned and machine-like tends to read masculine, soft and rounded and warm-toned tends to read feminine. These associations are culturally specific and genuinely arguable. This is the call most worth writing down your reasoning for, and the one to discount first when a result surprises you. The design studio's avatar proposal rests on this same call, so treat a proposal as an idea to react to, and discount it first.</div>
       </div>
     </div>
 
@@ -1362,10 +1406,10 @@
 
     <div class="block">
       <h3 style="font-family:var(--font-display);font-size:17px;margin:0 0 10px;">5. One of the things being assessed here is you</h3>
-      <p>Worth being direct about, because it isn't obvious from the interface: when you fill in this sheet by hand, <strong>the tool is asking you to decide whether a name, a voice, or a picture reads as masculine or feminine.</strong> There's no lookup table behind that. So what comes out reflects your associations as much as it reflects any property of the product.</p>
+      <p>Worth being direct about, because it isn't obvious from the interface: when you fill in this sheet by hand, <strong>the tool is asking you to decide whether a name, a voice, or a picture reads as masculine or feminine</strong> — and where Claude reads for you, as it does for the job, the name and the avatar in the design studio, it is making that call instead, and you can change it. There's no lookup table behind either. So what comes out reflects someone's associations, yours or Claude's, as much as it reflects any property of the product.</p>
       <p>That's the design, not a flaw in it. The moment you decide that an angular blue logo "reads masculine," a tacit association has become explicit and arguable — which is the only state in which it can be examined. And the reading is happening anyway: people assign gender to agents carrying no gender markers at all, defaulting to masculine when cues are absent <span class="cite">(Han et al., 2025)</span>, and context shifts how an ambiguous voice gets heard <span class="cite">(Mooshammer &amp; Etzrodt, 2022)</span>. The audience is doing this whether or not anyone writes it down. This just writes it down.</p>
       <p>So if you find yourself confident about a call you can't actually justify, that's worth sitting with. It's information about the stereotype you're carrying, not a bug in the form.</p>
-      <div class="callout"><strong>The practical version:</strong> have someone else code the same product independently, then compare, and pay attention to where you disagree rather than resolving it quickly. Comparing independent coders is standard practice in qualitative analysis precisely because it surfaces which categories are ambiguous and forces the criteria to be stated out loud <span class="cite">(O'Connor &amp; Joffe, 2020)</span>. Disagreement isn't noise here. It's the most interesting thing the tool produces.</div>
+      <div class="callout"><strong>The practical version:</strong> have someone else code the same product independently, then compare, and pay attention to where you disagree rather than resolving it quickly. Comparing independent coders is standard practice in qualitative analysis precisely because it surfaces which categories are ambiguous and forces the criteria to be stated out loud <span class="cite">(O'Connor &amp; Joffe, 2020)</span>. Disagreement isn't noise here. It's the most interesting thing the tool produces. In the design studio, Claude's reading is a second coder: compare it with your own and notice where you disagree.</div>
     </div>
   </section>
 
@@ -1729,7 +1773,7 @@
 
   // Wires a single (input, select, reasonEl) trio: on blur, if the input has
   // new (changed) text, classify it and populate the select + reason.
-  function wireAutoClassify(inputEl, selectEl, reasonEl, kind, useLocal){
+  function wireAutoClassify(inputEl, selectEl, reasonEl, kind, useLocal, onDone){
     inputEl.addEventListener('blur', function(){
       const text = inputEl.value.trim();
       if (!text) { return; }
@@ -1740,15 +1784,17 @@
         selectEl.classList.add('auto-set');
         setReasonState(reasonEl, 'done', result.reason);
         inputEl.dataset.lastClassified = text;
+        if (onDone) { onDone(); }
         return;
       }
       setReasonState(reasonEl, 'thinking');
-      classifyField(kind, text).then(function(result){
+      inputEl._pending = classifyField(kind, text).then(function(result){
         if (inputEl.value.trim() !== text) { return; } // superseded by further edits
         selectEl.value = result.code;
         selectEl.classList.add('auto-set');
         setReasonState(reasonEl, 'done', result.reason);
         inputEl.dataset.lastClassified = text;
+        if (onDone) { onDone(); }
       }).catch(function(){
         setReasonState(reasonEl, 'error');
       });
@@ -1787,7 +1833,7 @@
     const first = taskTable.querySelector('.task-row');
     const clone = first.cloneNode(true);
     clone.querySelector('.task-text').value = '';
-    clone.querySelector('.task-type').value = 'neutral';
+    clone.querySelector('.task-type').value = ''; // [blank-readings]
     clone.querySelector('.task-type').classList.remove('auto-set');
     clone.querySelector('.task-reason').textContent = '';
     clone.querySelector('.task-reason').className = 'mr-reason task-reason';
@@ -1807,7 +1853,7 @@
     return Array.from(taskTable.querySelectorAll('.task-row')).map(function(row){
       return {
         text: row.querySelector('.task-text').value.trim(),
-        code: row.querySelector('.task-type').value,
+        code: row.querySelector('.task-type').value || 'neutral', // [blank-readings] a blank task reading counts as the original default
         reason: row.querySelector('.task-reason').textContent.trim()
       };
     }).filter(function(t){ return t.text; });
@@ -1818,7 +1864,7 @@
     rows.forEach(function(r, i){ if (i > 0) r.remove(); });
     const first = taskTable.querySelector('.task-row');
     first.querySelector('.task-text').value = '';
-    first.querySelector('.task-type').value = 'neutral';
+    first.querySelector('.task-type').value = ''; // [blank-readings]
     first.querySelector('.task-type').classList.remove('auto-set');
     first.querySelector('.task-reason').textContent = '';
     delete first.querySelector('.task-text').dataset.lastClassified;
@@ -1965,7 +2011,7 @@
   function render(){
     const name = fields.name.value.trim() || 'This AI';
 
-    const markerCodes = [fields.nameGender.value, fields.voice.value, fields.imagery.value, fields.pronouns.value]
+    const markerCodes = [resolved(fields.nameGender, 'unknown'), resolved(fields.voice, 'unknown'), resolved(fields.imagery, 'unknown'), resolved(fields.pronouns, 'unknown')]
       .map(function(v){ return (v === 'none' || v === 'object') ? 'neutral' : v; });
     const t = tallyMarkers(markerCodes);
 
@@ -1984,7 +2030,7 @@
 
     const taskRowsData = getTaskRowsData();
     const taskCodesOnly = taskRowsData.length ? taskRowsData.map(function(r){ return r.code; }) : ['neutral'];
-    const behavior = behaviorCoding(taskCodesOnly, fields.comportment.value);
+    const behavior = behaviorCoding(taskCodesOnly, resolved(fields.comportment, 'neutral'));
     const alignment = alignmentLabel(placement, behavior);
     const path = pathwayFor(alignment, fields.adaptive.value);
     const info = PATHWAY_INFO[path];
@@ -1997,20 +2043,20 @@
     const markerScore = computeScore(t);
     const markerKnown = t.fem + t.masc + t.neutral;
     const markerRows = [
-      { label: 'Name', reading: optionLabel(fields.nameGender), code: markerCodes[0] },
-      { label: 'Voice', reading: optionLabel(fields.voice), code: markerCodes[1] },
-      { label: 'Imagery', reading: optionLabel(fields.imagery), code: markerCodes[2] },
-      { label: 'Pronouns', reading: optionLabel(fields.pronouns), code: markerCodes[3] }
+      { label: 'Name', reading: optionLabelOrDefault(fields.nameGender, 'unknown'), code: markerCodes[0] },
+      { label: 'Voice', reading: optionLabelOrDefault(fields.voice, 'unknown'), code: markerCodes[1] },
+      { label: 'Imagery', reading: optionLabelOrDefault(fields.imagery, 'unknown'), code: markerCodes[2] },
+      { label: 'Pronouns', reading: optionLabelOrDefault(fields.pronouns, 'unknown'), code: markerCodes[3] }
     ];
 
-    const behaviorCodes = (taskRowsData.length ? taskRowsData.map(function(r){ return r.code; }) : []).concat([fields.comportment.value]);
+    const behaviorCodes = (taskRowsData.length ? taskRowsData.map(function(r){ return r.code; }) : []).concat([resolved(fields.comportment, 'neutral')]);
     const behaviorT = tallyMarkers(behaviorCodes);
     const behaviorScore = computeScore(behaviorT);
     const behaviorKnown = behaviorT.fem + behaviorT.masc + behaviorT.neutral;
     const behaviorRows = taskRowsData.map(function(r, i){
       return { label: 'Task' + (taskRowsData.length > 1 ? ' ' + (i + 1) : '') + ': ' + r.text, reading: TASK_CODE_LABELS[r.code] || r.code, code: r.code };
     }).concat([
-      { label: 'Tone / manner', reading: optionLabel(fields.comportment), code: fields.comportment.value }
+      { label: 'Tone / manner', reading: optionLabelOrDefault(fields.comportment, 'neutral'), code: resolved(fields.comportment, 'neutral') }
     ]);
 
     let overallHtml = '<h3>Markers vs. behavior</h3>';
@@ -2020,10 +2066,10 @@
     overallHtml += '<div class="sub-label">Markers &mdash; place its gender</div>';
     overallHtml += renderScoreGauge(markerScore);
     overallHtml += '<div class="chips">';
-    overallHtml += chip(fields.nameGender.value, 'Name: ' + optionLabel(fields.nameGender));
-    overallHtml += chip(fields.voice.value, 'Voice: ' + optionLabel(fields.voice));
-    overallHtml += chip(fields.imagery.value, 'Imagery: ' + optionLabel(fields.imagery));
-    overallHtml += chip(fields.pronouns.value, 'Pronouns: ' + optionLabel(fields.pronouns));
+    overallHtml += chip(resolved(fields.nameGender, 'unknown'), 'Name: ' + optionLabelOrDefault(fields.nameGender, 'unknown'));
+    overallHtml += chip(resolved(fields.voice, 'unknown'), 'Voice: ' + optionLabelOrDefault(fields.voice, 'unknown'));
+    overallHtml += chip(resolved(fields.imagery, 'unknown'), 'Imagery: ' + optionLabelOrDefault(fields.imagery, 'unknown'));
+    overallHtml += chip(resolved(fields.pronouns, 'unknown'), 'Pronouns: ' + optionLabelOrDefault(fields.pronouns, 'unknown'));
     overallHtml += '</div>';
     overallHtml += scoreBreakdownDetails(markerRows, markerScore, markerKnown, markerCodes.length);
     if (t.unknown > 0) {
@@ -2038,7 +2084,7 @@
     taskRowsData.forEach(function(r, i){
       overallHtml += chip(r.code, (taskRowsData.length > 1 ? 'Task ' + (i + 1) + ': ' : 'Job: ') + r.text);
     });
-    overallHtml += chip(fields.comportment.value, 'Tone: ' + optionLabel(fields.comportment));
+    overallHtml += chip(resolved(fields.comportment, 'neutral'), 'Tone: ' + optionLabelOrDefault(fields.comportment, 'neutral'));
     overallHtml += '</div>';
     overallHtml += scoreBreakdownDetails(behaviorRows, behaviorScore, behaviorKnown, behaviorCodes.length);
     if (behaviorT.unknown > 0) {
@@ -2127,6 +2173,17 @@
     const opt = selectEl.options[selectEl.selectedIndex];
     return opt ? opt.textContent : '';
   }
+  // [blank-readings] start
+  // The readings Claude fills in start blank. Wherever the page reads one, for scoring or for a label on the results,
+  // a blank stands for that field's original default ("Not sure" for markers, "neutral" for tone and tasks),
+  // so every score and every results screen is identical to the original.
+  function resolved(selectEl, fallback){ return selectEl.value === '' ? fallback : selectEl.value; }
+  function optionLabelOrDefault(selectEl, fallback){
+    if (selectEl.value !== '') { return optionLabel(selectEl); }
+    const opt = Array.from(selectEl.options).find(function(o){ return o.value === fallback; });
+    return opt ? opt.textContent : '';
+  }
+  // [blank-readings] end
 
   function escapeHtml(s){
     const div = document.createElement('div');
@@ -2163,11 +2220,95 @@
     } else if (tt === 'mixed') {
       markerCallout.innerHTML = 'A mixed job doesn\'t carry a single stereotype to reaffirm, so no marker choice above reads as an obvious mismatch.';
     } else {
-      markerCallout.innerHTML = 'You haven\'t named a task above yet, or it doesn\'t map onto a stereotype — once you pick one, this note will tell you which marker choices above would reaffirm it and which would push against it.';
+      markerCallout.innerHTML = 'You haven\'t named a task above yet, or it doesn\'t map onto a stereotype — once one is set, this note will tell you which marker choices above would reaffirm it and which would push against it.';
     }
   }
   dFields.taskType.addEventListener('change', refreshMarkerCallout);
   refreshMarkerCallout();
+
+  // [path-b-readings] start
+  // Path B: Claude reads the job and the name the person types, and proposes an avatar.
+  // The dropdowns stay editable, so the person can change any reading, and they still work
+  // by hand if Claude is unavailable.
+  const designState = { proposals: [], proposal: null, forJob: '', seq: 0 };
+  wireAutoClassify(dFields.tasks, dFields.taskType, $('d-task-reason'), 'task', false, refreshMarkerCallout);
+  wireAutoClassify(dFields.name, dFields.nameGender, $('d-name-reason'), 'name', false);
+
+  [[dFields.taskType, 'd-task-reason'], [dFields.nameGender, 'd-name-reason'], [dFields.imagery, 'd-avatar-reason']].forEach(function(pair){
+    pair[0].addEventListener('change', function(){
+      pair[0].classList.remove('auto-set');
+      const note = $(pair[1]);
+      note.classList.remove('thinking', 'err');
+      note.textContent = 'You changed this reading.';
+    });
+  });
+
+  async function proposeAvatar(jobText, previous){
+    const system =
+      "You help someone think about the gender-coding of an AI agent they are designing. They have described the job the agent will mostly do. " +
+      "Propose ONE avatar or imagery concept for the agent, as a single concrete sentence (a shape, form, colors or style; no real people, and no existing characters or brands). " +
+      "Then judge how your proposal reads, using the same rule as everywhere else in this tool: for a humanlike avatar, the body-shape and styling cues people use to read someone as male- or female-presenting; for a non-human avatar, general cultural association (angular or hard-edged shapes, cool colors, and tool or machinery imagery tend to read stereotypically masculine-coded; soft, rounded shapes, warm or pastel colors, and floral or domestic imagery tend to read stereotypically feminine-coded). This is a judgment call about convention, not a database lookup. " +
+      "Do not use the word 'genuinely' in your explanations. State the observation plainly." +
+      (previous.length ? " These proposals were already shown, so propose something clearly different from all of them: " + previous.join(' | ') + "." : "") +
+      ' Respond with ONLY a raw JSON object, no markdown fences, no other text, with exactly these keys: description (one sentence), code ("masc", "fem" or "neutral"), reason (12 words or fewer, plain language).';
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        temperature: 0,
+        max_tokens: 250,
+        system: system,
+        messages: [{ role: 'user', content: 'Job: ' + jobText }]
+      })
+    });
+    if (!response.ok) throw new Error('request failed (' + response.status + ')');
+    const data = await response.json();
+    const raw = (data.content || []).filter(function(b){ return b.type === 'text'; }).map(function(b){ return b.text; }).join('\n').trim().replace(/```json/g, '').replace(/```/g, '').trim();
+    const match = raw.match(/\{[\s\S]*\}/);
+    const parsed = JSON.parse(match ? match[0] : raw);
+    if (['masc', 'fem', 'neutral'].indexOf(parsed.code) === -1 || !parsed.description) throw new Error('unusable proposal');
+    return { description: String(parsed.description).trim(), code: parsed.code, reason: String(parsed.reason || '').trim() };
+  }
+
+  // The avatar proposal appears on its own once the job has been described, like the other readings.
+  // The button only asks for another proposal, or tries again after a failure.
+  function clearProposal(){
+    designState.seq++; designState.proposals = []; designState.proposal = null; designState.forJob = '';
+    $('d-avatar-proposal').hidden = true; $('d-avatar-btn').hidden = true;
+    const note = $('d-avatar-reason'); note.textContent = ''; note.classList.remove('thinking', 'err');
+  }
+  async function runProposal(another){
+    const job = dFields.tasks.value.trim();
+    const btn = $('d-avatar-btn'), note = $('d-avatar-reason'), box = $('d-avatar-proposal');
+    if (!job) { return; }
+    if (!another && designState.forJob === job && designState.proposal) { return; } // already proposed for this job
+    if (!another) { designState.proposals = []; designState.proposal = null; designState.forJob = ''; box.hidden = true; } // a new job: start over
+    const mine = ++designState.seq;
+    btn.hidden = true;
+    note.classList.remove('err'); note.classList.add('thinking');
+    note.textContent = 'Claude is thinking of an avatar\u2026';
+    try {
+      const result = await proposeAvatar(job, designState.proposals);
+      if (mine !== designState.seq) { return; } // the job changed, or the brief was cleared, while Claude was thinking
+      dFields.imagery.value = result.code;
+      dFields.imagery.classList.add('auto-set');
+      box.textContent = 'Proposed: ' + result.description; box.hidden = false;
+      setReasonState(note, 'done', result.reason);
+      designState.proposal = result; designState.proposals.push(result.description); designState.forJob = job;
+      btn.textContent = 'Propose another'; btn.hidden = false;
+    } catch (e) {
+      if (mine !== designState.seq) { return; }
+      setReasonState(note, 'error', "Couldn't propose an avatar \u2014 choose the avatar's reading yourself.");
+      btn.textContent = 'Try again'; btn.hidden = false;
+    }
+  }
+  dFields.tasks.addEventListener('blur', function(){
+    if (!dFields.tasks.value.trim()) { clearProposal(); return; }
+    runProposal(false);
+  });
+  $('d-avatar-btn').addEventListener('click', function(){ runProposal(true); });
+  // [path-b-readings] end
 
   $('designRevealBtn').addEventListener('click', function(e){
     e.preventDefault();
@@ -2179,17 +2320,23 @@
     designSheet.reset();
     designResults.hidden = true;
     refreshMarkerCallout();
+    // [path-b-readings] start
+    ['d-task-reason', 'd-name-reason', 'd-avatar-reason'].forEach(function(id){ const e = $(id); e.textContent = ''; e.classList.remove('thinking', 'err'); });
+    [dFields.taskType, dFields.nameGender, dFields.imagery].forEach(function(el){ el.classList.remove('auto-set'); });
+    delete dFields.tasks.dataset.lastClassified; delete dFields.name.dataset.lastClassified;
+    clearProposal();
+    // [path-b-readings] end
   });
 
   function renderDesign(){
     const name = dFields.name.value.trim() || 'This AI';
 
-    const markerCodes = [dFields.nameGender.value, dFields.voice.value, dFields.imagery.value, dFields.pronouns.value]
+    const markerCodes = [resolved(dFields.nameGender, 'unknown'), dFields.voice.value, resolved(dFields.imagery, 'unknown'), dFields.pronouns.value]
       .map(function(v){ return (v === 'none' || v === 'object') ? 'neutral' : v; });
     const t = tallyMarkers(markerCodes);
     const placement = placementFromTally(t);
 
-    const behavior = behaviorCoding([dFields.taskType.value], dFields.comportment.value);
+    const behavior = behaviorCoding([resolved(dFields.taskType, 'neutral')], dFields.comportment.value);
     const alignment = alignmentLabel(placement, behavior);
     const path = pathwayFor(alignment, dFields.adaptive.value);
     const info = PATHWAY_INFO[path];
@@ -2199,15 +2346,16 @@
     briefHtml += '<div class="headline">' + escapeHtml(name) + '</div>';
     briefHtml += '<p>' + escapeHtml(dFields.tasks.value.trim() || 'No task described yet') + '</p>';
     briefHtml += '<div class="chips">';
-    briefHtml += chip(dFields.taskType.value, 'Job: ' + optionLabel(dFields.taskType));
+    briefHtml += chip(resolved(dFields.taskType, 'neutral'), 'Job: ' + optionLabelOrDefault(dFields.taskType, 'neutral'));
     briefHtml += chip(dFields.comportment.value, 'Manner: ' + optionLabel(dFields.comportment));
-    briefHtml += chip(dFields.nameGender.value, 'Name: ' + optionLabel(dFields.nameGender));
+    briefHtml += chip(resolved(dFields.nameGender, 'unknown'), 'Name: ' + optionLabelOrDefault(dFields.nameGender, 'unknown'));
     briefHtml += chip(dFields.voice.value, 'Voice: ' + optionLabel(dFields.voice));
-    briefHtml += chip(dFields.imagery.value, 'Imagery: ' + optionLabel(dFields.imagery));
+    briefHtml += chip(resolved(dFields.imagery, 'unknown'), 'Imagery: ' + optionLabelOrDefault(dFields.imagery, 'unknown'));
     briefHtml += chip(dFields.pronouns.value, 'Pronouns: ' + optionLabel(dFields.pronouns));
     briefHtml += '</div>';
+    if (designState.proposal) { briefHtml += '<p><strong>Proposed avatar:</strong> ' + escapeHtml(designState.proposal.description) + '</p>'; } // [path-b-readings]
     if (t.unknown > 0) {
-      briefHtml += '<p class="confidence-note">' + t.unknown + ' of 4 markers ' + (t.unknown === 1 ? 'is' : 'are') + ' still undecided — the prediction below will firm up once you pick them.</p>';
+      briefHtml += '<p class="confidence-note">' + t.unknown + ' of 4 markers ' + (t.unknown === 1 ? 'is' : 'are') + ' still undecided — the prediction below will firm up once they are set.</p>';
     }
     $('briefCard').innerHTML = briefHtml;
 
@@ -2218,6 +2366,7 @@
     let pathHtml = '<h3>Does this reaffirm the stereotype?</h3>';
     pathHtml += '<div class="headline">' + verdict + ' <span class="tag ' + info.tag + '">' + (info.tagLabel || info.tag) + '</span></div>';
     pathHtml += '<p style="font-size:12.5px;color:var(--ink-faint);margin-top:-6px;">Pathway: ' + info.label + '</p>';
+    pathHtml += '<p class="design-note">This prediction rests on Claude\'s readings above, which can vary from one request to the next. If a reading changes, the prediction can change with it.</p>'; // [path-b-readings]
     pathHtml += '<p>' + info.copy.replace('audiences see', 'if you ship this, audiences would see') + '</p>';
     if (info.tag === 'amplify') {
       pathHtml += '<p><strong>To stop this from reaffirming the stereotype:</strong> either pick markers that don\'t match the job\'s stereotype, or keep the mismatch you have and make it nonadaptive — don\'t let it soften back into "expected" behavior under pushback.</p>';

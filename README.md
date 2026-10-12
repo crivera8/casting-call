@@ -6,7 +6,7 @@ A companion tool to Vanessa Conzon & Allie Feldberg's working paper on AI, gende
 
 | File | What it is |
 |---|---|
-| `index.html` | **The build. Start here.** 2,689 lines, ~162 KB. Keeps the live web search. |
+| `index.html` | **The build. Start here.** 2,935 lines, ~179 KB. Keeps the live web search. |
 | `old/index.html` | An **earlier, much smaller build** (1,394 lines, ~68 KB). Predates the methodology page, the per-field auto-classification, the source-link verification, and the disclosure-page additions. Retired, kept for comparison. Nothing should be edited here. |
 
 **This file used to be called `casting-call.html`.** It was renamed so that GitHub Pages serves the current build: Pages serves `index.html` from the repo root, and that slot was occupied by the old build, so <https://vanecon.github.io/casting-call/> was quietly serving a version from before the methodology page and the source-link verification existed. Both builds carry the same `<title>`, so there was nothing on the page to tell you which one you had.
@@ -17,14 +17,14 @@ See `CHANGELOG.md` for what changed in the current build and why.
 
 ## What "the code" is
 
-`index.html` is the whole thing. One file, with the CSS and JavaScript embedded in it. There is no separate source, no build step, no framework, no package manager, and no dependencies to install. Nothing is fetched from a CDN — no external scripts or stylesheets at all. The only outbound references are citation URLs and two calls to Anthropic's API.
+`index.html` is the whole thing. One file, with the CSS and JavaScript embedded in it. There is no separate source, no build step, no framework, no package manager, and no dependencies to install. Nothing is fetched from a CDN — no external scripts or stylesheets at all. The only outbound references are citation URLs and three calls to Anthropic's API.
 
 So there isn't a hidden layer of "code Claude used to make the agent" sitting somewhere else. The file *is* the artifact. Open it in a browser and it runs.
 
 ## Rebuilding it in your own Claude account
 
 1. Start a new chat in your Claude account.
-2. **Upload `index.html` as an attachment** rather than pasting it. At roughly 40,000 tokens, pasting eats a large share of the context window before you've asked for anything.
+2. **Upload `index.html` as an attachment** rather than pasting it. At roughly 45,000 tokens, pasting eats a large share of the context window before you've asked for anything.
 3. Ask Claude to open it as an artifact. It will render, and you can edit from there in conversation.
 4. When you're done, download the updated file and commit it.
 
@@ -42,34 +42,35 @@ Note that an artifact published through Claude Code cannot reach `api.anthropic.
 
 ## How this runs: as a claude.ai artifact (decided)
 
-Two features call `https://api.anthropic.com/v1/messages`:
+Three features call `https://api.anthropic.com/v1/messages`:
 
 - `runSearch` — the "Have Claude look it up" search in Path A, Option A. Declares the `web_search_20250305` server tool.
-- `classifyField` — the per-field "Claude judges how this reads" helper in the manual coding sheet. No web search; a small text-only call.
+- `classifyField` — the per-field "Claude judges how this reads" helper in the manual coding sheet, and in the design studio for the job and the name. No web search; a small text-only call.
+- `proposeAvatar` — the design studio's avatar proposal (Path B). No web search; a small text-only call.
 
-**Neither call carries an API key** — and neither sends `anthropic-version` or `anthropic-dangerous-direct-browser-access` either. All they send is `Content-Type: application/json`.
+**None of these calls carries an API key** — and none sends `anthropic-version` or `anthropic-dangerous-direct-browser-access` either. All they send is `Content-Type: application/json`.
 
 That is the whole story in one line. A real browser call to Anthropic needs all three of those headers; a request shaped like this one cannot succeed anywhere that forwards it as written. It works only where something **intercepts** the call to that hostname and rewrites it — supplying credentials, the version header, and the CORS bypass. The claude.ai artifact sandbox does exactly that.
 
-**So this file is meant to be run as a claude.ai artifact, and that is the decision.** Upload `index.html` to a Claude chat and ask Claude to open it as an artifact. Both Claude-powered features work there, including real web search.
+**So this file is meant to be run as a claude.ai artifact, and that is the decision.** Upload `index.html` to a Claude chat and ask Claude to open it as an artifact. All the Claude-powered features work there, including real web search.
 
 Two consequences of that decision:
 
-- **Every user must be signed in to Claude**, or the two Claude-backed features fail. The disclosure page says so in its first line.
+- **Every user must be signed in to Claude**, or the Claude-backed features fail. The disclosure page says so in its first line.
 - **A public URL and the sandbox are the same slot — you cannot have both.** Hosting the file on GitHub Pages or any domain is precisely what turns the interception off. That is not a bug to fix later; it is what hosting means here.
 
 The GitHub Pages copy of this repo therefore serves as a *preview* of the current build in manual mode, not as the working tool.
 
-| Where it runs | Manual coding | Claude-powered search & auto-classify |
+| Where it runs | Manual coding | Claude-powered search, auto-classify & avatar proposal |
 |---|---|---|
 | **Artifact inside claude.ai** — the intended home | Works | Works |
 | Artifact published through Claude Code | Works | **Fails** — CSP blocks the host; that route needs `claude.use('sample')`, which has no web search |
 | GitHub Pages or any static host | Works | **Fails** |
 | Opened as a local file | Works | **Fails** |
 
-Everything a user types in by hand — the full coding sheet, the scoring, the placement, the design studio, the methodology page — is pure client-side JavaScript and works anywhere. Only the two API-backed features depend on the sandbox.
+Everything a user types in by hand — the full coding sheet, the scoring, the placement, the design studio's dropdowns, the methodology page — is pure client-side JavaScript and works anywhere. Only the API-backed features depend on the sandbox (in the design studio, Claude's readings of the job and the name and its avatar proposal; the dropdowns still work by hand without them).
 
-Should a public URL with working search ever be wanted, it needs your own API key behind a small server-side proxy, with the two `fetch` URLs repointed at that proxy. **Never put a key in this file**: it is client-side, so the key would be visible to anyone who views source, and committing it to a public repo would leak it. No proxy is needed for the decision above — the repo copy simply degrades to manual mode, which is intended.
+Should a public URL with working search ever be wanted, it needs your own API key behind a small server-side proxy, with the three `fetch` URLs repointed at that proxy. **Never put a key in this file**: it is client-side, so the key would be visible to anyone who views source, and committing it to a public repo would leak it. No proxy is needed for the decision above — the repo copy simply degrades to manual mode, which is intended.
 
 ## How source links behave
 
@@ -87,7 +88,7 @@ Consequence worth knowing: **in any environment where the search can't run, ever
 
 ## Avoiding divergence
 
-Three people editing a single 2,700-line file in three different Claude accounts will produce conflicting versions quickly, and this file has no module boundaries to merge along. Worth agreeing up front that this repo is the source of truth, that each round of edits starts from a fresh pull, and that changes go back as commits rather than as re-uploaded whole files.
+Three people editing a single 2,900-line file in three different Claude accounts will produce conflicting versions quickly, and this file has no module boundaries to merge along. Worth agreeing up front that this repo is the source of truth, that each round of edits starts from a fresh pull, and that changes go back as commits rather than as re-uploaded whole files.
 
 The `index.html` / `casting-call.html` split in this repo was that problem already happening once. It is resolved: there is one build, at `index.html`, and the retired one is parked under `old/` where it cannot be mistaken for current.
 
