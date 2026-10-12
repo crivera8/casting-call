@@ -3,10 +3,49 @@
 All changes below are to `index.html`, the build that keeps the live web search. It was
 called `casting-call.html` until 2026-10-06; see the entry for that date.
 
+## 2026-10-12
+
+Edits to `index.html` for the submission build: the authors' names, affiliations
+and contact details are removed from everything a reader of the tool sees. Names
+in code comments and in the git history were left alone on purpose. The reasoning
+and the restore instructions are in `decision-rules-log.md` (R18).
+
+### Authors' names and contact details removed from the visible page
+
+- **Page title:** the browser-tab title no longer ends with the authors' surnames.
+- **Byline:** the "By ..." line under the page title is removed.
+- **Notice:** the "Questions? Email ..." line at the end of "Before the curtain
+  rises" is removed.
+- **Footer:** the attribution sentence is removed. The remaining sentence now says
+  "Claude's own interpretation of academic theorizing on AI and "doing gender" in
+  organizations" where it said "that research", so it still reads correctly
+  without the sentence before it.
+- **Essay:** the "Questions or comments" section (the invitation to send feedback,
+  with each author's affiliation and email) is removed in full.
+- **Design section intro:** the clause that credited the model to the authors is
+  removed, and "You'll" now starts the sentence.
+
+### Deliberately kept
+
+- **The inline citation and the reference-list entry** for the working paper. They
+  name the authors, and the decision was to keep them.
+- **Code comments** in the script that name the authors, and the git history.
+
+### Restoring the "Questions or comments" section
+
+An exact copy is kept outside the repo, with a note on where it goes back in. The
+script and styles for it are still in the page, so pasting the block back is all
+that is needed.
+
+### Path corrected
+
+The 2026-10-09 entry pointed to `docs/decision-rules-log.md`. The log is in the
+repo root, so the path now reads `decision-rules-log.md`.
+
 ## 2026-10-09
 
 Edits to `index.html`. The reasoning, the test results and the open questions
-behind them are in `docs/decision-rules-log.md`.
+behind them are in `decision-rules-log.md`.
 
 ### Path A, Option A: one general web search
 
