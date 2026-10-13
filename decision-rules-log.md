@@ -1,16 +1,16 @@
 # Casting Call: decision rules log
 
 **Scope:** Path A ("Bring an AI on stage"), Option A ("Have Claude look it up"); since Oct 12 also the design studio (Path B), blank readings, and the wording of the essay and notices.
-**Started:** Oct 8, 2026. **Last updated:** Oct 12, 2026. Rules are numbered in the order they were decided, so the list in force skips the superseded ones, which are kept further down as history.
+**Started:** Oct 8, 2026. **Last updated:** Oct 13, 2026. Rules are numbered in the order they were decided, so the list in force skips the superseded ones, which are kept further down as history.
 
 ---
 
-## Where we landed (as of Oct 12, 2026)
+## Where we landed (as of Oct 13, 2026)
 
 **How Option A works now**
 1. The person types a product name or link.
 2. The page sends one request to Claude with one general web search (the query is the product name, its maker, and the words "AI assistant"), at temperature 0.
-3. Claude returns a code and a short reason for each marker (name, pronouns, voice, imagery) and for behavior (up to three tasks, plus tone), along with designer, organizational-diversity and adaptiveness fields. It also says whether each answer came from a page the search returned or from its general knowledge. For voice, one default voice is coded and the others are noted; if there is no single default, the voice is "varies" (R10).
+3. Claude returns a code and a short reason for each marker (name, pronouns, voice, imagery) and for behavior (up to three tasks, plus tone), along with designer, organizational-diversity and adaptiveness fields. It also says whether each answer came from a page the search returned or from its general knowledge. For voice, one default voice is coded and the others are noted; if there is no single default, the voice is "varies" (R10). The page's own labels and notes make no statements about what the designers intended (R22); Claude is not instructed on this, and its text had none in 60 live lookups.
 4. The results panel shows each answer with a tag (*Other source*, *Claude's general knowledge*, or *Source not specified*) and opens with a warning that results can vary between searches.
 5. The person can edit any answer before revealing the placement. If the connection drops, the page retries once. If a lookup fails, the page opens the manual sheet and says why (R16, provisional).
 
@@ -33,6 +33,10 @@
 - Fourth pair (GitHub Copilot 5, DeepSeek 5): DeepSeek was "unclear" in all 5 (neutral placement). Copilot's result varied: "unclear" in 3 runs and "aligned-nonadaptive" in 2, because the logo was coded masculine in 2 runs and neutral in 3, from the model's differing memory of the logo.
 - **Across all eight products tested, the final result was steady for six (Siri, Alexa, Bixby, Dots, Gemini, DeepSeek) and varied for two (Claude, Copilot).** Bixby, Dots, Gemini and DeepSeek are steady because their placement is neutral. In both products that varied, one borderline reading (Claude's name or tone, Copilot's imagery) tips a neutral placement into a directional one (open item 30).
 - Design studio, live (Oct 12, 90 calls, 6 jobs, 6 names, 5 runs each): job and name readings were the same in every run; the avatar reading was the same in 29 of 30 runs; the unsteered avatar read the same as the job in 24 of 30 runs and neutral in 6. Each reading call cost about 4,500 input tokens (open item 45).
+- Intent wording, baseline (Oct 13, 20 lookups on four products): none in Claude's text; 108 occurrences in the page's own text, in all 20 lookups (R22).
+- Alexa control (Oct 13): the CC-13 instruction to Claude raised "unclear" adaptiveness from 1 of 10 to 7 of 10 and moved some task codes to neutral, so it was dropped and only the wording edits shipped (R22, open items 49 and 50).
+- Intent wording, final tool (Oct 13, 20 lookups): none in Claude's text; the page's own text 20 occurrences in 10 of 20 lookups (the "unclear" paragraph only); final results identical to the baseline in 20 of 20; Alexa adaptive 5 of 5 (R22).
+- Intent wording, after CC-13 with the instruction (Oct 13, not shipped): none in Claude's text; the page's own text fell to 26 occurrences (13 of 20 lookups), all from the "unclear" paragraph kept by decision; Alexa's adaptiveness read "unclear" in 3 of 5 runs (open item 49).
 - Cost per lookup with this design, confirmed on the rebuilt page (10 lookups): 21,103 to 21,304 input tokens and 661 to 927 output tokens, one call and one search every time.
 
 **Verified live (Oct 9, 2026):** you ran the rebuilt page in the preview (10 lookups, Siri and Alexa). All completed, one call and one search each, no errors (open item 18).
@@ -218,7 +222,7 @@ These are the rules the main page follows. Where a line says "Revised Oct 9, 202
 
 - **Rule:** In the design studio the person types the job and a working name. Claude fills in how the work typically gets coded and how the name reads, each with a short reason, using the same reading step and prompts as Path A's manual mode (unchanged). Once the job is described, Claude proposes one avatar for it and says how it reads, as it does for the other readings: the proposal appears on its own, and a button asks for another (or tries again after a failure). **The proposal does not steer:** Claude is not told to match or avoid the job's stereotype and is not told how the job reads (the request carries the job text only). Like the job and name readings, it is whatever Claude outputs; the avatar reading is set from it and can be changed. "Propose another" asks for something clearly different from the earlier ones. Pronouns, voice, manner and adaptiveness stay the person's own decisions. Every reading can be changed, and the page says so ("You changed this reading").
 - **Same scoring as Path A:** the job, name and avatar readings start blank (R21) and are scored by Path A's rules. A blank name or avatar counts as "not sure" (left out of the score) and a blank job counts as neutral, exactly as the old defaults did. Checked: the same choices, including untouched fields, give the same verdict, pathway and chips on the original design studio and on this one, for six sets of choices.
-- **Path A's scoring and results are unchanged.** Checked against the original page on ten scenarios (see R21): identical text and markup. Its prompts and classifier code are identical, and the scoring functions are byte-identical. The Path A code touched is an optional hook in the reading step and the blank handling in R21.
+- **Path A's scoring and results are unchanged.** Checked against the original page on ten scenarios (see R21): identical text and markup. Its scoring functions are byte-identical to the Oct 6 version, and its prompts and classifier code were identical to the version just before the Path B work (they differ from the Oct 6 version because of earlier approved items, and from Oct 13 also because of CC-13; see R22). The Path A code touched is an optional hook in the reading step and the blank handling in R21.
 - **Why:** decided by the user: these readings should be outputs of the tool, not inputs, and the tool should propose the avatar itself.
 - **Up front about variation:** a note above the brief ("Results can vary from one request to the next...") and a line in the prediction card say the readings and the proposal can vary.
 - **The avatar request:** one call, model and temperature 0 as elsewhere, no web search, 250 tokens at most. It carries the job text only, not the job's reading. It includes the "genuinely" instruction (R17), tells Claude to use no real people, existing characters or brands, and asks for a one-sentence concept, a code (masculine, feminine or neutral) and a reason of 12 words or fewer.
@@ -279,12 +283,38 @@ These are the rules the main page follows. Where a line says "Revised Oct 9, 202
 
 - **Rule:** The readings Claude fills in start blank, so a default cannot be mistaken for Claude's reading. In the design studio: the job, the name and the avatar. In Path A's manual mode: name, pronouns, voice, imagery, tone and each task row. Adaptiveness, and the design studio's pronouns, voice and manner, are the person's own decisions, so they keep their "Haven't decided" and default options. "Not sure" remains an option; it means Claude could not tell, or the person is unsure.
 - **Scoring and results are unchanged:** wherever the page reads one of these readings, a blank stands for that field's original default. A blank name, pronouns, voice, imagery or avatar counts as "Not sure" (left out of the score), and a blank tone, task or job counts as neutral. The results screens show the original default's label ("Not sure", "Doesn't read strongly either way"). So every score and every results screen is identical to the original.
-- **Checks:** Path A, ten scenarios (an empty sheet; a name only; a name and its reading; a task typed with its reading untouched; a task set to feminine with the tone untouched, which scored +50 originally; a tone set with a task row untouched; two task rows with the second untouched; markers set with tone and task untouched; a fully filled sheet; the worked example): identical text and markup on the original and the new page. Design studio, six sets of choices: the same verdict, pathway, chips and undecided count (apart from the approved wording "once they are set"). The scoring functions, the classifier prompts and the lookup prompt are byte-identical to the original. New behavior checked: both paths start blank, Claude fills the readings in, a new task row starts blank, clearing returns to blank.
+- **Checks:** Path A, ten scenarios (an empty sheet; a name only; a name and its reading; a task typed with its reading untouched; a task set to feminine with the tone untouched, which scored +50 originally; a tone set with a task row untouched; two task rows with the second untouched; markers set with tone and task untouched; a fully filled sheet; the worked example): identical text and markup on the original and the new page. Design studio, six sets of choices: the same verdict, pathway, chips and undecided count (apart from the approved wording "once they are set"). The scoring functions are byte-identical to the Oct 6 version; the classifier prompts and the lookup prompt were identical to the version just before the Path B work (see the correction under R22). New behavior checked: both paths start blank, Claude fills the readings in, a new task row starts blank, clearing returns to blank.
 - **Trade-off to know:** a blank tone or task counts as neutral without the results saying it is a default. This is how the original worked (its default was a neutral reading), so nothing changed, but an unset reading can look unset on the form and still count as neutral. Changing it is a research decision (open item 43).
 - **History:** built Oct 12, 2026 with a blank left out of the score; removed the same day because that changed Path A's scores; restored the same day with the original scoring (see Considered, not built).
 - **Main page after this change:** `index.html`, 183438 bytes, SHA-256 `7a76b88464c0b3514585cadf9f7eea659aeca1616e0f7a1e76da53115d48bb84`.
 
----
+### R22. Path A's labels and notes make no statements about what designers intended (CC-13)
+
+- **Rule:** Path A's output must not claim to know what a product's designers or maker intended, chose or aimed for: "designed to/for," "intended to," "chosen to," "aims to," "deliberately," "intentionally," "purposely," "on purpose," "meant to," "built to," "engineered to," and the same kind of statement in other words. This is the authors' decision, confirmed Oct 8 (tracker item CC-13): "we cannot infer designers' intent," so the whole class is banned, not one word.
+- **Where the wording came from (found Oct 13):** mostly the page's own text, not Claude: the fixed label for a neutral voice ("Deliberately androgynous") and for neutral imagery ("Abstract / deliberately neutral"), in the dropdowns and in the results label table; a score note ("0 if neutral/deliberately androgynous"); the "unclear" outcome paragraph ("deliberately (or accidentally) hard to place… built to work"); and the voice classifier prompt, which used the phrase "deliberately androgynous." In 60 live lookups (the baseline, the after-run and the control, below), Claude's own text had none.
+- **What changed (6 lines, wording only):**
+
+  | Where | Before | After |
+  | --- | --- | --- |
+  | Path A voice dropdown, and the results label table | Deliberately androgynous | Androgynous |
+  | Path A imagery dropdown, and the results label table | Abstract / deliberately neutral | Abstract / neutral |
+  | Score note in the results | …or 0 if neutral/deliberately androgynous | …or 0 if neutral/androgynous |
+  | Voice classifier prompt (manual mode) | …or neutral/deliberately androgynous, based on the pitch… | …or neutral/androgynous, based on the pitch… |
+
+- **Decision (Oct 13): the instruction to Claude was dropped.** A sentence telling Claude to describe only what can be observed and to make no statements about designers' intent was built, applied and tested, and then removed before it shipped. The wording edits above were kept. **Why:**
+  1. **It fixed nothing we observed.** Claude's text had no intent wording in any of the 60 lookups, before or after. The page's own labels were the whole problem, and label edits cannot change Claude's answers (the labels and the score note are never sent to Claude).
+  2. **It changed what the scores say.** In a 10-run control on Alexa (old tool against new, back to back), adaptiveness read "unclear" in 7 of 10 runs on the new tool against 1 of 10 on the old (p = 0.02; across all Alexa runs, 1 of 15 against 10 of 15, p = 0.002), which moves the pathway from aligned-adaptive to unclear. "Smart home control" and "device control via voice commands" were coded neutral instead of masculine in 5 of 14 runs against 0 of 19, which lowers some behavior scores. The likely mechanism: "describe only what can be observed" collides with questions that search results rarely answer by observation (does it adapt to feedback?) and with coding judgments, so Claude codes more cautiously.
+  3. **That conflicts with the decision to leave the original author's scoring alone.** The instruction left the scoring functions untouched but moved the answers that feed them.
+  4. **The quote question was moot.** A first draft allowed an attributed quote from the maker's own page; it was dropped earlier because a quote's reliability cannot be checked.
+- **For the record, the dropped sentence read:** "Describe only what can be observed, such as how the voice sounds, what the name is, what the avatar looks like and what the product does, and give each reason in those terms (for example 'the voice is low-pitched' or 'the voice reads as neutral'). Do not write statements about what the designers or the company intended, chose or aimed for, in any wording, even if you think the maker intended it and even if a source says so; describe the observable feature instead." It was added to the Path A lookup prompt and to each manual-mode reading (name, voice, imagery, tone, task), with a Path A-only flag so the design studio's requests stayed identical. It is not in the repo. The results are under Test results (baseline, after-run, Alexa control).
+- **What this leaves open:** Claude is not instructed on intent claims. If a product's own copy uses intent wording, Claude could repeat it. Nothing seen so far, but Siri, Alexa, Bixby and Gemini are not intent-prone sources. The intent-wording test pages scan for the whole class and can be re-run as a check (open item 47). If it shows up, options are a narrower sentence limited to explanation wording and tested again for score effects (about 430,000 input tokens), or a check on the output.
+- **Left as is, by decision (Path A only):** Path B keeps its two dropdown labels ("Deliberately androgynous," "Abstract / deliberately neutral") and its requests; the "unclear" outcome paragraph is unchanged, and is also shown by Path B; the essay and notice text is unchanged.
+- **Unchanged:** the scoring functions, the verdict logic and the shared outcome text. What Claude is sent by the lookup, and by the manual-mode name, imagery, tone and task readings, is byte-identical to before; the manual-mode voice request differs by the one removed word.
+- **Checks (final tool, Oct 13, against a stand-in for Claude):** the lookup request and the name, imagery, tone and task requests are byte-identical to the previous tool; the voice request differs only by "deliberately"; Path B's job-reading, name-reading and avatar requests are byte-identical; the same Claude answers for Siri, Alexa, Bixby and Gemini give identical scores, verdicts and markup apart from the changed wording; Path A manual mode (ten scenarios) and Path B (six sets of choices) are identical.
+- **Not measured:** the manual-mode voice request's one-word change has not been tested live (the control tested the lookup). The risk is small: the prompt still names "neutral/androgynous."
+- **Correction to earlier statements.** Earlier entries and the research-team list said Path A's prompts were "byte-identical to the original." That was true only against the version just before the Path B work (Oct 12). The scoring functions are byte-identical to the Oct 6 version and still are. The lookup prompt, the classifier prompts, `classifyField` and the label tables were already different from the Oct 6 version, because of earlier approved items (the voice rule CC-17, the "genuinely" instruction CC-16, the three-task cap, the official-site removal). After this item they are identical to the Oct 12 version except for the voice classifier prompt (one word) and the labels (R22).
+- **Live check of the final tool (Oct 13, 20 lookups on real Claude):** no intent wording in Claude's text; the page's own wording down from 108 occurrences (20 of 20 lookups) to 20 (10 of 20, the "unclear" paragraph only); the same final results as the baseline in all 20 lookups; Alexa's adaptiveness "adaptive" in 5 of 5. See Test results.
+- **Main page after this change:** `index.html`, 183360 bytes, SHA-256 `0d81482b718e37358718fd68cb5ccfe6308306c1241f5dd3962e9c9f4f0af407`.
 
 ## How each marker is judged (unchanged framework)
 
@@ -405,6 +435,11 @@ Each of these was in force at one time. They are kept so the reasoning is not lo
 43. **Should a blank tone or task count as neutral, or be left out of the score?** Right now a blank counts as the old default (neutral for tone, tasks and the job; "not sure" for markers), so scores match the original exactly. Leaving a blank tone or task out would change Path A's scores for sheets with an untouched reading (one feminine job with the tone untouched: +50 now, +100 if left out). That is for the research team, and ties to the existing question of whether a missing reading counts as dropped or as zero (R21).
 44. **What should the avatar proposal be based on?** Right now it is based on the job text alone. The job is the anchor of the design brief (section A: "the markers below are judged against this"), and a single input keeps the avatar as simple as the other readings. It does not use the name, manner, pronouns or voice. Using them would make the avatar fit the rest of the character, but it could steer by another route (matching or contrasting with a masculine or feminine name, for example) and would mean re-proposing whenever those fields change. This is for the research team to decide, together with open item 42 (see R19).
 45. **Each Claude reading costs about 4,500 input tokens here, far more than the request's own size.** In the live test every job, name and avatar call reported about 4,500 input tokens (21 to 55 output), against roughly 150 to 300 tokens for the request itself. The difference is probably overhead added where the call is made (the artifact sandbox), but that is not confirmed. The same reading function serves Path A's manual mode, so each field there probably costs about the same (not measured), and a design-studio job, name and avatar costs about 13,600 input tokens. Earlier cost estimates for these calls were too low.
+46. **Path B still carries intent wording, by decision.** Path B keeps the dropdown labels "Deliberately androgynous" and "Abstract / deliberately neutral," and shows the "unclear" paragraph ("deliberately (or accidentally)… built to work"), which both paths read from the same table. Its avatar request and its job and name readings are not covered by the new instruction. This was a decision to focus CC-13 on Path A (R22).
+47. **Monitoring, not yet done: manual-mode readings, and products whose own copy uses intent wording.** Claude is not instructed on intent claims (the instruction was dropped, R22). The 60 lookups so far found none in Claude's text for Siri, Alexa, Bixby and Gemini, which are not intent-prone sources. Suggested: a lookup test on products whose vendor copy uses intent wording (for example Pi, Replika or Microsoft Copilot) and a small manual-mode test, using the intent-wording test pages, to see whether the instruction is ever needed.
+48. **Which extra phrases to ban, and which borderline words to watch.** The scan bans: designed to/for, intended to, chosen to, aims to, deliberate(ly), intentional(ly), purposely, on purpose, meant to, built to, engineered to. Candidates to add: "built for," "intended for," "made to," "created to," "meant for." Reported but not counted: "designed" alone (for example the credit "Apple designed it"), "by design," "design choice," "chose," "purpose."
+49. **Resolved (Oct 13): the instruction to Claude was dropped.** The control test showed it shifted Alexa's adaptiveness reading ("unclear" in 1 of 10 runs on the old tool, 7 of 10 on the new; p = 0.02; 1 of 15 against 10 of 15 across all Alexa runs, p = 0.002), which moves the pathway from aligned-adaptive to unclear. The wording edits shipped without it (R22). Revisit only if intent wording turns up in Claude's text (item 47).
+50. **Resolved with item 49.** The instruction also moved some task codes: "smart home control" and "device control via voice commands" were coded neutral instead of masculine in 5 of 14 runs on the new tool against 0 of 19 on the old (p = 0.008). Not present in the shipped tool.
 
 ---
 
@@ -674,6 +709,92 @@ Run on `variation-test-rebuilt.html` (identical to the final `index.html` apart 
 - **Cost, and a correction.** 408,575 input and 3,039 output tokens for 90 calls: about 4,500 input tokens per call (job 4,495; name 4,500; avatar 4,624) and 21 to 55 output. My estimate before the run was about 18,000 input in total (150 to 300 per call, from the size of the request). The real figure was about 20 times higher. See open item 45.
 - **Limits:** one session; short, unambiguous inputs; 6 jobs and 6 names; 5 runs. It does not show steadiness across days, and it does not test the page's own flows against real Claude.
 
+### Intent-wording check, baseline before CC-13 (Oct 13, 2026)
+
+- **Test:** `intent-test-before.html`, run in the chat preview against real Claude: Siri, Alexa, Bixby and Gemini, 5 runs each (20 lookups, all completed). For each lookup it clicked "Reveal the placement" and scanned Claude's text (every field) and everything on screen for the banned class. Cost: 428,692 input and 13,193 output tokens (about 21,400 per lookup).
+
+| | Occurrences | Lookups showing at least one |
+| --- | --- | --- |
+| Claude's text | **0** | 0 of 20 |
+| The page's own text on screen | **108** | **20 of 20** |
+| Watch list (borderline words in Claude's text, not counted) | 0 | 0 of 20 |
+
+- **Where the page's own text showed it:** "deliberately" on the imagery chip and in the score note, in every revealed result (20 of 20); "deliberately" on the imagery chip of the lookup panel in 16 of 20 (Bixby's imagery was coded "none" in 4 of its 5 runs, so those have no imagery chip); and the "unclear" paragraph ("deliberately (or accidentally)… built to") in 10 of 20, which is every Bixby and Gemini lookup. "Deliberately androgynous" itself showed in none, because voice was never coded neutral ("varies" or feminine).
+- **What it means:** the intent wording came from the page, not from Claude, for these four products. The new instruction therefore fixed nothing seen in this run; it is a safeguard for products whose own copy uses intent wording. Four products cannot show it helping.
+- **Prediction for the after-run:** the wording edits remove the imagery chip hits and the score-note hits, leaving the "unclear" paragraph: about 20 hits in 10 of 20 lookups (two per Bixby or Gemini lookup).
+- **Baseline scores (for comparing before and after):** Siri marker 33 (3 runs) and 25 (2), behavior 25 (4) and 50 (1), aligned-adaptive in all 5. Alexa marker 75, behavior 50, aligned-adaptive in all 5. Bixby marker 0, behavior -25 (4) and 0 (1), unclear in all 5. Gemini marker 0, behavior 25 (3) and 50 (2), unclear in all 5.
+- **Side note for CC-16, not changed:** the word check found one "genuine" (the adjective) in Siri's confidence note.
+
+### Intent-wording check, after CC-13 (Oct 13, 2026)
+
+- **Test:** `intent-test-after.html`, the same four products, 5 runs each (20 lookups, all completed), on the changed tool. Cost: 432,652 input and 13,784 output tokens.
+- **Note (added after the decision to drop the instruction):** this run and the Alexa control were on the version that carried the instruction, which did not ship. Its page-text count of 26 includes three Alexa lookups that showed the "unclear" paragraph only because the instruction pushed Alexa's adaptiveness to "unclear"; the final tool is expected to show it in about 10 of 20 lookups (Bixby and Gemini), as first predicted. Its score movements came from the instruction.
+
+| | Before | After |
+| --- | --- | --- |
+| Claude's text, occurrences | 0 | 0 |
+| The page's own text, occurrences | 108 | **26** |
+| Lookups showing at least one banned phrase | 20 of 20 | **13 of 20** |
+| Watch list (borderline words in Claude's text) | 0 | 0 |
+| "genuine" in Claude's text | 1 | 2 |
+| Input tokens, 20 lookups | 428,692 | 432,652 (about 200 more per lookup) |
+
+- **What is left:** only the "unclear" outcome paragraph ("deliberately (or accidentally)… built to"), 13 of 20 lookups, twice each: Bixby 5, Gemini 5 and Alexa 3. The imagery chip, the score note and the lookup panel no longer show any. I predicted 10 of 20; the three Alexa runs were not in the prediction, because the paragraph also shows when adaptiveness reads "unclear" (below).
+- **Claude's text:** no hits before or after, so this run cannot show the new instruction helping or hurting wording. It is still untested on products whose own copy uses intent wording (open item 47).
+- **Scores and verdicts are not identical in live runs, and cannot be.** Every lookup searches again. What is identical: the scoring code (byte-identical), and the same Claude answers giving the same scores and verdicts through the old and new tool. The live answers moved:
+
+| | Marker, before | Marker, after | Behavior, before | Behavior, after | Result, before | Result, after |
+| --- | --- | --- | --- | --- | --- | --- |
+| Siri | 33 (3), 25 (2) | 33 (5) | 25 (4), 50 (1) | 75 (3), 25 (2) | aligned-adaptive 5 | aligned-adaptive 5 |
+| Alexa | 75 (5) | 75 (5) | 50 (5) | 50 (4), 25 (1) | aligned-adaptive 5 | aligned-adaptive 2, **unclear 3** |
+| Bixby | 0 (5) | 0 (5) | -25 (4), 0 (1) | 25 (2), -25 (2), 0 (1) | unclear 5 | unclear 5 |
+| Gemini | 0 (5) | 0 (5) | 25 (3), 50 (2) | 0 (4), 50 (1) | unclear 5 | unclear 5 |
+
+- **Marker scores** matched for Alexa, Bixby and Gemini; Siri read 33 in all five runs (the pronoun reading, "unknown" every time). **Behavior scores** moved for all four, from the third task Claude chose and the tone coding: Siri's third task was "drafting emails and editing/sharing photos" (feminine) in 3 runs, where it was "systemwide app actions" (masculine) in 4 before; Bixby's "device control via voice commands" was coded neutral twice, where it was masculine every time before; Gemini's tasks and tone read more neutral. Earlier sessions showed the same kind of drift with no change to the tool (open items 14 and 22).
+- **Final verdicts:** the same for Siri, Bixby and Gemini (15 of 15 lookups). **Different for Alexa in 3 of 5.**
+- **The Alexa difference.** Adaptiveness read "unclear" in 3 of 5 runs ("Personalization noted but voice/persona adaptability not detailed"), where it was "adaptive" in 5 of 5 before; in the Oct 12 voice-rule test it was "unclear" in 1 of 5. That moves the pathway from aligned-adaptive to unclear. It is the side effect flagged in advance (the new instruction could make Claude stricter on a field vendors describe by intent, such as "personalizes over time"), but five runs cannot separate that from drift. A control is needed (open item 49).
+
+### Alexa control, old tool against new tool (Oct 13, 2026)
+
+- **Test:** `alexa-control-old.html` and `alexa-control-new.html`, Alexa only, 10 runs each, run in the chat preview against real Claude, old first and new straight after. All 20 lookups completed. The only difference in what Claude is sent is the new instruction (the labels and the score note are never sent to Claude), so a difference in Claude's answers comes from that sentence.
+
+| | Old tool (before CC-13) | New tool (after CC-13) |
+| --- | --- | --- |
+| Adaptiveness read "unclear" | **1 of 10** | **7 of 10** |
+| Pathway | aligned-adaptive 9, unclear 1 | aligned-adaptive 3, **unclear 7** |
+| Marker score | 75 (8), 50 (2) | 75 (10) |
+| Behavior score | 50 (9), 75 (1) | 50 (7), 75 (3) |
+| "Smart home control" coded | masculine 9 of 9 | masculine 3, **neutral 3** |
+| Intent wording in Claude's text | 0 | 0 |
+| The page's own text, occurrences (lookups showing one) | 52 (10 of 10) | 14 (7 of 10) |
+| Input tokens, 10 lookups | 212,702 | 214,589 (+189 per lookup) |
+
+- **The instruction is the cause of the adaptiveness shift.** Old 1 of 10 against new 7 of 10 (p = 0.02). Across every Alexa run we have, the old tool read "unclear" in 1 of 15 and the new in 10 of 15 (p = 0.002), on two separate occasions. The new notes say "no explicit mention of voice or persona adaptation found" or "personalization noted but voice/persona adaptability not detailed," where the old tool coded the same evidence ("personalizes over time using preferences and history") as adaptive. The instruction says to describe only what can be observed, and whether a product adapts to feedback is rarely observable in search results, so Claude codes it "unclear" more often. That moves the pathway from aligned-adaptive to unclear (the page's own "unclear" paragraph then shows, which is why 7 of 10 lookups still show a banned phrase).
+- **A second shift.** "Smart home control" was coded neutral instead of masculine in 3 of 6 runs; with Bixby's "device control via voice commands" (neutral in 2 of 5 after-run lookups, masculine in all 5 before), the technical tasks that read masculine on the old tool were coded neutral in 5 of 14 on the new (0 of 19 on the old; p = 0.008). This lowers the masculine contribution to behavior scores (Bixby's behavior moved from mostly -25 to +25 in two runs).
+- **Not different:** the marker score (the old tool's two 50s were voice read as "varies"; p = 0.47), the behavior score (p = 0.58), the word check ("genuine" 0 in both), and the cost.
+- **What this means for CC-13.** Claude's own text had no intent wording before or after in any run (60 lookups across the baseline, the after-run and this control), so the sentence fixed nothing observed; the page's own labels were the problem, and those edits cannot change Claude's answers. The sentence changes what the scores say, which conflicts with the instruction not to change the original scoring. See open items 49 and 50.
+
+### Intent-wording check, final tool (Oct 13, 2026)
+
+- **Test:** `intent-test-after.html` rebuilt from the final tool (wording edits only), the same four products, 5 runs each, 20 lookups, all completed, on real Claude. Cost: 429,387 input and 13,121 output tokens (21,469 per lookup; the baseline was 21,435 and the version with the instruction 21,633).
+- **Every expectation written down before the run was met.**
+
+| | Baseline (before CC-13) | With the instruction (not shipped) | **Final tool** |
+| --- | --- | --- | --- |
+| Claude's text, occurrences | 0 | 0 | **0** |
+| The page's own text, occurrences | 108 | 26 | **20** |
+| Lookups showing a banned phrase | 20 of 20 | 13 of 20 | **10 of 20** |
+| Alexa adaptiveness "unclear" | 0 of 5 | 3 of 5 (7 of 10 in the control) | **0 of 5** |
+| Final results | (baseline) | Alexa changed in 3 of 5 | **identical to the baseline in 20 of 20** |
+| Technical tasks coded neutral instead of masculine | 0 | 5 of 14 | **0 of 9** |
+| Input tokens per lookup | 21,435 | 21,633 | **21,469** |
+
+- **What is left:** only the "unclear" outcome paragraph ("deliberately (or accidentally)… built to"), twice each in the 10 Bixby and Gemini lookups (every one of them), left as is by decision. The imagery chip, the score note and the lookup panel show none.
+- **Final results:** Siri aligned-adaptive 5 of 5, Alexa aligned-adaptive 5 of 5, Bixby unclear 5 of 5, Gemini unclear 5 of 5, the same as the baseline in every lookup. Voice stayed "varies" in all Siri, Bixby and Gemini lookups and feminine in all Alexa lookups.
+- **Scores moved only as they do between any two runs.** Marker: Siri 25 (4) and 33 (1), Alexa 75 (4) and 100 (1), Bixby 0 (5), Gemini 0 (5). Behavior: Siri 25 (3), 50 (1), 75 (1); Alexa 50 (4), 75 (1); Bixby -25 (4), 25 (1); Gemini 25 (3), 0 (2). Alexa's one 100 was a single run where Claude coded the imagery feminine, which nothing in this change touches.
+- **Word check:** "genuine" once, in Siri's confidence note (the adjective; CC-16, untouched).
+- **Not covered:** the manual-mode voice prompt's one-word change, and Path B.
+
 ---
 
 ## Considered, not built
@@ -706,6 +827,8 @@ Not measured. Most of the ~21,500 input tokens per lookup is search results fed 
 
 - **An avatar proposal aimed not to match the job's stereotype (built Oct 12, 2026, removed the same day).** Claude was told to propose imagery that would not reaffirm the job's stereotype (feminine-coded job: neutral or masculine-coded imagery; masculine-coded job: neutral or feminine-coded imagery; mixed or unmapped job: abstract, neutral imagery). It was removed because it was a steering rule chosen without the research team: in the design studio, sections A to C display what Claude outputs, and advice begins later (the callout in section C and the guidance after the prediction are the original authors'). The proposal now carries no steering. Whether it should steer is open item 42.
 - **Readings that start blank and are left out of the score (tried Oct 12, 2026, removed the same day, then restored with the original scoring).** The first version left a blank out of the score. That changed Path A's scoring for an untouched tone or task reading (one feminine job with the tone untouched scored +50 originally and +100 with the change). The user decided not to change the original author's scoring, so it was removed. It was restored the same day with a blank counting exactly as the old default did, so scoring and results are unchanged (R21). Whether a blank should instead be left out is open item 43.
+
+- **An instruction to Claude to describe only what can be observed and make no statements about designers' intent (built, applied and tested Oct 13, removed before shipping).** It fixed nothing observed (Claude's text had no intent wording in 60 lookups) and shifted scores: Alexa's adaptiveness read "unclear" in 7 of 10 control runs against 1 of 10, and some technical tasks were coded neutral instead of masculine. It conflicted with leaving the original scoring alone. The page's own labels were the whole problem, and they were fixed by wording edits (R22). The sentence's text is recorded under R22.
 
 ---
 
@@ -775,11 +898,18 @@ Not measured. Most of the ~21,500 input tokens per lookup is search results fed 
 | 60 | Full before/after wording list written for the authors to confirm (`wording-review.md`) | R20 |
 | 61 | Rendered copies of the wording list made for the authors: a PDF (`wording-review.pdf`) and a single-file HTML checklist (`wording-checklist.html`). In the checklist, ticks and comments save in the reader's own browser, and "Download my answers" or "Copy my answers" returns them; nothing is sent anywhere automatically | R20 |
 | 62 | Avatar proposal made unsteered: the instruction to avoid the job's stereotype and the job's reading were removed from the request, and the wording that described the steering was removed from the page, the wording list and the log. The steering version is recorded under Considered, not built; whether the proposal should steer is open item 42 | R19 |
-| 63 | Blank starts restored in both paths with the original scoring (a blank counts exactly as the old default did). Path A identical to the original in text and markup on ten scenarios; scoring functions and prompts byte-identical; the design studio gives the same verdict, pathway and chips on six sets of choices | R21 |
+| 63 | Blank starts restored in both paths with the original scoring (a blank counts exactly as the old default did). Path A identical to the original in text and markup on ten scenarios; scoring functions byte-identical to Oct 6, prompts identical to the version before the Path B work; the design studio gives the same verdict, pathway and chips on six sets of choices | R21 |
 | 64 | Avatar proposal now appears on its own once the job is described, like the other readings. The first-proposal button was removed; a "Propose another" button appears after a proposal and "Try again" after a failure. A changed job gets a fresh proposal, and a slow answer for an old job cannot overwrite a newer one. Wording rows 7, 8, 11 and 26 updated; the older note about a click-loss bug no longer applies | R19 |
 | 65 | Open item 44 added: the avatar proposal is based on the job text alone; whether it should also use the name, manner, pronouns or voice is left to the research team | R19 |
 | 66 | README corrected (statistics; Claude-backed features counted as three; the design studio's dropdowns named as the part that works anywhere). The research-team decision list and the where-things-stand note were updated to Oct 12, and the log's overview was brought up to date | n/a |
 | 67 | Design studio steadiness test run live (90 calls) and recorded: job and name readings steady in every run; avatar reading steady in 29 of 30; unsteered avatar read the same as the job in 24 of 30 runs; each reading call cost about 4,500 input tokens, about 20 times my estimate (open items 40, 42, 45) | R19 |
+| 68 | CC-13 applied to Path A: the intent wording removed from the dropdown labels, the results label table, the score note and the voice classifier prompt, and one "describe only what can be observed" instruction added to the lookup and to the manual-mode readings (Path B unchanged, checked byte-identical); no exception for vendor quotes | R22 |
+| 69 | Baseline intent-wording check recorded (20 live lookups): 0 hits in Claude's text, 108 in the page's own text, in all 20 lookups | R22 |
+| 70 | The "byte-identical to the original" statements corrected: scoring functions are identical to Oct 6; prompts were identical to the version before the Path B work only | R22 |
+| 71 | After-run for CC-13 recorded (20 live lookups): page's own intent wording 108 to 26 (13 of 20 lookups), Claude's text none; Siri, Bixby and Gemini verdicts unchanged, Alexa's pathway unclear in 3 of 5; open item 49 added | R22 |
+| 72 | Alexa control test (10 runs each, old and new tool) recorded: the CC-13 sentence raised "unclear" adaptiveness from 1 of 10 to 7 of 10 and moved some task codes; items 49 and 50 rewritten and added; decision pending | R22 |
+| 73 | Decision recorded: the CC-13 instruction to Claude is dropped and only the six wording edits ship, because it fixed nothing observed (0 hits in Claude's text in 60 lookups) and shifted Alexa's adaptiveness (1 of 10 to 7 of 10) and some task codes; final tool built from the previous tool plus the six edits and checked; R22 rewritten, items 47, 49 and 50 updated; intent test pages rebuilt | R22 |
+| 74 | Final live check of the shipped tool recorded (20 lookups): 0 hits in Claude's text; the page's own wording 108 to 20 occurrences (10 of 20 lookups, the "unclear" paragraph only); final results identical to the baseline in 20 of 20; every pre-written expectation met | R22 |
 
 
 ---

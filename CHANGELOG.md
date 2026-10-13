@@ -3,6 +3,65 @@
 All changes below are to `index.html`, the build that keeps the live web search. It was
 called `casting-call.html` until 2026-10-06; see the entry for that date.
 
+## 2026-10-13
+
+Path A's labels and notes no longer make statements about what designers intended
+(tracker item CC-13, confirmed Oct 8). The reasoning, the tests and the decision on an
+instruction to Claude are in `decision-rules-log.md` (R22).
+
+### Path A: no statements about designers' intent
+
+The authors' decision is that the tool cannot infer what designers intended, so it
+must not write "designed to," "intended to," "chosen to," "aims to," "deliberately"
+and the like, in any wording. A baseline on real Claude (20 lookups: Siri, Alexa,
+Bixby and Gemini, five runs each) found none in Claude's text and 108 occurrences in
+the page's own text, in all 20 lookups. So the fix is to the page's own wording:
+
+- The voice dropdown "Deliberately androgynous" is now "Androgynous," the imagery
+  dropdown "Abstract / deliberately neutral" is now "Abstract / neutral," and the
+  results label table says the same.
+- The score note now reads "0 if neutral/androgynous."
+- The voice classifier prompt (manual mode) no longer says "deliberately
+  androgynous."
+
+Left as they are, by decision: Path B (its two dropdown labels and its requests), the
+"unclear" outcome paragraph (also shown by Path B), and the essay and notice text. The
+scoring functions, the verdict logic and the shared outcome text are unchanged.
+
+### An instruction to Claude was tried and dropped
+
+A sentence telling Claude to describe only what can be observed and to make no
+statements about designers' intent was built and tested, then removed before
+shipping. It fixed nothing we saw (Claude's text had no intent wording in 60
+lookups) and it shifted scores: in a 10-run control on Alexa, adaptiveness read
+"unclear" in 7 of 10 runs with the instruction against 1 of 10 without, which changes
+the pathway, and some technical tasks were coded neutral instead of masculine (5 of 14
+runs against 0 of 19). That conflicts with leaving the original scoring alone. The
+sentence's text and the results are in the log.
+
+### Checks
+
+Against a stand-in for Claude: what Claude is sent by the lookup and by the manual-mode
+name, imagery, tone and task readings is byte-identical to before; the voice request
+differs only by the removed word; Path B's requests are byte-identical; the same
+answers for Siri, Alexa, Bixby and Gemini give identical scores, verdicts and markup
+apart from the changed wording; Path A manual mode (ten scenarios) and Path B (six
+sets of choices) are identical. On real Claude (20 lookups, the same four products): no intent wording in
+Claude's text; the page's own wording fell from 108 occurrences in all 20 lookups
+to 20 in 10 (the "unclear" paragraph only); the final results were identical to the
+baseline in all 20 lookups; and Alexa's adaptiveness read "adaptive" in 5 of 5. The
+one-word voice prompt change has not been tested live.
+
+### A correction to earlier statements
+
+Earlier entries said Path A's prompts were "byte-identical to the original." That was
+true only against the version just before the Path B work. The scoring functions are
+byte-identical to the Oct 6 version and still are. The lookup prompt, the classifier
+prompts and the label tables already differed from Oct 6 because of earlier approved
+items (the voice rule, the "genuinely" instruction, the three-task cap, the official
+site removal). After this item they match the Oct 12 version except for the voice
+classifier prompt (one word) and the labels.
+
 ## 2026-10-12
 
 Three sets of edits to `index.html`. For the submission build, the authors' names,
@@ -94,7 +153,7 @@ a default cannot be mistaken for Claude's reading. A blank counts exactly as the
 default did: a blank name, pronouns, voice, imagery or avatar is "not sure" and left
 out of the score, and a blank tone, task or job counts as neutral. Path A's scoring
 and every results screen are unchanged from the original: ten scenarios give
-identical text and markup, the scoring functions and prompts are byte-identical, and
+identical text and markup, the scoring functions are byte-identical to the Oct 6 version, the prompts were identical to the version before this work, and
 the design studio gives the same verdict, pathway and chips for six sets of choices.
 A blank tone or task still counts as neutral without the results saying so, as it did
 originally (open item 43). The only Path A code touched is an optional hook in the
