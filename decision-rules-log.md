@@ -1,7 +1,7 @@
 # Casting Call: decision rules log
 
 **Scope:** Path A ("Bring an AI on stage"), Option A ("Have Claude look it up"); since Oct 12 also the design studio (Path B), blank readings, and the wording of the essay and notices.
-**Started:** Oct 8, 2026. **Last updated:** Oct 13, 2026. Rules are numbered in the order they were decided, so the list in force skips the superseded ones, which are kept further down as history.
+**Started:** Oct 8, 2026. **Last updated:** Oct 28, 2026. Rules are numbered in the order they were decided, so the list in force skips the superseded ones, which are kept further down as history.
 
 ---
 
@@ -316,6 +316,15 @@ These are the rules the main page follows. Where a line says "Revised Oct 9, 202
 - **Live check of the final tool (Oct 13, 20 lookups on real Claude):** no intent wording in Claude's text; the page's own wording down from 108 occurrences (20 of 20 lookups) to 20 (10 of 20, the "unclear" paragraph only); the same final results as the baseline in all 20 lookups; Alexa's adaptiveness "adaptive" in 5 of 5. See Test results.
 - **Main page after this change:** `index.html`, 183360 bytes, SHA-256 `0d81482b718e37358718fd68cb5ccfe6308306c1241f5dd3962e9c9f4f0af407`.
 
+### R23. The opening notice drops the sign-in and model-training paragraphs and describes lookups as covered by university agreements
+
+- **Rule:** The "Before the curtain rises" notice no longer has (1) the bold paragraph saying you need to be signed in to Claude and that what you enter may be saved and is processed by Anthropic's Claude, or (2) the "On opting out of model training" paragraph and its link to Anthropic's instructions. In "On the data you put in," the first sentence is unchanged and the rest now reads: "If you ask Claude to look a product up, it's handled under university agreements for AI services and isn't used to train models."
+- **Why:** the tool will use Claude's general knowledge instead of a web search, so the data paragraph should no longer describe a search through Anthropic's API. The two removed paragraphs were removed at the same time. Decided by Melissa Velez, Oct 28.
+- **Enforced by:** the page's own text only. No prompt, scoring or code changed.
+- **Supersedes:** the second half of row 17 in R20 (the "On the data you put in" paragraph). The sign-in line had been in the notice since ALL-02; its two added sentences came in the Oct 27 upload (`ebb6a4b`), which had no log entry.
+- **Deferred, by decision:** other passages that still describe a web search (the Option A card, the results legend and "Other source" tag, the methodology section "If you ask Claude to look it up," and the essay bullet "In search mode it reads the marketing") will be reworded later (open item 51). The lookup code still requests a web search, so the notice now describes the planned behavior, not the current code (open item 52).
+- **Main page after this change:** `index.html`, 182540 bytes, SHA-256 `d240e5ed9ead570f488e218a62229200befe7f93fe2fcacc60725d498aaa7d53`.
+
 ## How each marker is judged (unchanged framework)
 
 These are judgment calls applied consistently, not a database lookup. In Option A, Claude makes them; in Option B, the person types and Claude judges on leaving the field (pronouns are the exception: a simple text match, no judgment).
@@ -440,6 +449,9 @@ Each of these was in force at one time. They are kept so the reasoning is not lo
 48. **Which extra phrases to ban, and which borderline words to watch.** The scan bans: designed to/for, intended to, chosen to, aims to, deliberate(ly), intentional(ly), purposely, on purpose, meant to, built to, engineered to. Candidates to add: "built for," "intended for," "made to," "created to," "meant for." Reported but not counted: "designed" alone (for example the credit "Apple designed it"), "by design," "design choice," "chose," "purpose."
 49. **Resolved (Oct 13): the instruction to Claude was dropped.** The control test showed it shifted Alexa's adaptiveness reading ("unclear" in 1 of 10 runs on the old tool, 7 of 10 on the new; p = 0.02; 1 of 15 against 10 of 15 across all Alexa runs, p = 0.002), which moves the pathway from aligned-adaptive to unclear. The wording edits shipped without it (R22). Revisit only if intent wording turns up in Claude's text (item 47).
 50. **Resolved with item 49.** The instruction also moved some task codes: "smart home control" and "device control via voice commands" were coded neutral instead of masculine in 5 of 14 runs on the new tool against 0 of 19 on the old (p = 0.008). Not present in the shipped tool.
+
+51. **Text that still describes a web search (Oct 28, deferred by decision).** After R23 the notice describes general-knowledge lookups, but four places still describe a search: the Option A card ("Claude searches for public details you can then edit"), the results legend ("depend on which pages the search brings back") with its *Other source* tag, the methodology section "If you ask Claude to look it up" ("at most one web search," checking links, the skewed search pool), and the essay bullet "In search mode it reads the marketing, not the product." To be reworded when the lookup code changes.
+52. **The notice and the code disagree until the lookup is rebuilt (Oct 28).** The lookup still asks Anthropic's API for one web search, and the Option B readings and the design studio call that API directly. In a published artifact all three fail ("Couldn't reach the search service"), because artifacts can no longer call the API; the only Claude route an artifact has is the viewer's own account (`sample`), which has no web search. The new sentence ("handled under university agreements for AI services and isn't used to train models") holds only for the route that ships, so confirm it once that route is chosen (AWS/Bedrock hosting, PRI-01).
 
 ---
 
@@ -911,6 +923,7 @@ Not measured. Most of the ~21,500 input tokens per lookup is search results fed 
 | 73 | Decision recorded: the CC-13 instruction to Claude is dropped and only the six wording edits ship, because it fixed nothing observed (0 hits in Claude's text in 60 lookups) and shifted Alexa's adaptiveness (1 of 10 to 7 of 10) and some task codes; final tool built from the previous tool plus the six edits and checked; R22 rewritten, items 47, 49 and 50 updated; intent test pages rebuilt | R22 |
 | 74 | Final live check of the shipped tool recorded (20 lookups): 0 hits in Claude's text; the page's own wording 108 to 20 occurrences (10 of 20 lookups, the "unclear" paragraph only); final results identical to the baseline in 20 of 20; every pre-written expectation met | R22 |
 
+| 75 | Opening notice (Oct 28): the sign-in and data-handling paragraph and the model-training opt-out paragraph (with its link) removed; the lookup sentences of "On the data you put in" replaced with the university-agreements sentence. The Oct 27 upload (`ebb6a4b`) that added the data-handling sentences is noted. Other web-search wording and the code left for later (open items 51, 52) | R23 |
 
 ---
 
@@ -927,4 +940,5 @@ Not measured. Most of the ~21,500 input tokens per lookup is search results fed 
 - Explanations don't use the word "genuinely" (R17).
 - For the submission, the authors' names, affiliations and emails are removed from the visible page (R18).
 - In the design studio, Claude reads the job and the name and proposes an avatar, with Path A's scoring; the readings Claude fills in start blank in both paths and count exactly as the old defaults did, so Path A's scoring and results are unchanged; the essay and notices say who makes each reading (R19 to R21).
+- The opening notice has no sign-in or model-training paragraphs, and says lookups are handled under university agreements for AI services and aren't used to train models (R23).
 - Markers and behaviors are judgment calls made by Claude, not a database lookup.

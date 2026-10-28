@@ -3,6 +3,45 @@
 All changes below are to `index.html`, the build that keeps the live web search. It was
 called `casting-call.html` until 2026-10-06; see the entry for that date.
 
+## 2026-10-28
+
+The opening notice ("Before the curtain rises") was shortened, and its data paragraph
+now describes lookups as running on Claude's general knowledge under university
+agreements. Wording only. The reasoning is in `decision-rules-log.md` (R23).
+
+### Opening notice
+
+- **Removed:** the bold first paragraph, "You'll need to be signed in to Claude to use
+  this tool. Information you enter into these tools (e.g., your responses,
+  conversations, and the figures produced) may be saved. What you enter is processed
+  by Anthropic's Claude." Its second and third sentences were added in the Oct 27
+  upload (commit `ebb6a4b`, "the Bedrock build that Valerii sent"), which had no
+  changelog entry; that upload changed only this one line.
+- **Removed:** the "On opting out of model training" paragraph, including its
+  "Anthropic's instructions" link to privacy.claude.com.
+- **Rewritten:** the second half of "On the data you put in." The first sentence is
+  unchanged. The sentences saying Claude runs a web search through Anthropic's API, that
+  the usual handling for any Claude conversation applies, and pointing to Anthropic's
+  privacy policy were replaced with: "If you ask Claude to look a product up, it's
+  handled under university agreements for AI services and isn't used to train models."
+
+### Not changed yet, by decision
+
+Other text that still describes a web search was left for later: the Option A card
+("Claude searches for public details"), the results legend and its "Other source" tag,
+the methodology section "If you ask Claude to look it up" ("at most one web search"),
+and the essay bullet "In search mode it reads the marketing, not the product." The
+code is also unchanged: the lookup still requests a web search directly from Anthropic's
+API, and the Option B readings and the design studio still call that API directly, so
+all three fail in a published artifact. The scoring, prompts and verdict logic are
+untouched.
+
+### Checks
+
+Diff against `ebb6a4b`: one line changed and five removed, all inside the notice; no
+script, style or prompt lines touched. Published as a private artifact for review.
+`index.html` after this change: 182540 bytes, SHA-256 `d240e5ed9ead570f488e218a62229200befe7f93fe2fcacc60725d498aaa7d53`.
+
 ## 2026-10-13
 
 Path A's labels and notes no longer make statements about what designers intended
