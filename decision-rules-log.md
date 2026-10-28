@@ -1,7 +1,7 @@
 # Casting Call: decision rules log
 
-**Scope:** Path A ("Bring an AI on stage"), Option A ("Have Claude look it up"); since Oct 12 also the design studio (Path B), blank readings, and the wording of the essay and notices.
-**Started:** Oct 8, 2026. **Last updated:** Oct 28, 2026. Rules are numbered in the order they were decided, so the list in force skips the superseded ones, which are kept further down as history.
+**Scope:** Path A ("Bring an AI on stage"), Option A ("Have Claude look it up"); since Oct 12 also the design studio (Path B), blank readings, and the wording of the essay and notices. **Since Oct 28 (R25), lookups answer from Claude's general knowledge through the project's Bedrock endpoint; rules below that describe a web search, sources or links are kept as history and marked.**
+**Started:** Oct 8, 2026. **Last updated:** Oct 28, 2026 (R25). Rules are numbered in the order they were decided, so the list in force skips the superseded ones, which are kept further down as history.
 
 ---
 
@@ -9,9 +9,9 @@
 
 **How Option A works now**
 1. The person types a product name or link.
-2. The page sends one request to Claude with one general web search (the query is the product name, its maker, and the words "AI assistant"), at temperature 0.
-3. Claude returns a code and a short reason for each marker (name, pronouns, voice, imagery) and for behavior (up to three tasks, plus tone), along with designer, organizational-diversity and adaptiveness fields. It also says whether each answer came from a page the search returned or from its general knowledge. For voice, one default voice is coded and the others are noted; if there is no single default, the voice is "varies" (R10). The page's own labels and notes make no statements about what the designers intended (R22); Claude is not instructed on this, and its text had none in 60 live lookups.
-4. The results panel shows each answer with a tag (*Other source*, *Claude's general knowledge*, or *Source not specified*) and opens with a warning that results can vary between searches.
+2. The page sends one request to the project's endpoint (`/api/claude/casting-call`, which reaches Claude Sonnet 4.6 on Bedrock at temperature 0). There is no web search: Claude answers from its general knowledge, which runs through about August 2025 (R25). *Until Oct 28 this step was one general web search through Anthropic's API (R8, R13).*
+3. Claude first says whether it recognizes the product. If it doesn't, the page scores nothing and opens the manual sheet with a note saying so (R25). If it does, it returns a code and a short reason for each marker (name, pronouns, voice, imagery) and for behavior (up to three tasks, plus tone), along with designer, organizational-diversity and adaptiveness fields, all from general knowledge and with no links. For voice, one default voice is coded and the others are noted; if there is no single default, the voice is "varies" (R10). The page's own labels and notes make no statements about what the designers intended (R22).
+4. The results panel shows each answer, opens with a note that Claude answers from its general knowledge so results can vary and may be out of date, and ends with Claude's "How sure is this" line. There are no source tags or links (R25).
 5. The person can edit any answer before revealing the placement. If the connection drops, the page retries once. If a lookup fails, the page opens the manual sheet and says why (R16, provisional).
 
 **How the design studio works now (Path B)**
@@ -82,12 +82,16 @@ These are the rules the main page follows. Where a line says "Revised Oct 9, 202
 
 ### R7. Temperature is 0 on every call
 
+- **Revised Oct 28, 2026 (R25):** the page no longer sends a temperature; the Bedrock endpoint's server sets 0, along with the model.
+
 - **Rule:** Every request the page sends to Claude uses temperature 0: the main search and the Option B per-field classification.
 - **Why:** To reduce run-to-run variation in judgment calls.
 - **Limit:** This steadies how Claude judges a *given* piece of evidence. It cannot steady the evidence: a live web search can return different pages each time.
 - **Revised Oct 9, 2026:** the earlier wording also listed the site-confirmation searches and the official-site search. Both are removed (R13, R14).
 
 ### R8. Fixed search-query form
+
+- **Superseded Oct 28, 2026 by R25:** there is no search, so there is no query. Kept as history.
 
 - **Rule:** Claude is told to make its single search exactly the product name, then its maker, then the words "AI assistant" (for example: "Siri Apple AI assistant"), and nothing else.
 - **Enforced by:** Instruction to Claude only.
@@ -106,6 +110,7 @@ These are the rules the main page follows. Where a line says "Revised Oct 9, 202
 - **Main page after this change:** `index.html`, 170848 bytes, SHA-256 `81687cf3b33adf231de7f16d6d0d5f83c8b6cde339f2f54c0e45ad71920194d0`.
 - **Test:** run Oct 12 in three sets: Siri and Alexa, Bixby and Gemini (5 runs each), and GitHub Copilot and DeepSeek (3 runs each). Siri, Bixby and Gemini were "varies," Alexa was coded on its default voice, and Copilot and DeepSeek stayed "none," consistently in every run. See the three "Voice rule re-measure" sections under Test results. All four cases (one default, no single default, no voice) are tested.
 ### R11. Warn that results can vary between searches
+- **Revised Oct 28, 2026 (R25):** the warning now reads "Claude answers from its general knowledge, so results can vary from one request to the next and may be out of date. Check them before relying on them." The source-tag explanation it sat above is gone.
 - **Rule:** The results panel (shown only after a real search) opens with: "Results can vary from one search to the next, because they depend on which pages the search brings back." It sits directly above the line explaining the source tags.
 - **Why:** Results depend on a live web search, so the same product searched twice can return different pages and different readings. Chosen by you from four wordings (short, tag-pointing, "starting point," and a banner); the short one was picked and the tag explanation was already present.
 - **Where it does not appear:** the worked example, the manual sheet, and the final placement and score view. Not added there; can be if wanted.
@@ -120,6 +125,8 @@ These are the rules the main page follows. Where a line says "Revised Oct 9, 202
 - **Revised Oct 9, 2026:** the earlier wording applied to both the open search and the official-site read (removed, R13), and said "Not yet tested against live results," which is out of date.
 
 ### R13. The official-site read is removed; each lookup is one general web search
+
+- **Superseded Oct 28, 2026 by R25:** a lookup is now one request with no web search. The official-site read stays removed. Kept as history.
 
 - **Rule:** A lookup is one general web search (query form per R8). There is no second pass that reads the official domain's own pages.
 - **Revised Oct 9, 2026 (R14):** this rule originally kept a cheap step that found, confirmed and linked the official site. R14 removed that step too. What stays in force from R13 is: no second pass reading the product's own pages, and the source labels below.
@@ -334,6 +341,18 @@ These are the rules the main page follows. Where a line says "Revised Oct 9, 202
 - **Checks:** five lines changed against `b642f01`, nothing else; a search of `index.html` for the authors' names, other team members' names, their institutions and email domains finds none.
 - **Main page after this change:** `index.html`, 182447 bytes, SHA-256 `81c5c4bf45691d0fb4b920aa65a7218ed655e76bb05251258dadbcdc8f7f85db`.
 
+### R25. Lookups answer from Claude's general knowledge through the Bedrock endpoint (CC-26)
+
+- **Rule:** All three calls to Claude (the field reading, the avatar proposal and the lookup) go to the project's endpoint, `/api/claude/casting-call`, set in one marked IT block (`CLAUDE_ENDPOINT`). The server sets the model (Claude Sonnet 4.6) and temperature (0); the page sends neither. The lookup has no web search: Claude answers from its general knowledge only, says when it doesn't know, gives no links, and says in its confidence note what may be out of date. The lookup still returns designer credit, organization diversity (with country and general demographics) and adaptiveness; only their link fields, `markers_basis` and `sources` are gone.
+- **Why:** Bedrock has no web search tool. In CC-22's test of 10 tools, Claude recognized 8 in every run and never recognized Stan or Poke, which the page had still scored from the name alone; one Poke run returned no assessment and the page said "search again." Decided Oct 28 (tracker item CC-26): keep the sourced fields and adaptiveness, answered from general knowledge; remove only the link fields.
+- **Unrecognized products:** Claude returns `recognized` first. Unless it is `true`, the page fills in nothing and shows no scores; it opens the manual sheet with "Claude doesn't recognize "[name]", so it has nothing reliable to fill in. Fill in the sheet below with what you know." A cut-off answer that got as far as `"recognized": true` is still used, with the heads-up note. An empty or unreadable reply gets the "couldn't be read" notice, not "search again."
+- **Not connected:** if the endpoint is a `PLACEHOLDER_` value or empty, nothing is sent and the lookup says the page isn't connected to Claude yet (the same check as Thea & Drew's TD-24). The field readings and the avatar fall back to their existing "set this yourself" messages.
+- **Wording:** every message and page passage that described a search, sources or links was reworded per CC-26's tables, plus one passage the leftover search found (the "How are these categorized" box above the sheet). The Option A panel now opens with a "How this works" note: knowledge through about August 2025, no internet search, live search planned. The Walters & Wilder citation is kept, reworked for recall from memory. The changelog entry for Oct 28 (third change) lists every passage.
+- **Unchanged:** the scoring functions, the verdict logic, the voice rule (R10), the three-task rule (R2, R12, now ordered as "the product usually presents them"), the "genuinely" rule (R17), the intent wording (R22), the one retry on a dropped connection (R15), the failure notice (R16, reworded) and the output limits (150, 250, 2,200).
+- **Enforced by:** instruction to Claude (general knowledge only, no links, `recognized`) **and** the page itself (no link handling remains, so a link Claude did write could not be shown; no scores unless `recognized` is `true`).
+- **Checks (Oct 28, simulated endpoint, 33 of 33 passed):** listed in the changelog. **Not checked:** a real call through the Bedrock endpoint, and the Siri, Alexa, Stan, Poke and made-up-name lookups on real Claude (open item 53).
+- **Main page after this change:** `index.html`, 173509 bytes, SHA-256 `45cc85a54f39eb53dea83f922bf794ac3e66d5caa495718f9fba6e789a7db251`.
+
 ## How each marker is judged (unchanged framework)
 
 These are judgment calls applied consistently, not a database lookup. In Option A, Claude makes them; in Option B, the person types and Claude judges on leaving the field (pronouns are the exception: a simple text match, no judgment).
@@ -459,8 +478,9 @@ Each of these was in force at one time. They are kept so the reasoning is not lo
 49. **Resolved (Oct 13): the instruction to Claude was dropped.** The control test showed it shifted Alexa's adaptiveness reading ("unclear" in 1 of 10 runs on the old tool, 7 of 10 on the new; p = 0.02; 1 of 15 against 10 of 15 across all Alexa runs, p = 0.002), which moves the pathway from aligned-adaptive to unclear. The wording edits shipped without it (R22). Revisit only if intent wording turns up in Claude's text (item 47).
 50. **Resolved with item 49.** The instruction also moved some task codes: "smart home control" and "device control via voice commands" were coded neutral instead of masculine in 5 of 14 runs on the new tool against 0 of 19 on the old (p = 0.008). Not present in the shipped tool.
 
-51. **Text that still describes a web search (Oct 28, deferred by decision).** After R23 the notice describes general-knowledge lookups, but four places still describe a search: the Option A card ("Claude searches for public details you can then edit"), the results legend ("depend on which pages the search brings back") with its *Other source* tag, the methodology section "If you ask Claude to look it up" ("at most one web search," checking links, the skewed search pool), and the essay bullet "In search mode it reads the marketing, not the product." To be reworded when the lookup code changes.
-52. **The notice and the code disagree until the lookup is rebuilt (Oct 28).** The lookup still asks Anthropic's API for one web search, and the Option B readings and the design studio call that API directly. In a published artifact all three fail ("Couldn't reach the search service"), because artifacts can no longer call the API; the only Claude route an artifact has is the viewer's own account (`sample`), which has no web search. The new sentence ("handled under university agreements for AI services and isn't used to train models") holds only for the route that ships, so confirm it once that route is chosen (AWS/Bedrock hosting, PRI-01).
+51. **Resolved Oct 28 (R25, CC-26).** The passages that still described a web search (the Option A card, the results legend and its *Other source* tag, the methodology section "If you ask Claude to look it up" and the essay bullet "In search mode it reads the marketing") were reworded, along with the "How are these categorized" box above the sheet.
+52. **Resolved in the code Oct 28 (R25); one check left.** The lookup no longer asks for a web search, and all three calls go to the project's endpoint, so the notice and the code now agree. Still to confirm once the endpoint is live: that the notice's sentence ("handled under university agreements for AI services and isn't used to train models") holds for the route IT sets up.
+53. **Real-Claude checks for R25, waiting on IT's endpoint (Oct 28).** Run Siri and Alexa (recognized), Stan and Poke (not recognized in CC-22) and a made-up name; confirm Stan, Poke and the made-up name get the not-recognized note and no scores, and that Siri's and Alexa's designer, organization-diversity and adaptiveness rows still show. Also worth re-running the stability tests: every earlier one used a web search, so scores from general knowledge are not directly comparable.
 
 ---
 
@@ -934,18 +954,19 @@ Not measured. Most of the ~21,500 input tokens per lookup is search results fed 
 
 | 75 | Opening notice (Oct 28): the sign-in and data-handling paragraph and the model-training opt-out paragraph (with its link) removed; the lookup sentences of "On the data you put in" replaced with the university-agreements sentence. The Oct 27 upload (`ebb6a4b`) that added the data-handling sentences is noted. Other web-search wording and the code left for later (open items 51, 52) | R23 |
 | 76 | Working-paper citation anonymized (Oct 28): in-text citation and reference entry now "Authors," two code comments now say "the working paper," and "since it is the authors' own field and their own paper" removed; reverses part of R18 | R24, R18 |
+| 77 | CC-26: all three Claude calls go to `/api/claude/casting-call` with no model or temperature; the lookup's web search, link fields, `markers_basis` and `sources` removed, with general-knowledge, no-links and `recognized` rules added; all link-handling code, source tags and the "Pulled from" line removed; unrecognized products get no scores and a manual-sheet note; messages, page text and methodology reworded; 33 simulated checks passed; real calls wait on IT | R25 (supersedes R8, R13; revises R11) |
 
 ---
 
 ## Summary of the decision rules
 
-- One lookup is one general web search ("[product] [maker] AI assistant"), with no official-site requirement, check, link or retry (R8, R14).
+- One lookup is one request to the project's Bedrock endpoint, answered from Claude's general knowledge with no web search and no links; if Claude doesn't recognize the product, nothing is scored and the manual sheet opens (R25).
 - The product is assumed to be an AI assistant, agent or chatbot, and names are not case-sensitive (R5, R6).
 - Temperature is 0 on every call (R7).
 - At most three tasks: the most prominent first, no overlaps (R2, R12).
 - Voice: if the product has one default voice, code it and say others exist; if there is no single default, say "varies" (it scores as neutral) (R10).
-- Every answer is tagged *Other source*, *Claude's general knowledge* or *Source not specified*, and the results warn that scores can vary between searches (R11, R13).
-- If the main search fails with a network error, retry once after about a second (R15).
+- The results say that Claude answers from its general knowledge, so they can vary and may be out of date, and end with Claude's confidence note (R11, R25).
+- If the lookup fails with a network error, retry once after about a second (R15).
 - If a lookup fails, the manual sheet opens and says why (R16, provisional; can be removed).
 - Explanations don't use the word "genuinely" (R17).
 - For the submission, the authors' names, affiliations and emails are removed from the visible page (R18), and the working paper is cited as "Authors" (R24).

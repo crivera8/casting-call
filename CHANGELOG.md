@@ -1,7 +1,103 @@
 # Changelog
 
-All changes below are to `index.html`, the build that keeps the live web search. It was
-called `casting-call.html` until 2026-10-06; see the entry for that date.
+All changes below are to `index.html`. Until 2026-10-28 it was the build that kept the live
+web search; since then it is the Bedrock build, which answers from Claude's general knowledge
+(see that entry). It was called `casting-call.html` until 2026-10-06.
+
+## 2026-10-28 (third change): lookups use Claude's general knowledge through the Bedrock endpoint (CC-26)
+
+Bedrock has no web search tool, so Option A ("Have Claude look it up") now answers from
+Claude's general knowledge, and all three calls to Claude go to the project's own endpoint
+instead of Anthropic's API. Tracker item CC-26; the reasoning is in `decision-rules-log.md`
+(R25).
+
+### Calls to Claude
+
+- The field reading (manual mode and the design studio's job and name), the avatar
+  proposal and the lookup now go to `/api/claude/casting-call`, set once in a marked IT
+  block (`CLAUDE_ENDPOINT`) above `classifyField`. Same Anthropic Messages format as before.
+- `model` and `temperature` were removed from all three request bodies (the server sets
+  Claude Sonnet 4.6 at temperature 0), and the `web_search` tool was removed from the lookup.
+- Output limits unchanged: 150, 250 and 2,200 tokens.
+- If the endpoint is set to a `PLACEHOLDER_` value or left empty, nothing is sent and the
+  lookup says the page isn't connected to Claude yet (the same check as Thea & Drew).
+
+### The lookup's instructions
+
+- "Do at most ONE web search…" became "Answer from your general knowledge only, then respond
+  immediately — a complete, valid JSON object matters more than exhaustive detail."
+- Removed: the fixed search-query sentence (R8), the "from whatever pages your search
+  returned… say which in markers_basis" wording, and the fields `designer_source`,
+  `org_diversity_source`, `general_tech_demographics_source`, `adaptive_source`,
+  `markers_basis` and `sources`.
+- Added: "Answer only from what you reliably know. Where you are not sure, use the 'none',
+  'unclear' or 'unknown' codes instead of guessing. Give no links."; `confidence_note` now
+  also says what may be out of date; a new first key, `recognized` ("Set recognized to true
+  only if you know this specific product well enough to describe it. If you don't, set it to
+  false, leave every other field out, and do not guess from the name.").
+- Organization diversity now uses 'technical-specific' or 'company-wide' only if Claude
+  specifically knows the figure is published, 'removed' only if it knows publication stopped,
+  and 'none' otherwise. Tasks follow "the order the product usually presents them" in "the
+  product's own wording." The closing line no longer says "after searching."
+- Kept, answered from general knowledge: designer credit, organization diversity (with
+  country and general demographics) and adaptiveness.
+
+### Code removed
+
+The source-link state (`lastSearchSources`, `verifiedUrls`, the four per-field source
+variables), `harvestSearchUrls`, `verifySources`, the URL-cleaning block, `validSource`,
+`sourceLink`, `setMarkerSources`, `SRC_LABELS`, `srcTag`, the now-unused `escapeAttr`, the
+"Pulled from" line, the per-field source links on the results cards, the source tag on each
+results row, the empty `searchSources` box and the `.src-tag` and `.search-sources` styles.
+`lastSearchConfidence` (the "How sure is this" line) is kept.
+
+### Products Claude doesn't recognize
+
+If the answer's `recognized` is not `true`, the page fills nothing in and shows no scores. It
+opens the manual sheet with: "Claude doesn't recognize "[name]", so it has nothing reliable
+to fill in. Fill in the sheet below with what you know." An answer cut off after
+`"recognized": true` still keeps the flag, so a partial answer is still shown with its
+heads-up note. An empty or unreadable reply (the Poke case in CC-22) gets the "couldn't be
+read" notice.
+
+### Messages and page text
+
+Every status, error and failure notice now says "lookup" or "try again" instead of
+"search" or "search again", per the CC-26 tables; the internal message keeps the words
+"could not parse" that the notice matcher looks for. The Option A card, box label,
+placeholder, button ("Look it up"), results introduction, results legend and the worked
+example's Anthropic note were reworded per CC-26. New "How this works" note at the top of the
+Option A panel (knowledge through about August 2025, no internet search, live search planned).
+
+### Methodology and essay text
+
+Reworded per CC-26: "It shows its work" (no sources), the "reads the marketing" bullet (now
+"works from memory, not from the product"), the methodology link's first topic, "What
+actually happens", "It has never seen or heard the product", "Check the details before you
+trust them" (Walters & Wilder citation kept) and "The pool it draws from is itself skewed".
+One more passage, found by the leftover search and not in CC-26's tables: the "How are these
+categorized" box above the sheet said Claude used "whatever the web search turns up" and
+tagged each answer by source; it now reads "When Claude looks a product up, it makes the same
+call from its general knowledge and returns each selection directly with a short reason."
+
+### Checks
+
+Against a simulated endpoint in a headless browser (33 checks, all passed): one request per
+lookup to `/api/claude/casting-call`, with no `model`, `temperature` or `tools` and
+`max_tokens` 2,200; the new rules in the prompt and no search or link-field wording; a
+recognized product shows results with no source tags or links, the designer,
+organization-diversity, general-demographics and adaptiveness rows still show, and Reveal
+works with no "Pulled from" line; `recognized: false` and a missing flag both open the manual
+sheet with the not-recognized note and no scores; a cut-off answer with the flag shows partial
+results with the heads-up note; a cut-off answer with nothing usable, an unreadable answer
+and an empty reply each show the right notice; HTTP 400, 403, 404, 429 and 500 and being
+offline (two attempts) each show the right notice; the manual-mode reading sends
+`max_tokens` 150 and the design studio's avatar 250, neither with `model` or `temperature`;
+the worked example loads; nothing is sent to `api.anthropic.com`; no script errors; with a
+placeholder endpoint, nothing is sent and the not-connected notice shows. The script passes
+a syntax check. Not checked: a real call through the Bedrock endpoint, and the Siri, Alexa,
+Stan, Poke and made-up-name lookups on real Claude, which wait on IT's endpoint.
+`index.html` after this change: 173509 bytes, SHA-256 `45cc85a54f39eb53dea83f922bf794ac3e66d5caa495718f9fba6e789a7db251`.
 
 ## 2026-10-28 (second change): working-paper citation anonymized
 
