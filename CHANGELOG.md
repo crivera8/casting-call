@@ -3,6 +3,31 @@
 All changes below are to `index.html`, the build that keeps the live web search. It was
 called `casting-call.html` until 2026-10-06; see the entry for that date.
 
+## 2026-10-28 (second change): working-paper citation anonymized
+
+The working paper is now cited without the authors' names, and one phrase that
+identified them was removed. Wording and code comments only. The reasoning is in
+`decision-rules-log.md` (R24).
+
+| # | Where | Before | After |
+| --- | --- | --- | --- |
+| 1 | Essay, "What this doesn't tell you" | (the authors' surnames, working paper) | (Authors, working paper) |
+| 2 | Methodology page, References | the authors' surnames and initials (working paper). Director, actor, audience: ... | Authors (working paper). Director, actor, audience: ... (title unchanged) |
+| 3 | Code comment above the alignment labels | Per (the authors' surnames): markers place an actor... | Per the working paper: markers place an actor... |
+| 4 | Code comment on the placement card | ...per (the authors' surnames)' distinction between... | ...per the working paper's distinction between... |
+| 5 | Methodology page, "Were these articles actually read?" | ...that is a reasonable place to stand, since it is the authors' own field and their own paper. | ...that is a reasonable place to stand. |
+
+Row 5 was removed because, paired with the citation, it identified the authors.
+
+### Checks
+
+Diff against `b642f01`: five lines changed, nothing else. No prompt, scoring, verdict
+or style lines touched; the two comments are not sent to Claude. A search of
+`index.html` for the authors' names, other team members' names, their institutions and
+email domains finds none. Still containing the names, outside `index.html`: `README.md`,
+`old/index.html`, three older entries in this changelog, and the git history (open
+item 37). `index.html` after this change: 182447 bytes, SHA-256 `81c5c4bf45691d0fb4b920aa65a7218ed655e76bb05251258dadbcdc8f7f85db`.
+
 ## 2026-10-28
 
 The opening notice ("Before the curtain rises") was shortened, and its data paragraph

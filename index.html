@@ -1241,7 +1241,7 @@
       <ul>
         <li><strong>It's binary by design, because the field mostly still is.</strong> This framework sorts things into "masculine" and "feminine," which flattens real people and, arguably, AI too <span class="cite">(Ridgeway &amp; Saperstein, 2024)</span>. A handful of real designers have tried to build deliberately genderless assistants — that possibility sits outside what this tool can score.</li>
         <li><strong>Gender isn't the only axis worth checking.</strong> Names, voices, and imagery can just as easily be racialized, aged, classed, or accented — a name can read as gendered and read as tied to a particular ethnicity at the same time, and this tool has nothing to say about that.</li>
-        <li><strong>The "reinforces vs. weakens" language is a hypothesis, not a finding.</strong> It comes from a theoretical model built on hypothetical illustrations of how repeated exposure to an AI actor <em>might</em> shift the stereotypes someone holds <span class="cite">(Conzon &amp; Feldberg, working paper)</span> — not from a controlled study measuring that it does. Use it to think, not to conclude.</li>
+        <li><strong>The "reinforces vs. weakens" language is a hypothesis, not a finding.</strong> It comes from a theoretical model built on hypothetical illustrations of how repeated exposure to an AI actor <em>might</em> shift the stereotypes someone holds <span class="cite">(Authors, working paper)</span> — not from a controlled study measuring that it does. Use it to think, not to conclude.</li>
         <li><strong>One assessment is a snapshot.</strong> What the underlying theory actually cares about is repeated exposure over time and how real audiences respond to it — a single pass through a form can't capture that.</li>
         <li><strong>In search mode it reads the marketing, not the product.</strong> One web search, mostly over material the company wrote about itself, with no access to the actual voice or interface. A gap between how something is described and how it behaves is exactly the kind of thing this can't see.</li>
         <li><strong>One coder is one coder.</strong> A score produced by a single coder, a person or Claude, in a single sitting records that coder's reading. It is a data point, not a property of the product <span class="cite">(O'Connor &amp; Joffe, 2020)</span>.</li>
@@ -1393,7 +1393,7 @@
         <summary>Were these articles actually read?</summary>
         <div class="methodology-body">
           <p><strong>Not in full, and the honest answer differs by layer.</strong> This matters enough to state plainly, because "it has a citation" and "someone checked the claim against the paper" are different guarantees, and a reference list looks identical either way.</p>
-          <p><strong>Sources inherited from the working paper's bibliography</strong> are cited here as that paper cites them. The articles were not independently read for this tool, and the claims attached to them rest on the authors' reading rather than a fresh one. For the gender-theory foundations that is a reasonable place to stand, since it is the authors' own field and their own paper. It does mean an error there would propagate into this tool unchanged.</p>
+          <p><strong>Sources inherited from the working paper's bibliography</strong> are cited here as that paper cites them. The articles were not independently read for this tool, and the claims attached to them rest on the authors' reading rather than a fresh one. For the gender-theory foundations that is a reasonable place to stand. It does mean an error there would propagate into this tool unchanged.</p>
           <p><strong>Sources added specifically for this tool</strong> — the documentation, stereotype-measurement, citation-accuracy, and coding-reliability literature — were checked against abstracts, publisher records, and indexing databases to confirm authors, journal, year, volume, and pages, and to confirm that the specific claim made here matches what the abstract reports. Full texts were not read.</p>
           <p><strong>What that level of checking catches, and what it misses.</strong> It catches wrong volume numbers, invented references, and misattributions — one citation in an earlier version of this tool was corrected precisely this way, when the abstract showed the paper covered six attitude domains that did not include gender. It does not catch a finding that an abstract states cleanly but the paper itself qualifies, a result that failed to replicate later, or a methodological problem visible only in the full text. If you are going to rely on any specific claim here for your own work, read the paper.</p>
         </div>
@@ -1419,7 +1419,7 @@
         <li>Carpenter, J. (2019). Why Project Q is more than the world's first nonbinary voice for technology. <em>Interactions, 26</em>(6), 56–59.</li>
         <li>Charlesworth, T. E. S., &amp; Banaji, M. R. (2022). Patterns of implicit and explicit stereotypes III: Long-term change in gender stereotypes. <em>Social Psychological and Personality Science, 13</em>(1), 14–26.</li>
         <li>Charlesworth, T. E. S., Yang, V., Mann, T. C., Kurdi, B., &amp; Banaji, M. R. (2021). Gender stereotypes in natural language: Word embeddings show robust consistency across child and adult language corpora of more than 65 million words. <em>Psychological Science, 32</em>(2), 218–240.</li>
-        <li>Conzon, V., &amp; Feldberg, A. (working paper). Director, actor, audience: An AI-human model of doing gender in the age of interactive artificial intelligence.</li>
+        <li>Authors (working paper). Director, actor, audience: An AI-human model of doing gender in the age of interactive artificial intelligence.</li>
         <li>Costa, P. (2018). Conversing with personal digital assistants: On gender and artificial intelligence. <em>Journal of Science and Technology of the Arts, 10</em>(3), 59–72.</li>
         <li>Eagly, A. H., &amp; Karau, S. J. (2002). Role congruity theory of prejudice toward female leaders. <em>Psychological Review, 109</em>(3), 573–598.</li>
         <li>Eagly, A. H., Nater, C., Miller, D. I., Kaufmann, M., &amp; Sczesny, S. (2020). Gender stereotypes have changed: A cross-temporal meta-analysis of U.S. public opinion polls from 1946 to 2018. <em>American Psychologist, 75</em>(3), 301–315.</li>
@@ -1604,7 +1604,7 @@
     mixed: 'Spans both'
   };
 
-  // Per Conzon & Feldberg: markers place an actor in a gender category;
+  // Per the working paper: markers place an actor in a gender category;
   // behavior is then judged as *aligned* (consistent with that placement)
   // or *misaligned* (cutting against it) — a separate call from placement
   // itself, not blended into one number with it.
@@ -2032,7 +2032,7 @@
     const info = PATHWAY_INFO[path];
 
     // --- Placement card: markers and behavior are scored SEPARATELY, per
-    // Conzon & Feldberg's distinction between the actor's markers (which
+    // the working paper's distinction between the actor's markers (which
     // place its gender) and the actor's behavior (which is then judged as
     // aligned or misaligned with that placement) — these are two different
     // constructs, not one blended average. ---
