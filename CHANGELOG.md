@@ -4,6 +4,26 @@ All changes below are to `index.html`. Until 2026-10-28 it was the build that ke
 web search; since then it is the Bedrock build, which answers from Claude's general knowledge
 (see that entry). It was called `casting-call.html` until 2026-10-06.
 
+## 2026-10-29 (third change): "stays in this browser"
+
+In the opening notice's "On the data you put in", "what you type stays in this conversation"
+is now "what you type stays in this browser". The bold data line also gained "and the figures produced" ("…your responses, conversations, and the figures produced…"). The page no longer runs inside a Claude
+conversation, so "conversation" no longer described where the text stays. It was the only
+use of the phrase on the page. Wording only. `index.html` after this change: 177435 bytes,
+SHA-256 `25a4ea9cd22bd5b0c611b92011163a7c6f5ef1943579cb4dd6176a4f65f91148`.
+
+## 2026-10-29 (second change): data line restored at the top of the opening notice
+
+A bold paragraph was added as the first paragraph of "Before the curtain rises", above
+"Claude built this, and Claude makes mistakes.":
+
+> **Information you enter into these tools (e.g., your responses, conversations, and the figures produced) may be saved. What you enter is processed by Anthropic's Claude.**
+
+It is the data-handling part of the paragraph removed on Oct 28 (R23), without the sign-in
+sentence. Wording only; nothing else changed. The
+reasoning is in `decision-rules-log.md` (R23, revised). `index.html` after this change:
+177414 bytes, SHA-256 `f1da389e556bc41b34417e54aff8e19d4f1ec0d7d25016bcbebf71f0b3516632`.
+
 ## 2026-10-29: say when Claude is busy in the design studio and manual readings (CC-27)
 
 When the endpoint answered 429 (busy), the readings said only "Couldn't auto-classify —

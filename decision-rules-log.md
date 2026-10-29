@@ -1,7 +1,7 @@
 # Casting Call: decision rules log
 
 **Scope:** Path A ("Bring an AI on stage"), Option A ("Have Claude look it up"); since Oct 12 also the design studio (Path B), blank readings, and the wording of the essay and notices. **Since Oct 28 (R25), lookups answer from Claude's general knowledge through the project's Bedrock endpoint; rules below that describe a web search, sources or links are kept as history and marked.**
-**Started:** Oct 8, 2026. **Last updated:** Oct 29, 2026 (R26). Rules are numbered in the order they were decided, so the list in force skips the superseded ones, which are kept further down as history.
+**Started:** Oct 8, 2026. **Last updated:** Oct 29, 2026 (R23 revised). Rules are numbered in the order they were decided, so the list in force skips the superseded ones, which are kept further down as history.
 
 ---
 
@@ -324,6 +324,8 @@ These are the rules the main page follows. Where a line says "Revised Oct 9, 202
 - **Main page after this change:** `index.html`, 183360 bytes, SHA-256 `0d81482b718e37358718fd68cb5ccfe6308306c1241f5dd3962e9c9f4f0af407`.
 
 ### R23. The opening notice drops the sign-in and model-training paragraphs and describes lookups as covered by university agreements
+
+- **Revised Oct 29, 2026:** the data-handling sentences are back, in bold, as the notice's first paragraph: "Information you enter into these tools (e.g., your responses, conversations, and the figures produced) may be saved. What you enter is processed by Anthropic's Claude." The sign-in sentence and the model-training paragraph stay removed. Decided by Melissa Velez, Oct 29. **Also Oct 29:** in "On the data you put in", "what you type stays in this conversation" became "what you type stays in this browser", since the page no longer runs inside a Claude conversation (the only use of the phrase on the page). **Main page after these changes:** `index.html`, 177435 bytes, SHA-256 `25a4ea9cd22bd5b0c611b92011163a7c6f5ef1943579cb4dd6176a4f65f91148`.
 
 - **Rule:** The "Before the curtain rises" notice no longer has (1) the bold paragraph saying you need to be signed in to Claude and that what you enter may be saved and is processed by Anthropic's Claude, or (2) the "On opting out of model training" paragraph and its link to Anthropic's instructions. In "On the data you put in," the first sentence is unchanged and the rest now reads: "If you ask Claude to look a product up, it's handled under university agreements for AI services and isn't used to train models."
 - **Why:** the tool will use Claude's general knowledge instead of a web search, so the data paragraph should no longer describe a search through Anthropic's API. The two removed paragraphs were removed at the same time. Decided by Melissa Velez, Oct 28.
@@ -983,6 +985,8 @@ Not measured. Most of the ~21,500 input tokens per lookup is search results fed 
 | 77 | CC-26: all three Claude calls go to `/api/claude/casting-call` with no model or temperature; the lookup's web search, link fields, `markers_basis` and `sources` removed, with general-knowledge, no-links and `recognized` rules added; all link-handling code, source tags and the "Pulled from" line removed; unrecognized products get no scores and a manual-sheet note; messages, page text and methodology reworded; 33 simulated checks passed; real calls wait on IT | R25 (supersedes R8, R13; revises R11) |
 | 78 | CC-27: readings and the avatar say when Claude is busy (429) or unreachable; those calls go out one at a time, retry a busy reply once (honouring a short `Retry-After`), and pause after a second busy reply; Option A lookup unchanged; 16 simulated checks passed, CC-26 checks still pass; open item 54 (ask IT about the limit) | R26 |
 | 79 | CC-27 click-through check recorded (test copy with a simulated endpoint): every busy, connection, cool-down and recovery note read off the page as intended, at desktop and phone widths; open item 55 added (sideways scroll at phone width from a non-wrapping essay citation, present before CC-26) | R26 |
+| 80 | Opening notice: bold data line restored as the first paragraph ("Information you enter into these tools (e.g., your responses, conversations, and the figures produced) may be saved. What you enter is processed by Anthropic's Claude."); sign-in sentence and model-training paragraph still removed | R23 (revised) |
+| 81 | Opening notice, "On the data you put in": "what you type stays in this conversation" became "what you type stays in this browser" | R23 (revised) |
 
 ---
 
@@ -1000,5 +1004,5 @@ Not measured. Most of the ~21,500 input tokens per lookup is search results fed 
 - Explanations don't use the word "genuinely" (R17).
 - For the submission, the authors' names, affiliations and emails are removed from the visible page (R18), and the working paper is cited as "Authors" (R24).
 - In the design studio, Claude reads the job and the name and proposes an avatar, with Path A's scoring; the readings Claude fills in start blank in both paths and count exactly as the old defaults did, so Path A's scoring and results are unchanged; the essay and notices say who makes each reading (R19 to R21).
-- The opening notice has no sign-in or model-training paragraphs, and says lookups are handled under university agreements for AI services and aren't used to train models (R23).
+- The opening notice opens with a bold line saying what you enter may be saved and is processed by Anthropic's Claude; it has no sign-in or model-training paragraphs, and says lookups are handled under university agreements for AI services and aren't used to train models (R23).
 - Markers and behaviors are judgment calls made by Claude, not a database lookup.
