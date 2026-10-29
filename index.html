@@ -1740,20 +1740,92 @@
            CLAUDE_ENDPOINT.indexOf('PLACEHOLDER_') !== 0;
   }
 
+  // ---------------- Field readings and the avatar: one shared way to call Claude (CC-27) ----------------
+  // The endpoint's rate limit is not known, and it may count per IP address,
+  // so everyone on one network could share one allowance. To spend as little
+  // of it as possible, these calls (the readings in manual mode and the design
+  // studio, and the avatar proposal) go out one at a time, a busy reply (429)
+  // is retried at most once, and after a second busy reply the page waits
+  // before it sends any more of these calls. The Option A lookup is separate
+  // and unchanged.
+  const BUSY_RETRY_MAX_WAIT_MS = 10000;   // retry only if the service asks for no more than this
+  const BUSY_RETRY_DEFAULT_MS = 4000;     // pause before the retry when the service doesn't say (plus up to 2 s)
+  const BUSY_COOLDOWN_MS = 30000;         // after a second busy reply, send none of these for this long
+  const BUSY_COOLDOWN_MAX_MS = 120000;
+  let busyUntil = 0;
+  let claudeQueue = Promise.resolve();
+
+  // kind: 'busy' (429), 'network' (no answer at all), 'not_connected', or 'http' (any other error status)
+  function claudeCallError(kind, status){
+    const e = new Error(kind === 'busy' ? 'Claude is busy (429)'
+      : kind === 'network' ? 'couldn’t reach Claude'
+      : kind === 'not_connected' ? 'not connected to Claude'
+      : 'request failed (' + status + ')');
+    e.kind = kind; e.status = status;
+    return e;
+  }
+
+  // Retry-After is either a number of seconds or a date. Returns ms, or null if absent or unreadable.
+  function retryAfterMs(response){
+    const h = response.headers.get('Retry-After');
+    if (!h) return null;
+    const secs = Number(h.trim());
+    if (isFinite(secs)) return Math.max(0, secs * 1000);
+    const when = Date.parse(h);
+    return isNaN(when) ? null : Math.max(0, when - Date.now());
+  }
+
+  function pause(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+
+  async function sendToClaudeOnce(body){
+    try {
+      return await fetch(CLAUDE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    } catch (e) {
+      throw claudeCallError('network');
+    }
+  }
+
+  function startCooldown(ms){
+    busyUntil = Math.max(busyUntil, Date.now() + Math.min(ms, BUSY_COOLDOWN_MAX_MS));
+  }
+
+  async function postToClaudeNow(body){
+    if (!claudeConnected()) throw claudeCallError('not_connected');
+    if (Date.now() < busyUntil) throw claudeCallError('busy', 429); // still cooling down: send nothing
+    let response = await sendToClaudeOnce(body);
+    if (response.status === 429) {
+      const wait = retryAfterMs(response);
+      if (wait !== null && wait > BUSY_RETRY_MAX_WAIT_MS) { startCooldown(wait); throw claudeCallError('busy', 429); }
+      await pause(wait !== null ? wait : BUSY_RETRY_DEFAULT_MS + Math.random() * 2000);
+      response = await sendToClaudeOnce(body);
+      if (response.status === 429) {
+        const wait2 = retryAfterMs(response);
+        startCooldown(wait2 !== null ? wait2 : BUSY_COOLDOWN_MS);
+        throw claudeCallError('busy', 429);
+      }
+    }
+    if (!response.ok) throw claudeCallError('http', response.status);
+    return response.json();
+  }
+
+  // One call at a time, in the order asked.
+  function postToClaude(body){
+    const run = claudeQueue.then(function(){ return postToClaudeNow(body); });
+    claudeQueue = run.catch(function(){});
+    return run;
+  }
+
   async function classifyField(kind, text){
     const system = CLASSIFY_PROMPTS[kind] + " Do not use the word 'genuinely' in your explanations. State the observation plainly." + ' Respond with ONLY a raw JSON object, no markdown fences, no other text: {"code": one of ' + JSON.stringify(CLASSIFY_CODES[kind]) + ', "reason": "<8 words or fewer, plain language, explaining why"}.';
-    if (!claudeConnected()) throw new Error('not connected to Claude');
-    const response = await fetch(CLAUDE_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        max_tokens: 150,
-        system: system,
-        messages: [{ role: 'user', content: text }]
-      })
+    const data = await postToClaude({
+      max_tokens: 150,
+      system: system,
+      messages: [{ role: 'user', content: text }]
     });
-    if (!response.ok) throw new Error('request failed (' + response.status + ')');
-    const data = await response.json();
     const textBlocks = (data.content || []).filter(function(b){ return b.type === 'text'; }).map(function(b){ return b.text; });
     const raw = textBlocks.join('\n').trim().replace(/```json/g, '').replace(/```/g, '').trim();
     const match = raw.match(/\{[\s\S]*\}/);
@@ -1776,6 +1848,15 @@
     if (state === 'thinking') { reasonEl.classList.add('thinking'); reasonEl.textContent = 'Claude is reading this…'; }
     else if (state === 'error') { reasonEl.classList.add('err'); reasonEl.textContent = text || "Couldn't auto-classify — set this yourself."; }
     else { reasonEl.textContent = text || ''; }
+  }
+
+  // What a failed reading says, by kind of failure (CC-27). Clicking into the
+  // box and out again asks again, because a failed reading is never cached.
+  function readingErrorText(err){
+    const kind = err && err.kind;
+    if (kind === 'busy') return 'Claude is busy right now. Wait a minute, then click into the box and out again, or set this yourself.';
+    if (kind === 'network') return 'Couldn’t reach Claude. Check your connection, then click into the box and out again, or set this yourself.';
+    return "Couldn't auto-classify — set this yourself.";
   }
 
   // Wires a single (input, select, reasonEl) trio: on blur, if the input has
@@ -1802,8 +1883,9 @@
         setReasonState(reasonEl, 'done', result.reason);
         inputEl.dataset.lastClassified = text;
         if (onDone) { onDone(); }
-      }).catch(function(){
-        setReasonState(reasonEl, 'error');
+      }).catch(function(err){
+        if (inputEl.value.trim() !== text) { return; } // superseded by further edits
+        setReasonState(reasonEl, 'error', readingErrorText(err));
       });
     });
   }
@@ -2250,18 +2332,11 @@
       "Do not use the word 'genuinely' in your explanations. State the observation plainly." +
       (previous.length ? " These proposals were already shown, so propose something clearly different from all of them: " + previous.join(' | ') + "." : "") +
       ' Respond with ONLY a raw JSON object, no markdown fences, no other text, with exactly these keys: description (one sentence), code ("masc", "fem" or "neutral"), reason (12 words or fewer, plain language).';
-    if (!claudeConnected()) throw new Error('not connected to Claude');
-    const response = await fetch(CLAUDE_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        max_tokens: 250,
-        system: system,
-        messages: [{ role: 'user', content: 'Job: ' + jobText }]
-      })
+    const data = await postToClaude({
+      max_tokens: 250,
+      system: system,
+      messages: [{ role: 'user', content: 'Job: ' + jobText }]
     });
-    if (!response.ok) throw new Error('request failed (' + response.status + ')');
-    const data = await response.json();
     const raw = (data.content || []).filter(function(b){ return b.type === 'text'; }).map(function(b){ return b.text; }).join('\n').trim().replace(/```json/g, '').replace(/```/g, '').trim();
     const match = raw.match(/\{[\s\S]*\}/);
     const parsed = JSON.parse(match ? match[0] : raw);
@@ -2297,7 +2372,11 @@
       btn.textContent = 'Propose another'; btn.hidden = false;
     } catch (e) {
       if (mine !== designState.seq) { return; }
-      setReasonState(note, 'error', "Couldn't propose an avatar \u2014 choose the avatar's reading yourself.");
+      const kind = e && e.kind;
+      setReasonState(note, 'error',
+        kind === 'busy' ? 'Claude is busy right now \u2014 wait a minute, then press Try again.'
+        : kind === 'network' ? 'Couldn\u2019t reach Claude. Check your connection, then press Try again.'
+        : "Couldn't propose an avatar \u2014 choose the avatar's reading yourself.");
       btn.textContent = 'Try again'; btn.hidden = false;
     }
   }

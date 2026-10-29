@@ -4,6 +4,57 @@ All changes below are to `index.html`. Until 2026-10-28 it was the build that ke
 web search; since then it is the Bedrock build, which answers from Claude's general knowledge
 (see that entry). It was called `casting-call.html` until 2026-10-06.
 
+## 2026-10-29: say when Claude is busy in the design studio and manual readings (CC-27)
+
+When the endpoint answered 429 (busy), the readings said only "Couldn't auto-classify —
+set this yourself." and the avatar "Couldn't propose an avatar…", with nothing saying the
+service was busy or that waiting would help. Tracker item CC-27, from the live checks on the
+hosted site. The reasoning is in `decision-rules-log.md` (R26).
+
+### Messages
+
+- A reading (manual mode, and the design studio's job and name) that gets a busy reply now
+  says: "Claude is busy right now. Wait a minute, then click into the box and out again, or
+  set this yourself." With no answer at all: "Couldn't reach Claude. Check your connection,
+  then click into the box and out again, or set this yourself." Anything else keeps
+  "Couldn't auto-classify — set this yourself."
+- The avatar proposal, on a busy reply: "Claude is busy right now — wait a minute, then press
+  Try again." With no answer at all: "Couldn't reach Claude. Check your connection, then
+  press Try again." (the connection line is an addition to CC-27, for consistency with the
+  readings). Anything else keeps the old message. The Try again button shows in every case.
+
+### Spending less of an unknown rate limit
+
+The endpoint's limit is not known and may count per IP address, so everyone on one network
+could share one allowance. The readings and the avatar now go through one shared function
+(`postToClaude`) that:
+
+- sends them one at a time, in the order asked, instead of up to three at once;
+- retries a busy reply once: after the wait the service gives in `Retry-After`, if that is
+  10 seconds or less, or after 4 to 6 seconds if it gives none (the random part keeps several
+  people's retries from landing together); no retry if `Retry-After` is longer;
+- after a second busy reply (or a long `Retry-After`), sends none of these calls for 30
+  seconds, or for the `Retry-After` time, up to 2 minutes. A reading asked for in that time
+  shows the busy message at once without sending anything.
+
+The Option A lookup is separate and unchanged (it already explained a 429). Prompts, output
+limits, scoring and page text are unchanged.
+
+### Checks
+
+Against a simulated endpoint in a headless browser (16 checks, all passed): a busy reply with
+no `Retry-After` is retried once 4 to 6 seconds later and the reading then shows; a
+`Retry-After: 1` is honoured; two busy replies show the busy message after exactly two
+requests, and clicking in and out during the cool-down sends nothing; `Retry-After: 60`
+sends no retry; a dropped connection and an error 500 show the right messages; a busy avatar
+shows the busy message and Try again, which works after the wait; CC-27's re-test (entries
+sent about a second apart against a server allowing 6 calls per 10 seconds) shows the busy
+message, and after waiting, clicking in and out again works; never more than one of these
+calls in flight; the Option A lookup still runs during a cool-down; no script errors. The
+CC-26 checks were re-run on this file and still pass. Not checked: the real endpoint's
+limit, and whether it sends `Retry-After`. `index.html` after this change: 177243 bytes,
+SHA-256 `a491dfbcbb8ffe08d36d3b608667dd09ed8886209704fb2012290607e3c9618b`.
+
 ## 2026-10-28 (third change): lookups use Claude's general knowledge through the Bedrock endpoint (CC-26)
 
 Bedrock has no web search tool, so Option A ("Have Claude look it up") now answers from

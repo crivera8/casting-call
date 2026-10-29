@@ -1,7 +1,7 @@
 # Casting Call: decision rules log
 
 **Scope:** Path A ("Bring an AI on stage"), Option A ("Have Claude look it up"); since Oct 12 also the design studio (Path B), blank readings, and the wording of the essay and notices. **Since Oct 28 (R25), lookups answer from Claude's general knowledge through the project's Bedrock endpoint; rules below that describe a web search, sources or links are kept as history and marked.**
-**Started:** Oct 8, 2026. **Last updated:** Oct 28, 2026 (R25). Rules are numbered in the order they were decided, so the list in force skips the superseded ones, which are kept further down as history.
+**Started:** Oct 8, 2026. **Last updated:** Oct 29, 2026 (R26). Rules are numbered in the order they were decided, so the list in force skips the superseded ones, which are kept further down as history.
 
 ---
 
@@ -353,6 +353,30 @@ These are the rules the main page follows. Where a line says "Revised Oct 9, 202
 - **Checks (Oct 28, simulated endpoint, 33 of 33 passed):** listed in the changelog. **Not checked:** a real call through the Bedrock endpoint, and the Siri, Alexa, Stan, Poke and made-up-name lookups on real Claude (open item 53).
 - **Main page after this change:** `index.html`, 173509 bytes, SHA-256 `45cc85a54f39eb53dea83f922bf794ac3e66d5caa495718f9fba6e789a7db251`.
 
+### R26. A busy or unreachable Claude is named in the readings and the avatar, and those calls spend as little of the rate limit as possible (CC-27)
+
+- **Rule:** When a reading (manual mode, or the design studio's job and name) or the avatar proposal gets a 429, the note says Claude is busy and that waiting, then asking again, will help; when there is no answer at all, it says Claude couldn't be reached. Other failures keep their old text. These calls go out one at a time; a busy reply is retried once (after `Retry-After` if it is 10 seconds or less, otherwise after 4 to 6 seconds; no retry if `Retry-After` is longer); after a second busy reply the page sends none of these calls for 30 seconds (or the `Retry-After` time, up to 2 minutes) and shows the busy note at once instead.
+- **Why:** In the live checks (finding 7), design-studio entries sent about a second apart got 429s after 8 rounds, and the page said only "Couldn't auto-classify" and "Couldn't propose an avatar." Runs 15 seconds apart worked. Vanessa: "Yes, should fix." The endpoint's limit is unknown and may count per IP address, so one network may share one allowance; sending one call at a time, retrying at most once and pausing after repeated busy replies keeps the page from using up that allowance faster than needed.
+- **Wording:** readings: "Claude is busy right now. Wait a minute, then click into the box and out again, or set this yourself." and "Couldn't reach Claude. Check your connection, then click into the box and out again, or set this yourself." Avatar: "Claude is busy right now — wait a minute, then press Try again." and (added for consistency, not in CC-27) "Couldn't reach Claude. Check your connection, then press Try again."
+- **Enforced by:** the page itself (`postToClaude`, `readingErrorText`, `runProposal`). No prompt, output limit, scoring or page text changed. The Option A lookup is separate and unchanged.
+- **Trade-off:** because the readings and the avatar now go one at a time, the avatar appears a moment after the job's reading rather than alongside it.
+- **Checks (Oct 29, simulated endpoint, 16 of 16 passed; CC-26 checks re-run and passing):** listed in the changelog.
+- **Click-through check (Oct 29, test copy with a simulated endpoint, headless browser, desktop and phone widths):** what each note said, read off the page:
+
+  | Endpoint answers | Job and name readings (design studio) | Avatar |
+  | --- | --- | --- |
+  | Busy every time (429) | "Claude is busy right now. Wait a minute, then click into the box and out again, or set this yourself." (after the one retry) | "Claude is busy right now — wait a minute, then press Try again." with the Try again button showing |
+  | Busy, then normal again within 30 s | clicking in and out still shows the busy note at once and sends nothing (cool-down) | — |
+  | Normal again after 30 s | clicking in and out gives the reading | Try again gives a proposal |
+  | Busy once, then normal | the reading appears after the retry; no busy note | — |
+  | No connection | "Couldn't reach Claude. Check your connection, then click into the box and out again, or set this yourself." | "Couldn't reach Claude. Check your connection, then press Try again." |
+  | Server error (500) | "Couldn't auto-classify — set this yourself." (unchanged) | "Couldn't propose an avatar — choose the avatar's reading yourself." (unchanged) |
+
+  Path A's manual sheet shows the same busy note for the name reading. The notes wrap cleanly under their dropdowns at desktop and phone widths; no script errors. The test copy is a private artifact (https://claude.ai/artifact/XaQ1qAsJiWMVUt6UfqB6a3) with a bar at the top for choosing how the simulated endpoint answers; it is for review only and is not in the repo.
+- **Found while checking, not caused by CC-27 (open item 55):** at phone width (390 px) the page is 409 px wide, so it scrolls sideways a little. The cause is a long essay citation that is not allowed to wrap (`.essay .cite` has `white-space: nowrap`). The same happens in the version before CC-26.
+- **Not checked:** the real endpoint's limit and whether it sends `Retry-After` (open item 54).
+- **Main page after this change:** `index.html`, 177243 bytes, SHA-256 `a491dfbcbb8ffe08d36d3b608667dd09ed8886209704fb2012290607e3c9618b`.
+
 ## How each marker is judged (unchanged framework)
 
 These are judgment calls applied consistently, not a database lookup. In Option A, Claude makes them; in Option B, the person types and Claude judges on leaving the field (pronouns are the exception: a simple text match, no judgment).
@@ -481,6 +505,8 @@ Each of these was in force at one time. They are kept so the reasoning is not lo
 51. **Resolved Oct 28 (R25, CC-26).** The passages that still described a web search (the Option A card, the results legend and its *Other source* tag, the methodology section "If you ask Claude to look it up" and the essay bullet "In search mode it reads the marketing") were reworded, along with the "How are these categorized" box above the sheet.
 52. **Resolved in the code Oct 28 (R25); one check left.** The lookup no longer asks for a web search, and all three calls go to the project's endpoint, so the notice and the code now agree. Still to confirm once the endpoint is live: that the notice's sentence ("handled under university agreements for AI services and isn't used to train models") holds for the route IT sets up.
 53. **Real-Claude checks for R25, waiting on IT's endpoint (Oct 28).** Run Siri and Alexa (recognized), Stan and Poke (not recognized in CC-22) and a made-up name; confirm Stan, Poke and the made-up name get the not-recognized note and no scores, and that Siri's and Alexa's designer, organization-diversity and adaptiveness rows still show. Also worth re-running the stability tests: every earlier one used a web search, so scores from general knowledge are not directly comparable.
+54. **Ask IT about the endpoint's rate limit (Oct 29, R26).** Does it count per IP address? If so, people on one network (a home router, a campus or office) share one allowance, and the design studio sends up to three calls per entry. Also: what is the limit, and does a 429 carry a `Retry-After` header? The page's pauses (4 to 6 seconds before one retry, 30 seconds after a second busy reply) are guesses until then. Vanessa's report of readings often failing on one home Wi-Fi (Oct 28) fits busy errors, but only the server logs for that session can confirm it.
+55. **The page scrolls sideways a little at phone width (found Oct 29, not yet fixed).** At 390 px the page is 409 px wide because the essay's citations are set not to wrap (`.essay .cite { white-space: nowrap; }`), and one long citation runs past the edge. Present before CC-26 as well. A one-line fix is to let citations wrap on narrow screens; not done, because it was outside CC-27.
 
 ---
 
@@ -955,6 +981,8 @@ Not measured. Most of the ~21,500 input tokens per lookup is search results fed 
 | 75 | Opening notice (Oct 28): the sign-in and data-handling paragraph and the model-training opt-out paragraph (with its link) removed; the lookup sentences of "On the data you put in" replaced with the university-agreements sentence. The Oct 27 upload (`ebb6a4b`) that added the data-handling sentences is noted. Other web-search wording and the code left for later (open items 51, 52) | R23 |
 | 76 | Working-paper citation anonymized (Oct 28): in-text citation and reference entry now "Authors," two code comments now say "the working paper," and "since it is the authors' own field and their own paper" removed; reverses part of R18 | R24, R18 |
 | 77 | CC-26: all three Claude calls go to `/api/claude/casting-call` with no model or temperature; the lookup's web search, link fields, `markers_basis` and `sources` removed, with general-knowledge, no-links and `recognized` rules added; all link-handling code, source tags and the "Pulled from" line removed; unrecognized products get no scores and a manual-sheet note; messages, page text and methodology reworded; 33 simulated checks passed; real calls wait on IT | R25 (supersedes R8, R13; revises R11) |
+| 78 | CC-27: readings and the avatar say when Claude is busy (429) or unreachable; those calls go out one at a time, retry a busy reply once (honouring a short `Retry-After`), and pause after a second busy reply; Option A lookup unchanged; 16 simulated checks passed, CC-26 checks still pass; open item 54 (ask IT about the limit) | R26 |
+| 79 | CC-27 click-through check recorded (test copy with a simulated endpoint): every busy, connection, cool-down and recovery note read off the page as intended, at desktop and phone widths; open item 55 added (sideways scroll at phone width from a non-wrapping essay citation, present before CC-26) | R26 |
 
 ---
 
@@ -968,6 +996,7 @@ Not measured. Most of the ~21,500 input tokens per lookup is search results fed 
 - The results say that Claude answers from its general knowledge, so they can vary and may be out of date, and end with Claude's confidence note (R11, R25).
 - If the lookup fails with a network error, retry once after about a second (R15).
 - If a lookup fails, the manual sheet opens and says why (R16, provisional; can be removed).
+- If a reading or the avatar gets a busy reply, the note says Claude is busy and to try again after a wait; those calls go one at a time, retry once, and pause after repeated busy replies (R26).
 - Explanations don't use the word "genuinely" (R17).
 - For the submission, the authors' names, affiliations and emails are removed from the visible page (R18), and the working paper is cited as "Authors" (R24).
 - In the design studio, Claude reads the job and the name and proposes an avatar, with Path A's scoring; the readings Claude fills in start blank in both paths and count exactly as the old defaults did, so Path A's scoring and results are unchanged; the essay and notices say who makes each reading (R19 to R21).
